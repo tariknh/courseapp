@@ -3,6 +3,11 @@ import React, { useLayoutEffect, useState } from "react";
 import gsap from "gsap";
 import { motion, stagger } from "framer-motion";
 import Hamburger from "./hamburgermenu";
+import useAuthModal from "@/hooks/useAuthModal";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useUser } from "@/hooks/useUser";
+import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
 
 type openStates = {
   open: boolean;
@@ -134,6 +139,23 @@ function Header({ open, setOpen }: openStates) {
     },
   };
 
+  const authModal = useAuthModal();
+  const supabaseClient = useSupabaseClient();
+  const { user } = useUser();
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    const { error } = await supabaseClient.auth.signOut();
+
+    router.refresh();
+
+    if (error) {
+      toast.error(error.message);
+    } else {
+      toast.success("Logged out!");
+    }
+  };
+
   /*
   useLayoutEffect(() => {
     let ctx = gsap.context(() => {
@@ -174,9 +196,9 @@ function Header({ open, setOpen }: openStates) {
         className="p-8 pt-24 flex flex-col justify-between bg-white row-span-6 rounded-b-3xl font-bold text-5xl font-sans text-black"
       >
         <motion.div variants={staggerChildren}>
-          <motion.h1 variants={textAnimate}>products</motion.h1>
-          <motion.h1 variants={textAnimate}>explore</motion.h1>
-          <motion.h1 variants={textAnimate}>community</motion.h1>
+          <motion.h1 variants={textAnimate}>courses</motion.h1>
+          <motion.h1 variants={textAnimate}>my courses</motion.h1>
+          <motion.h1 variants={textAnimate}>categories</motion.h1>
         </motion.div>
         <motion.div className="text-lg justify-end grid grid-cols-2">
           {links.map((value, key) => (
@@ -195,18 +217,44 @@ function Header({ open, setOpen }: openStates) {
       >
         <motion.div
           variants={delayChildren}
-          className="font-bold max-w-[15rem] gap-5 flex flex-col"
+          className="font-bold max-w-[15rem] gap-1 flex flex-col"
         >
-          <motion.span variants={up} className="text-xl">
-            Subscribe and never miss Mate Libre again
-          </motion.span>
-          <motion.button
-            variants={up}
-            onClick={() => setOpen(!open)}
-            className="px-8 py-4 text-xl border rounded-full bg-black max-w-fit text-white p-8"
-          >
-            build your box
-          </motion.button>
+          {user ? (
+            <div className="flex gap-2 flex-col max-w-fit">
+              <motion.span
+                onClick={() => router.push("/account")}
+                className="text-center justify-self-center w-full text-xl"
+              >
+                my account
+              </motion.span>
+              <motion.button
+                onClick={handleLogout}
+                className="px-8 py-4 text-xl border rounded-full bg-black max-w-fit text-white p-8"
+              >
+                log out
+              </motion.button>
+            </div>
+          ) : (
+            <>
+              <motion.span variants={up} className="text-xl">
+                Sign up for a course today
+              </motion.span>
+              <motion.button
+                variants={up}
+                onClick={authModal.onOpen}
+                className="px-8 py-4 text-xl border rounded-full bg-black max-w-fit text-white p-8"
+              >
+                log in
+              </motion.button>
+              <motion.button
+                variants={up}
+                onClick={authModal.onOpen}
+                className="px-8 py-4 text-xl border rounded-full bg-black max-w-fit text-white p-8"
+              >
+                sign up
+              </motion.button>
+            </>
+          )}
         </motion.div>
       </motion.div>
     </div>

@@ -33,11 +33,11 @@ export default function Hero() {
       </motion.video>
       <section className="p-8 justify-start h-screen grid bg-accent overflow-hidden">
         <div className="z-10 place-self-end grid gap-8">
-          <h1 className="max-w-[16rem] text-balance font-bold text-6xl font-sans text-white">
-            the ideal dose of nature
+          <h1 className="max-w-[16rem] md:max-w-[20rem] text-balance font-bold text-6xl font-sans text-white">
+            your next course awaits you.
           </h1>
           <button className="px-8 py-4 font-bold text-xl border rounded-full bg-white max-w-fit text-black p-8">
-            build your box
+            <a href="/courses">view all courses</a>
           </button>
         </div>
       </section>

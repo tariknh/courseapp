@@ -4,6 +4,7 @@
 
 html.lenis {
   height: auto;
+  overflow: hidden !important;
 }
 .lenis.lenis-smooth {
   scroll-behavior: auto;
@@ -44,6 +45,8 @@ html.lenis {
   :root {
     --background: 0 0% 100%;
     --foreground: 240 10% 3.9%;
+
+    --offblack: 0 0% 7%;
 
     --card: 0 0% 100%;
     --card-foreground: 240 10% 3.9%;

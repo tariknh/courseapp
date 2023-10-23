@@ -20,9 +20,7 @@ function Hamburger({ open, setOpen }: openStates) {
   let COLOR_VAR = color;
 
   return (
-    <div
-      className={`${styles.container} absolute z-50 ${open && styles.active}`}
-    >
+    <div className={`${styles.container} z-50 ${open && styles.active}`}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="100"
