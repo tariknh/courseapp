@@ -19,6 +19,14 @@ html.lenis {
   pointer-events: none;
 }
 
+.leaflet-bottom,
+.leaflet-control,
+.leaflet-container,
+.leaflet-panel,
+.leaflet-top {
+  z-index: 0 !important
+}
+
 .embla {
   --slide-spacing: 0rem;
   --slide-size: 90%;

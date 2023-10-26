@@ -8,7 +8,11 @@ import Image from "next/image";
 import CategoryInput from "./CategoryInput";
 import { FieldValues, useForm } from "react-hook-form";
 import CountrySelect from "./Inputs/CountrySelect";
-import Map from "./Map";
+import dynamic from "next/dynamic";
+import { DatePicker } from "./ui/DatePicker";
+import { Input } from "./ui/input";
+import { Textarea } from "./ui/textarea";
+import { Label } from "./ui/label";
 
 enum STEPS {
   CATEGORY = 0,
@@ -35,6 +39,7 @@ const CourseModal = () => {
     defaultValues: {
       category: [],
       location: null,
+      date: null,
       capacity: 0,
       imageSrc: "",
       price: 1,
@@ -45,9 +50,22 @@ const CourseModal = () => {
 
   const category = watch("category");
   const location = watch("location");
+  const date = watch("date");
+  const title = watch("title");
+  const description = watch("description");
+  const capacity = watch("capacity");
+
+  const Map = useMemo(
+    () =>
+      dynamic(() => import("./Map"), {
+        ssr: false,
+      }),
+    [location]
+  );
+
   useEffect(() => {
-    console.log(category);
-  }, [category]);
+    console.log(date);
+  }, [date]);
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -160,7 +178,7 @@ const CourseModal = () => {
             onChange={(value) => setCustomValue("location", value)}
             value={location}
           />
-          <Map />
+          <Map center={location?.latlng} />
         </div>
       ),
     },
@@ -168,31 +186,53 @@ const CourseModal = () => {
       content: (
         <div className="flex flex-col gap-8">
           <Heading
-            title="What will it be called?"
-            subTitle="Tell others what you want to teach"
+            title="Tell us more about your course"
+            subTitle="Start and end date, capacity"
           />
           <div
             className="
           grid
           grid-cols-1
-          md:grid-cols-2
           gap-3
           max-h-[50vh]
           overflow-y-auto
           mb-12
           "
           >
-            {categories.map((item) => (
-              <div key={item.label} className="col-span-1">
-                <CategoryInput
-                  onClick={(category) => setCustomValue("category", category)}
-                  label={item.label}
-                  description={item.description}
-                  selected={category === item.label}
-                  icon={<item.icon />}
-                />
-              </div>
-            ))}
+            <div>
+              <Label htmlFor="title">Title</Label>
+              <Input
+                onChange={(value) => setCustomValue("title", value)}
+                value={title}
+                id="title"
+              />
+            </div>
+            <div>
+              <Label htmlFor="description">Description</Label>
+              <Textarea
+                onChange={(value) => setCustomValue("description", value)}
+                minLength={10}
+                maxLength={250}
+                placeholder="Tell people what the course will be about, what they can learn and more..."
+                value={description}
+              />
+            </div>
+            <div>
+              <Label htmlFor="date">Choose the length of your course</Label>
+              <DatePicker
+                id="date"
+                value={date}
+                onChange={(value) => setCustomValue("date", value)}
+              />
+            </div>
+            <div>
+              <Label htmlFor="date">Max amount of people?</Label>
+              <Input
+                value={capacity}
+                onChange={(value) => setCustomValue("capacity", value)}
+                type="number"
+              />
+            </div>
           </div>
         </div>
       ),
