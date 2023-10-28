@@ -13,6 +13,7 @@ import { DatePicker } from "./ui/DatePicker";
 import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
+import ImageUpload from "./Inputs/ImageUpload";
 
 enum STEPS {
   CATEGORY = 0,
@@ -195,14 +196,13 @@ const CourseModal = () => {
           grid-cols-1
           gap-3
           max-h-[50vh]
-          overflow-y-auto
           mb-12
           "
           >
             <div>
               <Label htmlFor="title">Title</Label>
               <Input
-                onChange={(value) => setCustomValue("title", value)}
+                onChange={(e) => setCustomValue("title", e.target.value)}
                 value={title}
                 id="title"
               />
@@ -210,7 +210,7 @@ const CourseModal = () => {
             <div>
               <Label htmlFor="description">Description</Label>
               <Textarea
-                onChange={(value) => setCustomValue("description", value)}
+                onChange={(e) => setCustomValue("description", e.target.value)}
                 minLength={10}
                 maxLength={250}
                 placeholder="Tell people what the course will be about, what they can learn and more..."
@@ -228,9 +228,9 @@ const CourseModal = () => {
             <div>
               <Label htmlFor="date">Max amount of people?</Label>
               <Input
-                value={capacity}
-                onChange={(value) => setCustomValue("capacity", value)}
                 type="number"
+                value={capacity}
+                onChange={(e) => setCustomValue("capacity", e.target.value)}
               />
             </div>
           </div>
@@ -242,7 +242,7 @@ const CourseModal = () => {
         <div className="flex flex-col gap-8">
           <Heading
             title="Add some images"
-            subTitle="Show people what they can learn"
+            subTitle="Show people what your course looks like"
           />
           <div
             className="
@@ -255,17 +255,7 @@ const CourseModal = () => {
           mb-12
           "
           >
-            {categories.map((item) => (
-              <div key={item.label} className="col-span-1">
-                <CategoryInput
-                  onClick={(category) => setCustomValue("category", category)}
-                  label={item.label}
-                  description={item.description}
-                  selected={category === item.label}
-                  icon={<item.icon />}
-                />
-              </div>
-            ))}
+            <ImageUpload />
           </div>
         </div>
       ),

@@ -1,17 +1,17 @@
 "use client";
 import { motion, useMotionValueEvent } from "framer-motion";
 import { useScroll } from "framer-motion";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 export default function Hero() {
   const { scrollY } = useScroll();
 
-  const [scrollStatus, setScrollstatus] = useState(false);
+  const [scrollStatus, setScrollStatus] = useState(true);
 
   useMotionValueEvent(scrollY, "change", (latest) => {
     if (latest > 0) {
-      setScrollstatus(false);
+      setScrollStatus(false);
     } else {
-      setScrollstatus(true);
+      setScrollStatus(true);
     }
   });
 
@@ -23,7 +23,7 @@ export default function Hero() {
           animate: { borderBottomLeftRadius: 50, borderBottomRightRadius: 50 },
         }}
         animate={scrollStatus ? "initial" : "animate"}
-        className="overflow-hidden absolute w-screen h-screen object-cover"
+        className="border-none overflow-hidden absolute w-screen h-screen object-cover"
         autoPlay
         loop
         muted
