@@ -55,6 +55,7 @@ const CourseModal = () => {
   const title = watch("title");
   const description = watch("description");
   const capacity = watch("capacity");
+  const image = watch("imageSrc");
 
   const Map = useMemo(
     () =>
@@ -65,8 +66,8 @@ const CourseModal = () => {
   );
 
   useEffect(() => {
-    console.log(date);
-  }, [date]);
+    console.log(image);
+  }, [image]);
 
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
@@ -248,14 +249,18 @@ const CourseModal = () => {
             className="
           grid
           grid-cols-1
-          md:grid-cols-2
           gap-3
           max-h-[50vh]
           overflow-y-auto
           mb-12
           "
           >
-            <ImageUpload />
+            <div className="grid w-full  items-center gap-1.5">
+              <ImageUpload
+                onChange={(e) => setCustomValue("imageSrc", e)}
+                value={image}
+              />
+            </div>
           </div>
         </div>
       ),
