@@ -4,7 +4,6 @@
 
 html.lenis {
   height: auto;
-  overflow: hidden !important;
 }
 .lenis.lenis-smooth {
   scroll-behavior: auto;
