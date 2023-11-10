@@ -68,7 +68,7 @@ function Navbar() {
           <Link href={"/"}>courseapp</Link>
         </h1>
         <div className="flex items-center">
-          <h1 className="hidden md:visible p-6 text-xl align-baseline text-white font-bold">
+          <h1 className="hidden md:block p-6 text-xl align-baseline text-white font-bold">
             <span className="cursor-pointer" onClick={onClick}>
               List your course
             </span>

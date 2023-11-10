@@ -6,7 +6,7 @@ import Heading from "./Heading";
 import { categories } from "./Categories";
 import Image from "next/image";
 import CategoryInput from "./CategoryInput";
-import { FieldValues, useForm } from "react-hook-form";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import CountrySelect from "./Inputs/CountrySelect";
 import dynamic from "next/dynamic";
 import { DatePicker } from "./ui/DatePicker";
@@ -20,8 +20,7 @@ enum STEPS {
   LOCATION = 1,
   INFO = 2,
   IMAGES = 3,
-  DESCRIPTION = 4,
-  PRICE = 5,
+  PRICE = 4,
 }
 
 type StepConfig = {
@@ -80,6 +79,7 @@ const CourseModal = () => {
   const { onClose, isOpen } = useCourseModal();
 
   const [step, setStep] = useState(STEPS.CATEGORY);
+  const [isLoading, setIsLoading] = useState(false)
 
   const onBack = () => {
     setStep((value) => value - 1);
@@ -88,6 +88,18 @@ const CourseModal = () => {
   const onNext = () => {
     setStep((value) => value + 1);
   };
+
+  const onSubmit: SubmitHandler<FieldValues> = async (data) =>{
+    if(step !== STEPS.PRICE){
+      return onNext()
+    }
+    setIsLoading(true)
+
+    await console.log(data)
+
+    setIsLoading(false)
+
+  }
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
@@ -257,43 +269,10 @@ const CourseModal = () => {
           >
             <div className="grid w-full  items-center gap-1.5">
               <ImageUpload
-                onChange={(e) => setCustomValue("imageSrc", e)}
+                onChange={(e) => console.log(e)} //(e) => setCustomValue("imageSrc", e)
                 value={image}
               />
             </div>
-          </div>
-        </div>
-      ),
-    },
-    [STEPS.DESCRIPTION]: {
-      content: (
-        <div className="flex flex-col gap-8">
-          <Heading
-            title="Where about are you having the course?"
-            subTitle="Let people know!"
-          />
-          <div
-            className="
-          grid
-          grid-cols-1
-          md:grid-cols-2
-          gap-3
-          max-h-[50vh]
-          overflow-y-auto
-          mb-12
-          "
-          >
-            {categories.map((item) => (
-              <div key={item.label} className="col-span-1">
-                <CategoryInput
-                  onClick={(category) => setCustomValue("category", category)}
-                  label={item.label}
-                  description={item.description}
-                  selected={category === item.label}
-                  icon={<item.icon />}
-                />
-              </div>
-            ))}
           </div>
         </div>
       ),
@@ -302,31 +281,28 @@ const CourseModal = () => {
       content: (
         <div className="flex flex-col gap-8">
           <Heading
-            title="Where about are you having the course?"
+            title="How much is a ticket?"
             subTitle="Let people know!"
           />
           <div
             className="
           grid
           grid-cols-1
-          md:grid-cols-2
           gap-3
           max-h-[50vh]
-          overflow-y-auto
           mb-12
           "
           >
-            {categories.map((item) => (
-              <div key={item.label} className="col-span-1">
-                <CategoryInput
-                  onClick={(category) => setCustomValue("category", category)}
-                  label={item.label}
-                  description={item.description}
-                  selected={category === item.label}
-                  icon={<item.icon />}
-                />
-              </div>
-            ))}
+            <Label htmlFor="price">Price</Label>
+            <Input
+            id="price"
+            placeholder="price"
+            name="Price"
+            disabled={isLoading}
+            required
+            
+            type="number"
+            />
           </div>
         </div>
       ),
@@ -343,7 +319,7 @@ const CourseModal = () => {
       actionLabel={actionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
       secondaryActionLabel={secondaryActionLabel}
-      onSubmit={onNext}
+      onSubmit={handleSubmit(onSubmit)}
       onClose={onClose}
     >
       {bodyContent.content}
