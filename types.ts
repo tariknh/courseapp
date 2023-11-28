@@ -8,3 +8,14 @@ export interface UserDetails {
   billing_address?: Stripe.Address;
   payment_method?: Stripe.PaymentMethod[Stripe.PaymentMethod.Type];
 }
+
+export interface Course {
+  category: string;
+  location: string;
+  date: string;
+  capacity: string;
+  imageSrc: string;
+  price: string;
+  title: string;
+  description: string;
+}

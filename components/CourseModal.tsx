@@ -14,6 +14,12 @@ import { Input } from "./ui/input";
 import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
 import ImageUpload from "./Inputs/ImageUpload";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { useUser } from "@/hooks/useUser";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import ImageWall from "./Inputs/Imagewall";
+import type { UploadFile } from "antd/es/upload/interface";
+import toast from "react-hot-toast";
 
 enum STEPS {
   CATEGORY = 0,
@@ -28,6 +34,10 @@ type StepConfig = {
 };
 
 const CourseModal = () => {
+  const supabaseClient = useSupabaseClient();
+  const supabase = createClientComponentClient();
+  const { user } = useUser();
+
   const {
     register,
     handleSubmit,
@@ -41,7 +51,7 @@ const CourseModal = () => {
       location: null,
       date: null,
       capacity: 0,
-      imageSrc: "",
+      imageSrc: null,
       price: 1,
       title: "",
       description: "",
@@ -64,10 +74,6 @@ const CourseModal = () => {
     [location]
   );
 
-  useEffect(() => {
-    console.log(image);
-  }, [image]);
-
   const setCustomValue = (id: string, value: any) => {
     setValue(id, value, {
       shouldDirty: true,
@@ -79,7 +85,7 @@ const CourseModal = () => {
   const { onClose, isOpen } = useCourseModal();
 
   const [step, setStep] = useState(STEPS.CATEGORY);
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(false);
 
   const onBack = () => {
     setStep((value) => value - 1);
@@ -89,17 +95,43 @@ const CourseModal = () => {
     setStep((value) => value + 1);
   };
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) =>{
-    if(step !== STEPS.PRICE){
-      return onNext()
+  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
+    if (step !== STEPS.PRICE) {
+      return onNext();
     }
-    setIsLoading(true)
+    setIsLoading(true);
 
-    await console.log(data)
+    const imageFile = image.map(async (item: UploadFile) => {
+      if (item.originFileObj) {
+        const { data: imageData, error: imageError } = await supabase.storage
+          .from("images")
+          .upload(`${item.uid}`, item.originFileObj, {
+            cacheControl: "3600",
+            upsert: false,
+          });
+        if (imageError) {
+          setIsLoading(false);
+          return toast.error("Failed to upload image");
+        }
+      }
+    });
 
-    setIsLoading(false)
+    console.log(imageFile);
 
-  }
+    const { error: supabaseError } = await supabase.from("courses").insert({
+      title: data.title,
+      description: data.description,
+      price: data.price,
+      capacity: data.capacity,
+      date: data.date,
+      category: data.category,
+      location: data.location,
+      imageSrc: data.imageSrc,
+      user: user?.id,
+    });
+
+    setIsLoading(false);
+  };
 
   const actionLabel = useMemo(() => {
     if (step === STEPS.PRICE) {
@@ -146,6 +178,15 @@ const CourseModal = () => {
       </div>
     </div>
   );
+
+  const [previewImage, setPreviewImage] = useState("");
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewTitle, setPreviewTitle] = useState("");
+  const [fileList, setFileList] = useState<UploadFile[]>([]);
+
+  useEffect(() => {
+    setCustomValue("imageSrc", fileList);
+  }, [fileList]);
 
   const stepConfigs: Record<STEPS, StepConfig> = {
     [STEPS.CATEGORY]: {
@@ -268,9 +309,16 @@ const CourseModal = () => {
           "
           >
             <div className="grid w-full  items-center gap-1.5">
-              <ImageUpload
-                onChange={(e) => console.log(e)} //(e) => setCustomValue("imageSrc", e)
-                value={image}
+              <ImageWall
+                previewImage={previewImage}
+                setPreviewImage={setPreviewImage}
+                previewOpen={previewOpen}
+                setPreviewOpen={setPreviewOpen}
+                previewTitle={previewTitle}
+                setPreviewTitle={setPreviewTitle}
+                fileList={fileList}
+                setFileList={setFileList}
+                onChange={(value) => setCustomValue("imageSrc", value)}
               />
             </div>
           </div>
@@ -280,10 +328,7 @@ const CourseModal = () => {
     [STEPS.PRICE]: {
       content: (
         <div className="flex flex-col gap-8">
-          <Heading
-            title="How much is a ticket?"
-            subTitle="Let people know!"
-          />
+          <Heading title="How much is a ticket?" subTitle="Let people know!" />
           <div
             className="
           grid
@@ -295,13 +340,12 @@ const CourseModal = () => {
           >
             <Label htmlFor="price">Price</Label>
             <Input
-            id="price"
-            placeholder="price"
-            name="Price"
-            disabled={isLoading}
-            required
-            
-            type="number"
+              id="price"
+              placeholder="price"
+              name="Price"
+              disabled={isLoading}
+              required
+              type="number"
             />
           </div>
         </div>
