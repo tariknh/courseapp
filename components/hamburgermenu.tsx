@@ -31,7 +31,7 @@ function Hamburger({ open, setOpen }: openStates) {
           <path
             d="M72 82.286h28.75"
             fill="#009100"
-            fill-rule="evenodd"
+            fillRule="evenodd"
             stroke={color}
           />
           <path
@@ -42,7 +42,7 @@ function Hamburger({ open, setOpen }: openStates) {
           <path
             d="M72 125.143h28.75"
             fill="#009100"
-            fill-rule="evenodd"
+            fillRule="evenodd"
             stroke={color}
           />
           <path
@@ -53,13 +53,13 @@ function Hamburger({ open, setOpen }: openStates) {
           <path
             d="M100.75 82.286h28.75"
             fill="#009100"
-            fill-rule="evenodd"
+            fillRule="evenodd"
             stroke={color}
           />
           <path
             d="M100.75 125.143h28.75"
             fill="#009100"
-            fill-rule="evenodd"
+            fillRule="evenodd"
             stroke={color}
           />
         </g>
