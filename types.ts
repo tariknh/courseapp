@@ -10,6 +10,7 @@ export interface UserDetails {
 }
 
 export interface Course {
+  id: number;
   category: string;
   location: string;
   date: string;

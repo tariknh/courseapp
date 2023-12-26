@@ -63,9 +63,11 @@ function Navbar() {
 
   return (
     <>
-      <nav className="flex justify-between fixed z-50 w-screen h-[12vh]">
-        <h1 className="justify-self-start self-center z-50 p-6 text-3xl text-white font-bold">
-          <Link href={"/"}>courseapp</Link>
+      <nav className="flex justify-between text-black fixed z-50 w-screen h-[12vh]">
+        <h1 className=" bg-blend-overlay text-white justify-self-start self-center z-50 p-6 text-3xl font-bold">
+          <Link className=" " href={"/"}>
+            courseapp
+          </Link>
         </h1>
         <div className="flex items-center">
           <h1 className="hidden md:block p-6 text-xl align-baseline text-white font-bold">
