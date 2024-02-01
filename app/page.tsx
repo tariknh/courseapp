@@ -24,7 +24,7 @@ export default function Home() {
       <About />
       <Steps />
       <Courses />
-      <Footer />
+      
     </main>
   );
 }

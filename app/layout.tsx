@@ -7,6 +7,7 @@ import UserProvider from "@/providers/UserProvider";
 import ModalProvider from "@/providers/ModalProvider";
 import ToasterProvider from "@/providers/ToasterProvider";
 import { Toaster } from "@/components/ui/sonner";
+import Footer from "@/components/Footer";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default function RootLayout({
             <ModalProvider />
             <Navbar />
             {children}
+            <Footer/>
           </UserProvider>
         </SupabaseProvider>
       </body>

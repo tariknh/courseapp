@@ -3,6 +3,7 @@ import Image from "next/image";
 import getCourseById from "@/actions/getCourseById";
 import { MdDateRange } from "react-icons/md";
 import { MdLocationOn } from "react-icons/md";
+import { CarouselDemo } from "@/components/Carousel";
 
 interface IParams {
   listingId?: string;
@@ -14,8 +15,8 @@ const Course = async ({ params }: { params: IParams }) => {
 
   return (
     <>
-      <main className="pt-[12vh] w-full flex flex-col items-left justify-start md:p-24 ">
-        <article className="h-fit grid large:mt-12">
+      <main className="w-full flex flex-col items-left justify-start md:px-24 ">
+        <article className=" grid">
           <div className="relative rounded-b-3xl h-64 overflow-hidden">
             <Image
               className="object-cover"
@@ -43,13 +44,18 @@ const Course = async ({ params }: { params: IParams }) => {
               </div>
             </div>
             <div className="mt-10 flex flex-col gap-5">
-              <h2 className="text-xl font-medium">About the Space</h2>
+              <h2 className="text-xl font-medium">About the event</h2>
               <p className="text-sm">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia
                 voluptatibus, quibusdam, natus, tempore voluptas quos
                 exercitationem quod similique voluptatem fugit voluptatum
                 doloremque. Quasi, voluptatem.
               </p>
+            </div>
+            <div className="mt-10 flex flex-col gap-5">
+              <h2 className="text-xl font-medium">Other related events</h2>
+              <CarouselDemo/>
+              
             </div>
           </div>
         </article>
