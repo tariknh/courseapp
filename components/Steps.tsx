@@ -1,5 +1,5 @@
 "use client";
-import { getAllCourses, getCourses } from "@/actions/getCourses";
+import { getAllCourses } from "@/actions/getCourses";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";

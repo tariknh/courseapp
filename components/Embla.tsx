@@ -1,10 +1,10 @@
 import React from "react";
-import useEmblaCarousel, { EmblaOptionsType } from "embla-carousel-react";
+import useEmblaCarousel from "embla-carousel-react";
 import Card from "./Card";
 
 type PropType = {
   slides: number[];
-  options?: EmblaOptionsType;
+  options?: any;
 };
 
 const EmblaCarousel: React.FC<PropType> = (props) => {

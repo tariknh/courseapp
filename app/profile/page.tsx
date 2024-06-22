@@ -6,14 +6,13 @@ import Image from "next/image";
 import getProfile from "@/actions/getProfile";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import Course from "@/components/Course";
-import { getCourses } from "@/actions/getCourses";
+
 import Link from "next/link";
 import Collection from "@/components/Collection";
 import { getOrganizedCourses } from "@/lib/actions/course.actions";
 
 const ProfilePage = async () => {
   const supabase = createClient();
-  const courses = await getCourses();
 
   const { data: sessionData, error: sessionError } =
     await supabase.auth.getUser();
