@@ -27,7 +27,7 @@ export const DeleteConfirmation = ({ courseId }: { courseId: number }) => {
 
   return (
     <AlertDialog>
-      <AlertDialogTrigger className="hover:scale-125">
+      <AlertDialogTrigger className="hover:scale-125 z-20 ">
         <AiFillDelete />
       </AlertDialogTrigger>
 
@@ -49,7 +49,9 @@ export const DeleteConfirmation = ({ courseId }: { courseId: number }) => {
                 if (res) {
                   toast("Course deleted successfully");
                 }
-                toast("Error deleting course");
+                if (!res) {
+                  toast("Error deleting course");
+                }
               })
             }
           >

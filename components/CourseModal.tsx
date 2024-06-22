@@ -349,7 +349,7 @@ const CourseModal = () => {
             <Label htmlFor="price">Price</Label>
             <Input
               id="price"
-              placeholder="price"
+              placeholder="Ticket Price"
               name="Price"
               disabled={isLoading}
               required

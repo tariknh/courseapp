@@ -57,8 +57,9 @@ const AllCourses: React.FC<CourseProps> = async ({
 
   return (
     // <Link className="w-full" href={`/courses/${course.id}`}>
-    <div className="grid-rows-4 grid grid-cols-1 justify-center mt-2 ">
+    <div className="grid-rows-1 w-full grid grid-cols-1 justify-center mt-2 ">
       {/* IS COURSE CREATOR*/}
+
       <div
         className="
             bg-slate-200
@@ -67,14 +68,16 @@ const AllCourses: React.FC<CourseProps> = async ({
             relative
           "
       >
-        <Image
-          src={imageData.publicUrl || "/courseimg/tavle.jpg"}
-          alt={title}
-          layout="fill"
-          objectFit="cover"
-        />
+        <Link href={`/courses/${course.id}`}>
+          <Image
+            src={imageData.publicUrl || "/courseimg/tavle.jpg"}
+            alt={title}
+            layout="fill"
+            objectFit="cover"
+          />
+        </Link>
         {isCourseCreator && (
-          <div className="absolute right-2 top-2 flex flex-col gap-4 bg-white p-3 shadow-sm   transition-all">
+          <div className="absolute right-2 top-2 flex flex-col gap-4 bg-white p-3 shadow-sm z-20   transition-all">
             <Link href={`/courses/${course.id}/update`}>
               <AiFillEdit className="hover:scale-125" />
             </Link>
@@ -88,6 +91,7 @@ const AllCourses: React.FC<CourseProps> = async ({
           </h3>
         </div>
       </div>
+
       <div className="flex flex-col mt-2">
         <div className="flex text-nowrap  text-sm justify-between text-zinc-500">
           <h2>{formatDateTime(course.date.from)}</h2>
@@ -114,7 +118,6 @@ const AllCourses: React.FC<CourseProps> = async ({
         </Link>
       )}
     </div>
-    // </Link>
   );
 };
 
