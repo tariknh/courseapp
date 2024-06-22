@@ -20,14 +20,14 @@ function Hamburger({ open, setOpen }: openStates) {
   let COLOR_VAR = color;
 
   return (
-    <div className={`${styles.container} z-50 ${open && styles.active}`}>
+    <div className={`${styles.container} z-[1001] ${open && styles.active}`}>
       <svg
         xmlns="http://www.w3.org/2000/svg"
         width="100"
         height="100"
         viewBox="0 0 200 200"
       >
-        <g strokeWidth="6.5" stroke-linecap="round">
+        <g strokeWidth="6.5" strokeLinecap="round">
           <path
             d="M72 82.286h28.75"
             fill="#009100"

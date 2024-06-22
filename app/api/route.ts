@@ -4,7 +4,7 @@ import { NextApiRequest, NextApiResponse } from "next";
 
 export async function POST(req: Request) {
   const { fileName, fileType, fileSize } = await req.json();
-  console.log(fileName);
+
   const s3 = new S3({
     apiVersion: "2006-03-01",
   });

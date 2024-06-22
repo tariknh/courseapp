@@ -25,14 +25,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${inter.className}`}>
+        <div className="h-[10vh] z-[200] fixed w-full bg-offblack"></div>
         <ToasterProvider />
-        <Toaster />
         <SupabaseProvider>
           <UserProvider>
             <ModalProvider />
             <Navbar />
             {children}
-            <Footer/>
+            <Toaster />
+            {/* <Footer /> */}
           </UserProvider>
         </SupabaseProvider>
       </body>

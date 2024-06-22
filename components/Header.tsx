@@ -8,6 +8,7 @@ import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useUser } from "@/hooks/useUser";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
+import Link from "next/link";
 
 type openStates = {
   open: boolean;
@@ -187,7 +188,7 @@ function Header({ open, setOpen }: openStates) {
   }, [open]);
   */
   return (
-    <div className="absolute grid grid-rows-8 h-screen max-h-screen w-screen overflow-hidden z-20">
+    <div className="z-[1000] fixed grid grid-rows-8 h-screen max-h-screen w-screen overflow-hidden">
       <motion.div
         initial="initial"
         animate="open"
@@ -213,7 +214,7 @@ function Header({ open, setOpen }: openStates) {
         initial="initial"
         animate="open"
         exit="initial"
-        className="bg-white row-span-1 p-8 rounded-t-3xl"
+        className="bg-white row-span-2 p-8 rounded-t-3xl"
       >
         <motion.div
           variants={delayChildren}
@@ -222,10 +223,10 @@ function Header({ open, setOpen }: openStates) {
           {user ? (
             <div className="flex gap-2 flex-col max-w-fit">
               <motion.span
-                onClick={() => router.push("/account")}
+                onClick={() => router.push("/profile")}
                 className="text-center justify-self-center w-full text-xl"
               >
-                my account
+                my profile
               </motion.span>
               <motion.button
                 onClick={handleLogout}
@@ -241,10 +242,13 @@ function Header({ open, setOpen }: openStates) {
               </motion.span>
               <motion.button
                 variants={up}
-                onClick={authModal.onOpen}
+                onClick={() => {
+                  setOpen(!open);
+                  //authModal.onOpen();
+                }}
                 className="px-8 py-4 text-xl border rounded-full bg-black max-w-fit text-white p-8"
               >
-                log in
+                <Link href="/login2">log in</Link>
               </motion.button>
               <motion.button
                 variants={up}

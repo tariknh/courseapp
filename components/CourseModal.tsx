@@ -19,7 +19,9 @@ import { useUser } from "@/hooks/useUser";
 import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
 import ImageWall from "./Inputs/Imagewall";
 import type { UploadFile } from "antd/es/upload/interface";
-import toast from "react-hot-toast";
+import { toast } from "sonner";
+import { revalidatePath } from "next/cache";
+import { useRouter } from "next/navigation";
 
 enum STEPS {
   CATEGORY = 0,
@@ -86,18 +88,22 @@ const CourseModal = () => {
 
   const [step, setStep] = useState(STEPS.CATEGORY);
   const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
 
   const onBack = () => {
     setStep((value) => value - 1);
   };
 
-  const onNext = () => {
+  const onNext = (data: FieldValues) => {
+    console.log(data, step, "data");
+    toast("Success, next step");
+
     setStep((value) => value + 1);
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (step !== STEPS.PRICE) {
-      return onNext();
+      return onNext(data);
     }
     setIsLoading(true);
 
@@ -111,12 +117,10 @@ const CourseModal = () => {
           });
         if (imageError) {
           setIsLoading(false);
-          return toast.error("Failed to upload image");
+          return toast("Failed to upload images");
         }
       }
     });
-
-    console.log(imageFile);
 
     const { error: supabaseError } = await supabase.from("courses").insert({
       title: data.title,
@@ -129,8 +133,11 @@ const CourseModal = () => {
       imageSrc: data.imageSrc,
       user: user?.id,
     });
+    router.refresh();
+    toast("Course has been created.");
 
     setIsLoading(false);
+    onClose();
   };
 
   const actionLabel = useMemo(() => {
@@ -274,6 +281,7 @@ const CourseModal = () => {
             <div>
               <Label htmlFor="date">Choose the length of your course</Label>
               <DatePicker
+                className={"z-[10000]"}
                 id="date"
                 value={date}
                 onChange={(value) => setCustomValue("date", value)}

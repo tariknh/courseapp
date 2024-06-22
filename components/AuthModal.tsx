@@ -1,32 +1,17 @@
-"use client";
-
-import {
-  useSessionContext,
-  useSupabaseClient,
-} from "@supabase/auth-helpers-react";
 import Modal from "./Modal";
 
-import React, { useEffect } from "react";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 import { Auth } from "@supabase/auth-ui-react";
 import { ThemeSupa } from "@supabase/auth-ui-shared";
 import useAuthModal from "@/hooks/useAuthModal";
 import { toast } from "sonner";
+import { createClient } from "@/app/utils/supabase/server";
 
-function AuthModal() {
-  const supabaseClient = useSupabaseClient();
-  const router = useRouter();
-  const { session } = useSessionContext();
+const AuthModal = async () => {
+  const supabase = createClient();
   const { onClose, isOpen } = useAuthModal();
 
-  useEffect(() => {
-    if (session) {
-      toast.success("Logged in");
-      router.refresh();
-      onClose();
-      //toast.success("Logged In!");
-    }
-  }, [session, router, onClose]);
+  const { data, error } = await supabase.auth.getUser();
 
   const onChange = (open: boolean) => {
     if (!open) {
@@ -42,7 +27,7 @@ function AuthModal() {
       onSubmit={() => {}}
     >
       <Auth
-        supabaseClient={supabaseClient}
+        supabaseClient={supabase}
         theme="dark"
         providers={["github"]}
         appearance={{
@@ -60,6 +45,6 @@ function AuthModal() {
       />
     </Modal>
   );
-}
+};
 
 export default AuthModal;

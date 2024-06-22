@@ -8,7 +8,6 @@ interface IParams {
 }
 
 const getCourseById = async (params: IParams) => {
-  console.log(params);
   const supabase = createServerComponentClient({
     cookies: cookies,
   });

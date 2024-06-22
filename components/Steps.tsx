@@ -1,9 +1,10 @@
 "use client";
+import { getAllCourses, getCourses } from "@/actions/getCourses";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Image from "next/image";
 import { useRef } from "react";
 
-function Steps() {
+const Steps = () => {
   const circleClip = {
     initial: {
       clipPath: "circle(0% at 49% 100%)",
@@ -36,11 +37,12 @@ function Steps() {
         className="text-white font-bold p-8 justify-center content-center relative h-screen z-50 overflow-visible grid bg-white gap-6 [text-wrap:balance]"
       ></motion.section>
       <div className="text-white w-full font-bold p-8 justify-center content-center h-screen grid bg-white gap-6 [text-wrap:balance]">
-        <h1 className="text-center  text-black max-w-4xl lg:text-8xl text-5xl">
-          publish your course in{" "}
-          <span className="text-white bg-accent px-2 rounded-2xl">three</span>{" "}
-          easy steps
+        <h1 className="text-center text-black max-w-4xl lg:text-8xl text-5xl">
+          check out courses in{" "}
         </h1>
+        <span className="text-white bg-accent px-2 max-w-4xl lg:text-8xl text-5xl text-center py-4 rounded-2xl">
+          Stavanger
+        </span>{" "}
         <span className="text-center font-light place-self-center text-md">
           test your limits with our potion
         </span>
@@ -100,6 +102,6 @@ function Steps() {
       </section>
     </>
   );
-}
+};
 
 export default Steps;

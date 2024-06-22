@@ -21,7 +21,7 @@ const CategoryInput: React.FC<CategoryProps> = ({
   return (
     <div
       className={`
-      rounded-xl
+      rounded-[2px]
       border-2
       p-4
       flex

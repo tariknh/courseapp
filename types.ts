@@ -9,14 +9,16 @@ export interface UserDetails {
   payment_method?: Stripe.PaymentMethod[Stripe.PaymentMethod.Type];
 }
 
-export interface Course {
+export interface CourseTypes {
   id: number;
   category: string;
   location: string;
-  date: string;
+  date: any;
   capacity: string;
   imageSrc: string;
   price: string;
   title: string;
   description: string;
+  isFree: boolean;
+  user: string;
 }

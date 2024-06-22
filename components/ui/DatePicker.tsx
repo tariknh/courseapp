@@ -67,6 +67,7 @@ export const DatePicker: React.FC<InputProps> = ({
             selected={value}
             onSelect={(value) => onChange(value)}
             numberOfMonths={2}
+            className="z-[50000]"
           />
         </PopoverContent>
       </Popover>

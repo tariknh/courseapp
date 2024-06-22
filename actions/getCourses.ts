@@ -1,11 +1,15 @@
 import { Course } from "@/types";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+import { createClient } from "@/app/utils/supabase/server";
 
-const getCourses = async (): Promise<Course[]> => {
-  const supabase = createServerComponentClient({
-    cookies: cookies,
-  });
+type GetAllCoursesParams = {
+  query?: string;
+  limit?: number;
+  page?: number;
+  category?: string;
+};
+
+export const getCourses = async (): Promise<Course[]> => {
+  const supabase = createClient();
 
   const { data, error } = await supabase
     .from("courses")
@@ -18,4 +22,23 @@ const getCourses = async (): Promise<Course[]> => {
   return (data as any) || [];
 };
 
-export default getCourses;
+export const getAllCourses = async () => {
+  // const supabase = createServerComponentClient({
+  //   cookies: cookies,
+  // });
+
+  const supabase = createClient();
+  const conditions = {};
+
+  const { data, error } = await supabase
+    .from("courses")
+    .select("*")
+    .order("created_at", { ascending: false });
+  if (error) {
+    console.log(error);
+  }
+
+  return {
+    data: JSON.parse(JSON.stringify(data)),
+  };
+};

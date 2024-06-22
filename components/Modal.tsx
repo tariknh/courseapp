@@ -54,12 +54,13 @@ const Modal: React.FC<ModalProps> = ({
             backdrop-blur-sm
             fixed
             inset-0
-            z-50
+            z-[20000]
+
             "
         />
         <Dialog.Content
           className="
-          z-50
+          z-[20000]
         fixed
         drop-shadow-md
         border
@@ -67,7 +68,7 @@ const Modal: React.FC<ModalProps> = ({
         top-[50%]
         left-[50%]
         max-h-full
-        h-full
+        h-[75vh]
         md:h-auto
         
         w-full
@@ -75,7 +76,6 @@ const Modal: React.FC<ModalProps> = ({
         md:max-w-[450px]
         translate-x-[-50%]
         translate-y-[-50%]
-        rounded-md
         bg-white
         
         p-[25px]
@@ -85,10 +85,9 @@ const Modal: React.FC<ModalProps> = ({
         >
           <Dialog.Title
             className="
-          text-xl
+          text-2xl
           text-center
           font-bold
-          mb-4
 
           "
           >

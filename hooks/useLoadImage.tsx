@@ -1,7 +1,5 @@
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 
-import { Course } from "@/types";
-
 const useLoadImage = (course: any) => {
   const supabaseClient = useSupabaseClient();
   if (!course) return null;

@@ -1,10 +1,12 @@
 "use client";
+
 import Hero from "./Home";
 import About from "@/components/About";
 import Steps from "@/components/Steps";
-import { useEffect } from "react";
 import Courses from "@/components/Courses";
 import Footer from "@/components/Footer";
+import { useEffect } from "react";
+import { getAllCourses } from "@/actions/getCourses";
 
 export default function Home() {
   useEffect(() => {
@@ -24,7 +26,6 @@ export default function Home() {
       <About />
       <Steps />
       <Courses />
-      
     </main>
   );
 }

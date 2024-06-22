@@ -63,7 +63,7 @@ function Navbar() {
 
   return (
     <>
-      <nav className="flex justify-between z-50 text-black fixed w-screen h-[12vh]">
+      <nav className="flex justify-between z-[3000] text-black fixed w-screen h-[10vh] ">
         <h1 className="mix-blend-difference text-white justify-self-start self-center z-50 p-6 text-3xl font-bold">
           <Link className="mix-blend-difference " href={"/"}>
             courseapp
@@ -75,7 +75,7 @@ function Navbar() {
               List your course
             </span>
           </h1>
-          <div className="justify-self-end z-50" onClick={() => setOpen(!open)}>
+          <div className="justify-self-end" onClick={() => setOpen(!open)}>
             <Hamburger open={open} setOpen={setOpen} />
           </div>
         </div>

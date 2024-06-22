@@ -1,4 +1,5 @@
-import getCourses from "@/actions/getCourses";
+import getCourses, { getAllCourses } from "@/actions/getCourses";
+import Collection from "@/components/Collection";
 import Course from "@/components/Course";
 import Link from "next/link";
 
@@ -32,22 +33,22 @@ const courseJSON = [
 ];
 
 export default async function Courses() {
-  const courses = await getCourses();
+  const courses = await getAllCourses();
 
   return (
     <section className="">
-      <div className="h-[12vh] z-100 fixed w-full bg-black"></div>
+      <div className="h-[10vh] z-[100] fixed w-full bg-black"></div>
       <section className="bg-white grid justify-center h-fit pt-[12vh]">
-        {courses.map((course, key) => (
-          <Link key={key} href={`/courses/${course.id}`}>
-            <Course
-              course={course}
-              capacity={course.capacity}
-              rating={course.capacity}
-              title={course.title}
-            />
-          </Link>
-        ))}
+        <Collection
+          data={courses.data}
+          emptyTitle="No courses yet"
+          emptyStateSubText="You have not created any courses yet."
+          collectionType="Courses_Organized"
+          limit={3}
+          page={1}
+          totalPages={2}
+          urlParamName={undefined}
+        />
       </section>
     </section>
   );
