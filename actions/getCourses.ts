@@ -1,4 +1,3 @@
-import { Course } from "@/types";
 import { createClient } from "@/app/utils/supabase/server";
 
 type GetAllCoursesParams = {
@@ -8,19 +7,19 @@ type GetAllCoursesParams = {
   category?: string;
 };
 
-export const getCourses = async (): Promise<Course[]> => {
-  const supabase = createClient();
+// export const getCourses = async (): Promise<Course[]> => {
+//   const supabase = createClient();
 
-  const { data, error } = await supabase
-    .from("courses")
-    .select("*")
-    .order("created_at", { ascending: false });
-  if (error) {
-    console.log(error);
-  }
+//   const { data, error } = await supabase
+//     .from("courses")
+//     .select("*")
+//     .order("created_at", { ascending: false });
+//   if (error) {
+//     console.log(error);
+//   }
 
-  return (data as any) || [];
-};
+//   return (data as any) || [];
+// };
 
 export const getAllCourses = async () => {
   // const supabase = createServerComponentClient({

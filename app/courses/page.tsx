@@ -1,4 +1,4 @@
-import getCourses, { getAllCourses } from "@/actions/getCourses";
+import { getAllCourses } from "@/actions/getCourses";
 import Collection from "@/components/Collection";
 import Course from "@/components/Course";
 import Link from "next/link";
