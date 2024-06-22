@@ -6,18 +6,18 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-export function LoginPage0() {
-  return (
-    <form className="h-screen pt-[12vh]">
-      <label htmlFor="email">Email:</label>
-      <input id="email" name="email" type="email" required />
-      <label htmlFor="password">Password:</label>
-      <input id="password" name="password" type="password" required />
-      <button formAction={login}>Log in</button>
-      <button formAction={signup}>Sign up</button>
-    </form>
-  );
-}
+// export function LoginPage0() {
+//   return (
+//     <form className="h-screen pt-[12vh]">
+//       <label htmlFor="email">Email:</label>
+//       <input id="email" name="email" type="email" required />
+//       <label htmlFor="password">Password:</label>
+//       <input id="password" name="password" type="password" required />
+//       <button formAction={login}>Log in</button>
+//       <button formAction={signup}>Sign up</button>
+//     </form>
+//   );
+// }
 
 export default function LoginPage() {
   return (
