@@ -1,6 +1,7 @@
 import { getAllCourses } from "@/actions/getCourses";
 import Collection from "@/components/Collection";
 import Course from "@/components/Course";
+import { DatePicker } from "@/components/ui/DatePicker";
 import Link from "next/link";
 
 export const revalidate = 0;

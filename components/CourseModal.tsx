@@ -281,7 +281,6 @@ const CourseModal = () => {
             <div>
               <Label htmlFor="date">Choose the length of your course</Label>
               <DatePicker
-                className={"z-[10000]"}
                 id="date"
                 value={date}
                 onChange={(value) => setCustomValue("date", value)}
