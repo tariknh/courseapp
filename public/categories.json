@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "name": "Technology",
+    "imageSrc": "technology.jpg"
+  },
+  {
+    "id": 2,
+    "name": "Martial Arts",
+    "imageSrc": "martial.jpg"
+  },
+  {
+    "id": 3,
+    "name": "Cooking",
+    "imageSrc": "cooking.jpg"
+  }
+]

@@ -10,6 +10,7 @@ type GetOrganizedCoursesParams = {
   category?: string;
   user: string;
 };
+
 type GetTicketsParams = {
   query: string;
   limit?: number;
@@ -17,6 +18,7 @@ type GetTicketsParams = {
   category?: string;
   user: string;
 };
+
 type DeleteCourseParams = {
   courseId: number;
   path: string;

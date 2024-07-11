@@ -9,6 +9,7 @@ import useAuthModal from "@/hooks/useAuthModal";
 import { useUser } from "@/hooks/useUser";
 import useUploadModal from "@/hooks/useCourseModal";
 import { usePathname, useRouter } from "next/navigation";
+import { logout } from "@/app/login2/actions";
 
 function Navbar() {
   const [open, setOpen] = useState(false);
@@ -70,9 +71,12 @@ function Navbar() {
           </Link>
         </h1>
         <div className="flex items-center">
-          <h1 className="hidden md:block p-6 text-xl align-baseline text-white font-bold">
+          <h1 className="hidden md:flex p-6 text-xl align-baseline text-white font-bold  gap-4">
             <span className="cursor-pointer" onClick={onClick}>
               List your course
+            </span>
+            <span className="cursor-pointer" onClick={() => logout()}>
+              Log out
             </span>
           </h1>
           <div className="justify-self-end" onClick={() => setOpen(!open)}>

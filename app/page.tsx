@@ -7,6 +7,7 @@ import Courses from "@/components/Courses";
 import Footer from "@/components/Footer";
 import { useEffect } from "react";
 import { getAllCourses } from "@/actions/getCourses";
+import { Categories } from "@/components/sections/Categories";
 
 export default function Home() {
   useEffect(() => {
@@ -23,9 +24,10 @@ export default function Home() {
   return (
     <main>
       <Hero />
+      <Categories />
       <About />
       <Steps />
-      <Courses />
+      {/* <Courses /> */}
     </main>
   );
 }

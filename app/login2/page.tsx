@@ -1,4 +1,5 @@
-import { login, signup } from "./actions";
+"use client";
+import { login } from "./actions";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -21,11 +22,10 @@ import { useActionState } from "react";
 // }
 
 export default function LoginPage() {
-
-  const [state, action ] = useActionState(login)
+  const [state, action, pending] = useActionState(login, undefined);
 
   return (
-    <form>
+    <form action={action}>
       <div className="w-full lg:grid lg:min-h-screen h-screen pt-[10vh] lg:grid-cols-2 xl:min-h-[800px]">
         <div className="flex items-center justify-center py-12">
           <div className="mx-auto grid w-[350px] gap-6">
@@ -46,6 +46,7 @@ export default function LoginPage() {
                   required
                 />
               </div>
+              {state?.errors?.email && <p>{state.errors.email}</p>}
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
@@ -58,8 +59,18 @@ export default function LoginPage() {
                 </div>
                 <Input id="password" name="password" type="password" required />
               </div>
-              <Button formAction={action} className="w-full">
-                Login
+              {state?.errors?.password && (
+                <div>
+                  <p className="text-destructive">Wrong password</p>
+                </div>
+              )}
+              {state?.errors?.email && (
+                <div>
+                  <p className="text-destructive">Wrong email</p>
+                </div>
+              )}
+              <Button aria-disabled={pending} type="submit" className="w-full">
+                {pending ? "Logging in..." : "Log In"}
               </Button>
               <Button variant="outline" className="w-full">
                 Login with Google

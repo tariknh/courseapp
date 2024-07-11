@@ -1,3 +1,7 @@
 export default function ErrorPage() {
-  return <p>Sorry, something went wrong</p>;
+  return (
+    <div className="h-screen grid place-content-center place-items-center">
+      <h1 className="text-2xl">There was an error, please login again</h1>
+    </div>
+  );
 }

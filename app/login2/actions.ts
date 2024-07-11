@@ -5,10 +5,43 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/app/utils/supabase/server";
 import { toast } from "sonner";
-import { SignupFormSchema } from "./definitions";
 
+import { SignupFormSchema, FormState } from "@/app/lib/definitions";
 
-export async function login(state,formData: FormData) {
+export async function login(state: FormState, formData: any) {
+  const supabase = createClient();
+
+  // Validate form fields
+  const validatedFields = SignupFormSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+  });
+
+  // If any form fields are invalid, return early
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
+  // Call the provider or db to create a user...
+  const { error } = await supabase.auth.signInWithPassword({
+    email: validatedFields.data.email,
+    password: validatedFields.data.password,
+  });
+
+  if (error) {
+    redirect("/error");
+  }
+
+  console.log(error);
+
+  revalidatePath("/", "layout");
+
+  redirect("/profile");
+}
+
+export async function oldLogin(state: any, formData: FormData) {
   const supabase = createClient();
 
   // type-casting here for convenience
@@ -16,15 +49,15 @@ export async function login(state,formData: FormData) {
   const data = SignupFormSchema.safeParse({
     email: formData.get("email") as string,
     password: formData.get("password") as string,
-  })
+  });
 
- if (!data.success){
-  return {
-    errors: data.error.flatten().fieldErrors
- }
- }
+  if (!data.success) {
+    return {
+      errors: data.error.flatten().fieldErrors,
+    };
+  }
 
- /*
+  /*
  const data = {
   email: formData.get("email") as string,
   password: formData.get("password") as string,
@@ -44,6 +77,7 @@ export async function login(state,formData: FormData) {
 
 export async function logout() {
   const supabase = createClient();
+  console.log("logging out");
 
   const { error } = await supabase.auth.signOut();
 
@@ -55,22 +89,22 @@ export async function logout() {
   redirect("/");
 }
 
-export async function signup(formData: FormData) {
-  const supabase = createClient();
+// export async function signup(formData: FormData) {
+//   const supabase = createClient();
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
-  const data = {
-    email: formData.get("email") as string,
-    password: formData.get("password") as string,
-  };
+//   // type-casting here for convenience
+//   // in practice, you should validate your inputs
+//   const data = {
+//     email: formData.get("email") as string,
+//     password: formData.get("password") as string,
+//   };
 
-  const { error } = await supabase.auth.signUp(data);
+//   const { error } = await supabase.auth.signUp(data);
 
-  if (error) {
-    redirect("/error");
-  }
+//   if (error) {
+//     redirect("/error");
+//   }
 
-  revalidatePath("/", "layout");
-  redirect("/");
-}
+//   revalidatePath("/", "layout");
+//   redirect("/");
+// }
