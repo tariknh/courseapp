@@ -5,16 +5,30 @@ import { redirect } from "next/navigation";
 
 import { createClient } from "@/app/utils/supabase/server";
 import { toast } from "sonner";
+import { SignupFormSchema } from "./definitions";
 
-export async function login(formData: FormData) {
+
+export async function login(state,formData: FormData) {
   const supabase = createClient();
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
-  const data = {
+  const data = SignupFormSchema.safeParse({
     email: formData.get("email") as string,
     password: formData.get("password") as string,
-  };
+  })
+
+ if (!data.success){
+  return {
+    errors: data.error.flatten().fieldErrors
+ }
+ }
+
+ /*
+ const data = {
+  email: formData.get("email") as string,
+  password: formData.get("password") as string,
+};
 
   const { error } = await supabase.auth.signInWithPassword(data);
 
@@ -25,6 +39,7 @@ export async function login(formData: FormData) {
   revalidatePath("/", "layout");
 
   redirect("/profile");
+  */
 }
 
 export async function logout() {

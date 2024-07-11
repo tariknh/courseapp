@@ -6,6 +6,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { useActionState } from "react";
 // export function LoginPage0() {
 //   return (
 //     <form className="h-screen pt-[12vh]">
@@ -20,6 +21,9 @@ import { Label } from "@/components/ui/label";
 // }
 
 export default function LoginPage() {
+
+  const [state, action ] = useActionState(login)
+
   return (
     <form>
       <div className="w-full lg:grid lg:min-h-screen h-screen pt-[10vh] lg:grid-cols-2 xl:min-h-[800px]">
@@ -54,7 +58,7 @@ export default function LoginPage() {
                 </div>
                 <Input id="password" name="password" type="password" required />
               </div>
-              <Button formAction={login} className="w-full">
+              <Button formAction={action} className="w-full">
                 Login
               </Button>
               <Button variant="outline" className="w-full">
