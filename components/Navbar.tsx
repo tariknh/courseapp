@@ -56,9 +56,7 @@ function Navbar() {
       router.push("/courses");
       console.log("not courses");
     }
-    if (!user) {
-      return authModal.onOpen();
-    }
+
     uploadModal.onOpen();
   };
 

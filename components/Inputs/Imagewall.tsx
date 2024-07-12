@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { PlusOutlined } from "@ant-design/icons";
+import { AiOutlinePlus } from "react-icons/ai";
 import { Modal, Upload } from "antd";
 import type { RcFile, UploadProps } from "antd/es/upload";
 import type { UploadFile } from "antd/es/upload/interface";
@@ -58,7 +58,7 @@ const ImageWall: React.FC<InputProps> = ({
 
   const uploadButton = (
     <div>
-      <PlusOutlined />
+      <AiOutlinePlus />
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>
   );

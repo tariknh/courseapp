@@ -1,6 +1,7 @@
 import { getAllCourses } from "@/actions/getCourses";
 import Collection from "@/components/Collection";
 import Course from "@/components/Course";
+import { GMap } from "@/components/Inputs/PlacesAutoComplete";
 import { DatePicker } from "@/components/ui/DatePicker";
 import Link from "next/link";
 
@@ -50,6 +51,7 @@ export default async function Courses() {
           totalPages={2}
           urlParamName={undefined}
         />
+        <GMap />
       </section>
     </section>
   );

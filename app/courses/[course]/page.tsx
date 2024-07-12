@@ -25,6 +25,17 @@ const Course = async ({ params }: { params: IParams }) => {
   const SLIDE_COUNT = 5;
   const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
 
+  const location = JSON.parse(listing.location);
+
+  console.log(listing);
+
+  const options = { day: "numeric", month: "long", year: "numeric" };
+  const fromDate = new Date(listing.date.from).toLocaleDateString(
+    "en-US",
+    options
+  );
+  const toDate = new Date(listing.date.to).toLocaleDateString("en-US", options);
+
   return (
     <>
       <main className="w-full flex flex-col items-left justify-start md:px-24 ">
@@ -32,7 +43,9 @@ const Course = async ({ params }: { params: IParams }) => {
           <div className="px-6 pt-4 flex flex-col gap-2">
             <EmblaCarousel slides={SLIDES} options={OPTIONS} />
             <h1 className="text-3xl font-bold">{listing.title}</h1>
-            <h2>by {data ? data[0].full_name : "Unknown"}</h2>
+            {/* Fix conditional of full name
+            <h2>{data && data[0].full_name}</h2> */}
+            <h2>Anonymous</h2>
             <button className="border-[1px] mt-2 font-bold w-fit py-2 px-6 rounded-[2px] border-black solid">
               buy ticket
             </button>
@@ -40,23 +53,18 @@ const Course = async ({ params }: { params: IParams }) => {
               <div className="flex gap-2">
                 <MdDateRange size="20" />
                 <span className="text-sm">
-                  Wed, Jan 20, 2024 @ 9:00 AM - 2:00 PM
+                  {fromDate} - {toDate}
                 </span>
               </div>
               <div className="flex gap-2">
                 <MdLocationOn size="20" />
-                <span className="text-sm">Stavanger, Norway</span>
+                <span className="text-sm">{location.formatted_address}</span>
               </div>
             </div>
 
             <div className="mt-10 flex flex-col gap-5">
               <h2 className="text-xl font-medium">About the event</h2>
-              <p className="text-sm">
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Quia
-                voluptatibus, quibusdam, natus, tempore voluptas quos
-                exercitationem quod similique voluptatem fugit voluptatum
-                doloremque. Quasi, voluptatem.
-              </p>
+              <p className="text-sm">{listing.description}</p>
             </div>
             <div className="mt-10 flex flex-col gap-5">
               <h2 className="text-xl font-medium">Other related events</h2>

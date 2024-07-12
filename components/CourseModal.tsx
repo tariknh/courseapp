@@ -22,6 +22,7 @@ import type { UploadFile } from "antd/es/upload/interface";
 import { toast } from "sonner";
 import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
+import PlacesAutoComplete, { GMap } from "./Inputs/PlacesAutoComplete";
 
 enum STEPS {
   CATEGORY = 0,
@@ -195,6 +196,9 @@ const CourseModal = () => {
     setCustomValue("imageSrc", fileList);
   }, [fileList]);
 
+  const [selectedPlace, setSelectedPlace] =
+    useState<google.maps.places.PlaceResult | null>(null);
+
   const stepConfigs: Record<STEPS, StepConfig> = {
     [STEPS.CATEGORY]: {
       content: (
@@ -236,11 +240,18 @@ const CourseModal = () => {
             title="Where about are you having the course?"
             subTitle="Let people know!"
           />
-          <CountrySelect
-            onChange={(value) => setCustomValue("location", value)}
+          {/* <Input
+            onChange={(e) => setCustomValue("location", e.target.value)}
             value={location}
+            id="location"
+          /> */}
+          <GMap
+            value={location}
+            onChange={(value: any) => setCustomValue("location", value)}
           />
-          <Map center={location?.latlng} />
+
+          {/* <PlacesAutoComplete /> */}
+          {/* <Map center={location?.latlng} /> */}
         </div>
       ),
     },

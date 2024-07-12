@@ -157,6 +157,11 @@ html.lenis {
   z-index: 0 !important
 }
 
+.pac-container {
+  z-index: 10000000 !important;
+  pointer-events: auto;
+}
+
 
 
 @layer base {
