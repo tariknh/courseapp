@@ -31,7 +31,7 @@ export default function Hero() {
         <source src="/fjell.mp4" type="video/mp4" />
         Your browser does not support the video tag.
       </motion.video>
-      <section className="z-[260] p-8 justify-start h-screen grid bg-accent overflow-hidden">
+      <section className="z-[260] p-8 justify-start h-screen grid overflow-hidden">
         <div className="z-[250] z-10 place-self-end grid gap-8">
           <h1 className="max-w-[16rem] md:max-w-[20rem] text-balance font-bold text-6xl font-sans text-white">
             your next course awaits you.

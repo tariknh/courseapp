@@ -1,17 +1,77 @@
 [
   {
     "id": 1,
-    "name": "Technology",
-    "imageSrc": "technology.jpg"
+    "name": "Culinary Arts",
+    "imageSrc": "culinary_arts.jpg"
   },
   {
     "id": 2,
-    "name": "Martial Arts",
-    "imageSrc": "martial.jpg"
+    "name": "Health and Wellness",
+    "imageSrc": "health_wellness.jpg"
   },
   {
     "id": 3,
-    "name": "Cooking",
-    "imageSrc": "cooking.jpg"
+    "name": "Creative Arts",
+    "imageSrc": "art.jpg"
+  },
+  {
+    "id": 4,
+    "name": "Technology and IT",
+    "imageSrc": "technology_it.jpg"
+  },
+  {
+    "id": 5,
+    "name": "Personal Development",
+    "imageSrc": "personal_development.jpg"
+  },
+  {
+    "id": 6,
+    "name": "Business and Finance",
+    "imageSrc": "business_finance.jpg"
+  },
+  {
+    "id": 7,
+    "name": "Languages and Culture",
+    "imageSrc": "languages_culture.jpg"
+  },
+  {
+    "id": 8,
+    "name": "DIY and Home Improvement",
+    "imageSrc": "diy_home_improvement.jpg"
+  },
+  {
+    "id": 9,
+    "name": "Science and Nature",
+    "imageSrc": "science_nature.jpg"
+  },
+  {
+    "id": 10,
+    "name": "Hobbies and Recreation",
+    "imageSrc": "hobbies_recreation.jpg"
+  },
+  {
+    "id": 11,
+    "name": "Social Sciences",
+    "imageSrc": "social_sciences.jpg"
+  },
+  {
+    "id": 12,
+    "name": "Fashion and Beauty",
+    "imageSrc": "fashion_beauty.jpg"
+  },
+  {
+    "id": 13,
+    "name": "Entertainment",
+    "imageSrc": "entertainment.jpg"
+  },
+  {
+    "id": 14,
+    "name": "Parenting and Family",
+    "imageSrc": "parenting_family.jpg"
+  },
+  {
+    "id": 15,
+    "name": "Professional Skills",
+    "imageSrc": "professional_skills.jpg"
   }
 ]

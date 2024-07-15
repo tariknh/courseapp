@@ -71,8 +71,10 @@ function Navbar() {
         <div className="flex items-center">
           <h1 className="hidden md:flex p-6 text-xl align-baseline text-white font-bold  gap-4">
             <span className="cursor-pointer" onClick={onClick}>
-              List your course
+              Create a listing
             </span>
+            <Link href={"/login2"}>Log in</Link>
+            <Link href={"/login2"}>Sign Up</Link>
             <span className="cursor-pointer" onClick={() => logout()}>
               Log out
             </span>

@@ -6,13 +6,17 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/app/utils/supabase/server";
 import { toast } from "sonner";
 
-import { SignupFormSchema, FormState } from "@/app/lib/definitions";
+import {
+  SignupFormSchema,
+  FormState,
+  SigninFormSchema,
+} from "@/app/lib/definitions";
 
 export async function login(state: FormState, formData: any) {
   const supabase = createClient();
 
   // Validate form fields
-  const validatedFields = SignupFormSchema.safeParse({
+  const validatedFields = SigninFormSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
   });
@@ -28,6 +32,47 @@ export async function login(state: FormState, formData: any) {
   const { error } = await supabase.auth.signInWithPassword({
     email: validatedFields.data.email,
     password: validatedFields.data.password,
+  });
+
+  if (error) {
+    redirect("/error");
+  }
+
+  console.log(error);
+
+  revalidatePath("/", "layout");
+
+  redirect("/profile");
+}
+
+export async function signup(state: FormState, formData: any) {
+  const supabase = createClient();
+
+  // Validate form fields
+  const validatedFields = SignupFormSchema.safeParse({
+    email: formData.get("email"),
+    password: formData.get("password"),
+    first_name: formData.get("first_name"),
+    last_name: formData.get("last_name"),
+  });
+
+  // If any form fields are invalid, return early
+  if (!validatedFields.success) {
+    return {
+      errors: validatedFields.error.flatten().fieldErrors,
+    };
+  }
+
+  // Call the provider or db to create a user...
+  const { data, error } = await supabase.auth.signUp({
+    email: validatedFields.data.email,
+    password: validatedFields.data.password,
+    options: {
+      data: {
+        first_name: validatedFields.data.first_name,
+        last_name: validatedFields.data.last_name,
+      },
+    },
   });
 
   if (error) {
