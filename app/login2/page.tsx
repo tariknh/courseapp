@@ -1,5 +1,5 @@
 "use client";
-import { login, signup } from "./actions";
+import { login, signup, signInWithGithub } from "./actions";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -78,9 +78,14 @@ const LoginSection = ({
               <Button aria-disabled={pending} type="submit" className="w-full">
                 {pending ? "Logging in..." : "Log In"}
               </Button>
-              <Button variant="outline" className="w-full">
-                Login with Google
+              <Button
+                onClick={() => signInWithGithub()}
+                variant="outline"
+                className="w-full"
+              >
+                Login with Github
               </Button>
+              {/* Add Google login */}
             </div>
             <div className="mt-4 text-center text-sm">
               Don&apos;t have an account?{" "}
@@ -113,9 +118,18 @@ const SignupSection = ({
   handleLoginChange: () => void;
 }) => {
   const [state, action, pending] = useActionState(signup, undefined);
-  console.log(() => handleLoginChange, "handleLoginChange");
+
   return (
-    <form action={action}>
+    <form
+      onSubmit={
+        pending
+          ? (event) => {
+              event.preventDefault();
+            }
+          : undefined
+      }
+      action={action}
+    >
       <div className="w-full lg:grid lg:min-h-screen h-screen pt-[10vh] lg:grid-cols-2 xl:min-h-[800px]">
         <div className="flex items-center justify-center py-12">
           <div className="mx-auto grid w-[350px] gap-6">
@@ -127,16 +141,19 @@ const SignupSection = ({
             </div>
             <div className="grid gap-4">
               <div className="grid gap-2">
-                <Label htmlFor="email">First Name</Label>
+                <Label htmlFor="email">Full Name</Label>
                 <Input
-                  id="first_name"
-                  name="first_name"
+                  id="full_name"
+                  name="full_name"
                   type="text"
                   placeholder="Tim Apple"
                   required
                 />
               </div>
-              {state?.errors?.email && <p>{state.errors.first_name}</p>}
+
+              {state?.errors?.full_name && (
+                <p className="text-destructive">{state.errors.full_name}</p>
+              )}
               <div className="grid gap-2">
                 <Label htmlFor="email">Email</Label>
                 <Input
@@ -147,35 +164,29 @@ const SignupSection = ({
                   required
                 />
               </div>
-              {state?.errors?.email && <p>{state.errors.last_name}</p>}
-              {state?.errors?.email && <p>{state.errors.email}</p>}
+              {state?.errors?.email && (
+                <p className="text-destructive">{state.errors.email}</p>
+              )}
               <div className="grid gap-2">
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
-                  <Link
-                    href="/forgot-password"
-                    className="ml-auto inline-block text-sm underline"
-                  >
-                    Forgot your password?
-                  </Link>
                 </div>
                 <Input id="password" name="password" type="password" required />
               </div>
               {state?.errors?.password && (
-                <div>
-                  <p className="text-destructive">Wrong password</p>
-                </div>
+                <p className="text-destructive">
+                  Password must:{" "}
+                  {state.errors.password.map((error, key) => (
+                    <p key={key}>{error}</p>
+                  ))}
+                </p>
               )}
-              {state?.errors?.email && (
-                <div>
-                  <p className="text-destructive">Wrong email</p>
-                </div>
-              )}
+
               <Button aria-disabled={pending} type="submit" className="w-full">
-                {pending ? "Logging in..." : "Log In"}
+                {pending ? "Logging in..." : "Sign Up"}
               </Button>
               <Button variant="outline" className="w-full">
-                Login with Google
+                Sign up with Google
               </Button>
             </div>
             <div className="mt-4 text-center text-sm">
@@ -184,7 +195,7 @@ const SignupSection = ({
                 className="underline cursor-pointer"
                 onClick={handleLoginChange}
               >
-                Log in
+                Sign up
               </span>
             </div>
           </div>

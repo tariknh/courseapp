@@ -1,14 +1,10 @@
-import { z } from "zod";
+import { date, z } from "zod";
 
 export const SignupFormSchema = z.object({
   email: z.string().email({ message: "Please enter a valid email." }).trim(),
-  first_name: z
+  full_name: z
     .string()
-    .min(2, { message: "Please enter a valid first name." })
-    .trim(),
-  last_name: z
-    .string()
-    .min(2, { message: "Please enter a valid last name." })
+    .min(2, { message: "Please enter a valid name." })
     .trim(),
   password: z
     .string()
@@ -32,6 +28,20 @@ export const SigninFormSchema = z.object({
       message: "Contain at least one special character.",
     })
     .trim(),
+});
+
+export const CourseInfo = z.object({
+  title: z.string().min(2, { message: "Please enter a valid title." }).trim(),
+  location: z.undefined({ message: "Please enter a valid location." }),
+  description: z
+    .string()
+    .min(10, { message: "Please enter a valid description." })
+    .trim(),
+  date: date(),
+  capacity: z.number().int().positive().max(1000),
+  category: z
+    .string({ message: "Choose A Valid Category" })
+    .min(2, { message: "Please choose a valid category." }),
 });
 
 export type FormState =

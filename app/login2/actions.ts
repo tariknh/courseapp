@@ -4,13 +4,14 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/app/utils/supabase/server";
-import { toast } from "sonner";
+import { Toaster, toast } from "sonner";
 
 import {
   SignupFormSchema,
   FormState,
   SigninFormSchema,
 } from "@/app/lib/definitions";
+import { useToast } from "@/components/ui/use-toast";
 
 export async function login(state: FormState, formData: any) {
   const supabase = createClient();
@@ -52,12 +53,12 @@ export async function signup(state: FormState, formData: any) {
   const validatedFields = SignupFormSchema.safeParse({
     email: formData.get("email"),
     password: formData.get("password"),
-    first_name: formData.get("first_name"),
-    last_name: formData.get("last_name"),
+    full_name: formData.get("full_name"),
   });
 
   // If any form fields are invalid, return early
   if (!validatedFields.success) {
+    console.log(validatedFields.error.flatten().fieldErrors);
     return {
       errors: validatedFields.error.flatten().fieldErrors,
     };
@@ -69,8 +70,7 @@ export async function signup(state: FormState, formData: any) {
     password: validatedFields.data.password,
     options: {
       data: {
-        first_name: validatedFields.data.first_name,
-        last_name: validatedFields.data.last_name,
+        full_name: validatedFields.data.full_name,
       },
     },
   });
@@ -78,10 +78,6 @@ export async function signup(state: FormState, formData: any) {
   if (error) {
     redirect("/error");
   }
-
-  console.log(error);
-
-  revalidatePath("/", "layout");
 
   redirect("/profile");
 }
@@ -120,9 +116,23 @@ export async function oldLogin(state: any, formData: FormData) {
   */
 }
 
+export async function signInWithGithub() {
+  console.log("signing in with github");
+  const supabase = createClient();
+  const { data, error } = await supabase.auth.signInWithOAuth({
+    provider: "github",
+    options: {
+      redirectTo: "https://dliobleuxirzpstdyzcn.supabase.co/auth/v1/callback",
+    },
+  });
+
+  if (data.url) {
+    redirect(data.url); // use the redirect API for your server framework
+  }
+}
+
 export async function logout() {
   const supabase = createClient();
-  console.log("logging out");
 
   const { error } = await supabase.auth.signOut();
 

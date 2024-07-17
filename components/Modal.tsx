@@ -68,7 +68,8 @@ const Modal: React.FC<ModalProps> = ({
         top-[50%]
         left-[50%]
         max-h-full
-        h-[75vh]
+        sm:h-[75vh]
+        h-full
         md:h-auto
         
         w-full
@@ -80,13 +81,13 @@ const Modal: React.FC<ModalProps> = ({
         
         p-[25px]
         focus:outline-none
-        text-black
+        text-offblack
         "
         >
           <Dialog.Title
             className="
-          text-2xl
-          text-center
+          text-3xl
+          text-left
           font-bold
 
           "

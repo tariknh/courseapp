@@ -23,6 +23,7 @@ import { toast } from "sonner";
 import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 import PlacesAutoComplete, { GMap } from "./Inputs/PlacesAutoComplete";
+import { CourseInfo } from "@/app/lib/definitions";
 
 enum STEPS {
   CATEGORY = 0,
@@ -95,11 +96,76 @@ const CourseModal = () => {
     setStep((value) => value - 1);
   };
 
-  const onNext = (data: FieldValues) => {
-    console.log(data, step, "data");
-    toast("Success, next step");
+  const verifyFields = (data: FieldValues) => {
+    // Validate form fields
+    // const validatedFields = CourseInfo.safeParse({
+    //   title: data.title,
+    //   description: data.description,
+    //   date: data.date,
+    //   capacity: data.capacity,
+    //   category: data.category,
+    // });
+    let validatedFields;
+    let pickedValidations;
+    switch (step) {
+      case STEPS.CATEGORY:
+        pickedValidations = CourseInfo.pick({
+          category: true,
+        });
+        validatedFields = pickedValidations.safeParse({
+          category: data.category,
+        });
+        break;
+      case STEPS.LOCATION:
+        pickedValidations = CourseInfo.pick({
+          location: true,
+        });
+        validatedFields = pickedValidations.safeParse({
+          location: data.location,
+        });
+        break;
+      case STEPS.INFO:
+        pickedValidations = CourseInfo.pick({
+          title: true,
+          description: true,
+          date: true,
+          capacity: true,
+        });
+        validatedFields = pickedValidations.safeParse({
+          title: data.title,
+          description: data.description,
+          date: data.date,
+          capacity: data.capacity,
+        });
+        break;
+    }
 
-    setStep((value) => value + 1);
+    // If any form fields are invalid, return early
+    if (validatedFields && !validatedFields.success) {
+      console.log(validatedFields.error.flatten().fieldErrors);
+      return {
+        errors: validatedFields.error.flatten().fieldErrors,
+      };
+    }
+  };
+
+  const onNext = async (data: FieldValues) => {
+    //console.log(data, step, "data");
+    const validFields = await verifyFields(data);
+
+    //toast("Success, next step");
+
+    if (!validFields?.errors) {
+      setStep((value) => value + 1);
+    } else {
+      //toast.error("Please fill in all fields");
+      //toast.error(validFields.errors);
+      //console.log(validFields.errors.forEach((error)=>error[0]), "validFields");
+      Object.entries(validFields.errors).forEach(([category, messages]) => {
+        console.log(`Errors for ${category}:`);
+        messages.forEach((message) => toast.error(message));
+      });
+    }
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {

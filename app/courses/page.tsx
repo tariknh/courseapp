@@ -51,7 +51,6 @@ export default async function Courses() {
           totalPages={2}
           urlParamName={undefined}
         />
-        <GMap />
       </section>
     </section>
   );

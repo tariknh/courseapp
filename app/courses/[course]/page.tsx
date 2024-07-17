@@ -27,8 +27,6 @@ const Course = async ({ params }: { params: IParams }) => {
 
   const location = JSON.parse(listing.location);
 
-  console.log(listing);
-
   const options = { day: "numeric", month: "long", year: "numeric" };
   const fromDate = new Date(listing.date.from).toLocaleDateString(
     "en-US",
