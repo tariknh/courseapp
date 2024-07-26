@@ -5,7 +5,7 @@
 .embla {
   max-width: none;
   margin: auto;
-  --slide-height: 25rem;
+  --slide-height: 35rem;
   --slide-spacing: 1rem;
   --slide-size: 90%;
 }
@@ -111,7 +111,7 @@
   box-shadow: inset 0 0 0 0.2rem var(--text-body);
 }
 .embla__parallax {
-  border-radius: 1.8rem;
+  border-radius: 2px;
   height: 100%;
   overflow: hidden;
 }

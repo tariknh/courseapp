@@ -194,12 +194,16 @@ function Header({ open, setOpen }: openStates) {
         animate="open"
         exit="initial"
         variants={topMobile}
-        className="p-8 pt-24 flex flex-col justify-between bg-white row-span-6 rounded-b-3xl font-bold text-5xl font-sans text-black"
+        className="p-8 pt-24 flex flex-col justify-between bg-white row-span-5 rounded-b-3xl font-bold text-4xl sm:text-5xl font-sans text-black"
       >
-        <motion.div variants={staggerChildren}>
-          <motion.h1 variants={textAnimate}>courses</motion.h1>
-          <motion.h1 variants={textAnimate}>my courses</motion.h1>
-          <motion.h1 variants={textAnimate}>categories</motion.h1>
+        <motion.div className="flex gap-2 flex-col" variants={staggerChildren}>
+          <motion.h1 variants={textAnimate}>View courses</motion.h1>
+          <motion.h1 variants={textAnimate}>Create a course</motion.h1>
+          {user && (
+            <motion.h1 variants={textAnimate}>
+              <Link href={"/profile"}>My profile</Link>
+            </motion.h1>
+          )}
         </motion.div>
         <motion.div className="text-lg justify-end grid grid-cols-2">
           {links.map((value, key) => (
@@ -214,7 +218,7 @@ function Header({ open, setOpen }: openStates) {
         initial="initial"
         animate="open"
         exit="initial"
-        className="bg-white row-span-2 p-8 rounded-t-3xl"
+        className="bg-white row-span-3 p-8 rounded-t-3xl"
       >
         <motion.div
           variants={delayChildren}
@@ -246,16 +250,15 @@ function Header({ open, setOpen }: openStates) {
                   setOpen(!open);
                   //authModal.onOpen();
                 }}
-                className="px-8 py-4 text-xl border rounded-full bg-black max-w-fit text-white p-8"
+                className="px-8 py-4 text-xl border rounded-sm bg-black max-w-fit text-white p-8"
               >
-                <Link href="/login2">log in</Link>
+                <Link href="/login2">Log in</Link>
               </motion.button>
               <motion.button
                 variants={up}
-                onClick={authModal.onOpen}
-                className="px-8 py-4 text-xl border rounded-full bg-black max-w-fit text-white p-8"
+                className="px-8 py-4 text-xl border rounded-sm bg-black max-w-fit text-white p-8"
               >
-                sign up
+                <Link href="/login2">Sign up</Link>
               </motion.button>
             </>
           )}

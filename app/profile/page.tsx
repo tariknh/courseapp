@@ -61,7 +61,7 @@ const ProfilePage = async () => {
             alt={""}
           />
           <div className="flex px-4 flex-col">
-            <span className="font-bold">{user && user[0].full_name}</span>
+            <span className="font-bold">{`${user && user[0].full_name}`}</span>
             <span className="text-gray-500">Member Since {memberSince}</span>
           </div>
         </div>

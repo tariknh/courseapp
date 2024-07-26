@@ -1,6 +1,8 @@
 import { CourseTypes } from "@/types";
 import React from "react";
 import Course from "@/components/Course";
+import { Button } from "./ui/button";
+import Link from "next/link";
 
 type CollectionProps = {
   data: CourseTypes[];
@@ -49,9 +51,12 @@ const Collection = ({
           </ul>
         </div>
       ) : (
-        <div className="flex flex-col justify-center min-h-[150px] w-full text-center bg-zinc-100">
-          <h3 className="font-bold">{emptyTitle}</h3>
+        <div className="flex flex-col text-balance justify-center min-h-[150px] w-full text-center bg-zinc-100">
+          <h3 className="font-bold text-2xl">{emptyTitle}</h3>
           <p>{emptyStateSubText}</p>
+          <Button className="mt-4 max-w-lg mx-auto">
+            <Link href={"/courses"}>View Courses</Link>
+          </Button>
         </div>
       )}
     </div>

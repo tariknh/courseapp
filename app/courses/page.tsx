@@ -1,6 +1,7 @@
 import { getAllCourses } from "@/actions/getCourses";
 import Collection from "@/components/Collection";
 import Course from "@/components/Course";
+import Filterbar from "@/components/Inputs/Filterbar";
 import { GMap } from "@/components/Inputs/PlacesAutoComplete";
 import { DatePicker } from "@/components/ui/DatePicker";
 import Link from "next/link";
@@ -40,11 +41,12 @@ export default async function Courses() {
   return (
     <section className="">
       <div className="h-[10vh] z-[100] fixed w-full bg-black"></div>
-      <section className="bg-white grid justify-center h-fit pt-[12vh]">
+      <section className="bg-white w-full grid  h-fit pt-[12vh]">
+        <Filterbar />
         <Collection
-          data={courses.data}
-          emptyTitle="No courses yet"
-          emptyStateSubText="You have not created any courses yet."
+          data={[]}
+          emptyTitle="No courses found"
+          emptyStateSubText="Change the filters to find more courses!"
           collectionType="Courses_Organized"
           limit={3}
           page={1}

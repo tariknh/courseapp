@@ -21,9 +21,24 @@ const Course = async ({ params }: { params: IParams }) => {
     .select("*")
     .eq("id", creatorId);
 
+  const images = JSON.parse(listing.imageSrc);
+  console.log(images.length, "imagesLength");
+  const { data: imageData } = supabase.storage
+    .from("images")
+    .getPublicUrl(images[0].uid);
   const OPTIONS: EmblaOptionsType = { dragFree: true, loop: true };
-  const SLIDE_COUNT = 5;
-  const SLIDES = Array.from(Array(SLIDE_COUNT).keys());
+
+  //const SLIDE_COUNT = 5;
+  const SLIDES = [
+    {
+      id: 0,
+      imageSrc: imageData.publicUrl,
+    },
+    {
+      id: 1,
+      imageSrc: imageData.publicUrl,
+    },
+  ];
 
   const location = JSON.parse(listing.location);
 
@@ -39,7 +54,7 @@ const Course = async ({ params }: { params: IParams }) => {
       <main className="w-full flex flex-col items-left justify-start md:px-24 ">
         <article className=" grid">
           <div className="px-6 pt-4 flex flex-col gap-2">
-            <EmblaCarousel slides={SLIDES} options={OPTIONS} />
+            <EmblaCarousel images={images} slides={SLIDES} options={OPTIONS} />
             <h1 className="text-3xl font-bold">{listing.title}</h1>
             {/* Fix conditional of full name
             <h2>{data && data[0].full_name}</h2> */}
@@ -56,7 +71,11 @@ const Course = async ({ params }: { params: IParams }) => {
               </div>
               <div className="flex gap-2">
                 <MdLocationOn size="20" />
-                <span className="text-sm">{location.formatted_address}</span>
+                <span className="text-sm">
+                  {location?.formatted_address
+                    ? location.formatted_address
+                    : "Undisclosed Location"}
+                </span>
               </div>
             </div>
 

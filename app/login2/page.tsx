@@ -32,7 +32,7 @@ const LoginSection = ({
 
   return (
     <form action={action}>
-      <div className="w-full lg:grid lg:min-h-screen h-screen pt-[10vh] lg:grid-cols-2 xl:min-h-[800px]">
+      <div className="w-full lg:grid lg:min-h-screen h-[90vh] pt-[10vh] lg:grid-cols-2 xl:min-h-[800px]">
         <div className="flex items-center justify-center py-12">
           <div className="mx-auto grid w-[350px] gap-6">
             <div className="grid gap-2 text-center">
@@ -130,13 +130,13 @@ const SignupSection = ({
       }
       action={action}
     >
-      <div className="w-full lg:grid lg:min-h-screen h-screen pt-[10vh] lg:grid-cols-2 xl:min-h-[800px]">
+      <div className="w-full h-[90vh] lg:grid lg:min-h-screen pt-[10vh] lg:grid-cols-2 xl:min-h-[800px]">
         <div className="flex items-center justify-center py-12">
           <div className="mx-auto grid w-[350px] gap-6">
             <div className="grid gap-2 text-center">
               <h1 className="text-3xl font-bold">Sign Up</h1>
               <p className="text-balance text-muted-foreground">
-                Enter your email below to login to your account
+                Create an account and get started!
               </p>
             </div>
             <div className="grid gap-4">
@@ -160,7 +160,7 @@ const SignupSection = ({
                   id="email"
                   name="email"
                   type="email"
-                  placeholder="m@example.com"
+                  placeholder="tim@apple.com"
                   required
                 />
               </div>
@@ -183,7 +183,7 @@ const SignupSection = ({
               )}
 
               <Button aria-disabled={pending} type="submit" className="w-full">
-                {pending ? "Logging in..." : "Sign Up"}
+                {pending ? "Signing up..." : "Sign Up"}
               </Button>
               <Button variant="outline" className="w-full">
                 Sign up with Google
@@ -195,7 +195,7 @@ const SignupSection = ({
                 className="underline cursor-pointer"
                 onClick={handleLoginChange}
               >
-                Sign up
+                Login
               </span>
             </div>
           </div>

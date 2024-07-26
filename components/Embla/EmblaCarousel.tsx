@@ -16,13 +16,21 @@ import Image from "next/image";
 
 const TWEEN_FACTOR_BASE = 0.2;
 
+type SlideType = {
+  id?: number;
+  imageSrc?: string;
+  // Add other properties if needed
+};
+
 type PropType = {
-  slides: number[];
+  slides: SlideType[];
   options?: EmblaOptionsType;
+  images: string;
 };
 
 const EmblaCarousel: React.FC<PropType> = (props) => {
-  const { slides, options } = props;
+  const { slides, options, images } = props;
+  console.log(slides, "slides");
   const [emblaRef, emblaApi] = useEmblaCarousel(options);
   const tweenFactor = useRef(0);
   const tweenNodes = useRef<HTMLElement[]>([]);
@@ -107,12 +115,12 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
           {slides.map((index) => (
-            <div className="embla__slide" key={index}>
+            <div className="embla__slide" key={index.id}>
               <div className="embla__parallax">
                 <div className="embla__parallax__layer">
                   <img
                     className="embla__slide__img embla__parallax__img"
-                    src={`https://picsum.photos/600/350?v=${index}`}
+                    src={index.imageSrc}
                     alt="Your alt text"
                   />
                   {/* <Image

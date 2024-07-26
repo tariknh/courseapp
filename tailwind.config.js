@@ -17,6 +17,9 @@ module.exports = {
       },
     },
     extend: {
+      fontFamily: {
+        clean: ["var(--font-clean)"],
+      },
       colors: {
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
