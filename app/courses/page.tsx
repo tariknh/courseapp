@@ -41,7 +41,7 @@ export default async function Courses() {
   return (
     <section className="">
       <div className="h-[10vh] z-[100] fixed w-full bg-black"></div>
-      <section className="bg-white w-full grid  h-fit pt-[12vh]">
+      <section className="bg-white grid-rows-6 w-full grid  h-fit pt-[12vh]">
         <Filterbar />
         <Collection
           data={[]}
