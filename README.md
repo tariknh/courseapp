@@ -1,36 +1,29 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# CourseApp
 
-## Getting Started
+Welcome to **CourseApp**, your ultimate destination for learning and teaching! Whether you're looking to acquire a new skill or share your expertise with the world, CourseApp makes it easy and accessible. From culinary adventures like mastering Mexican cuisine to coding bootcamps, our platform is designed to connect knowledge seekers with passionate instructors.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- 🌟 **User Authentication**: Secure and seamless sign-up and login powered by Supabase.
+- 📚 **Course Management**: Create, edit, and manage your courses with a user-friendly interface.
+- 🎟️ **Ticketing System**: Purchase tickets for courses, manage your bookings, and track attendance effortlessly.
+- 🧑‍🏫 **Host Your Own Courses**: Have a skill to share? Create a course and make it available to others. Courses can be free or paid, giving you flexibility.
+- 🏷️ **Event Categories**: Browse events by category to find courses that match your interests.
+- 🏙️ **City-based Search**: Discover courses happening in your city or any city you're interested in.
+- 📱 **Responsive Design**: Enjoy a seamless experience across all devices with our Tailwind CSS-powered design.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Technologies Used
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- [Next.js 15](https://nextjs.org/) - A powerful React framework for building fast and scalable web applications.
+- [Supabase](https://supabase.io/) - An open-source backend as a service, providing authentication, database, and storage.
+- [Tailwind CSS](https://tailwindcss.com/) - A utility-first CSS framework that makes styling a breeze.
+- [TypeScript](https://www.typescriptlang.org/) - A strongly typed programming language that builds on JavaScript, giving you better tooling at any scale.
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+## Contributing
 
-## Learn More
+Contributing guidelines are coming soon. Stay tuned for updates!
 
-To learn more about Next.js, take a look at the following resources:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Contact
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+For any questions, suggestions, or feedback, please feel free to reach out. We’d love to hear from you!
