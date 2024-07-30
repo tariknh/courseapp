@@ -28,9 +28,6 @@ export const getNameById = async (id: any) => {
   const supabase = createClient();
   const { data, error } = await supabase.from("users").select("*").eq("id", id);
 
-  console.log(id, "ID");
-  console.log(data, "Data");
-
   if (data === null) {
     return {
       name: "Unknown",
@@ -69,15 +66,13 @@ export const getOrganizedCourses = async ({
   user,
 }: GetOrganizedCoursesParams) => {
   const supabase = createClient();
-  //console.log(user, "user");
+
   try {
     const { data, error } = await supabase
       .from("courses")
       .select("*")
       .eq("user", user)
       .limit(limit);
-    //.order("date", { ascending: true });
-    // .range((page - 1) * limit, page * limit - 1);
 
     if (data !== null) {
       return {
@@ -107,15 +102,13 @@ export const getTickets = async ({
   user,
 }: GetTicketsParams) => {
   const supabase = createClient();
-  //console.log(user, "user");
+
   try {
     const { data, error } = await supabase
       .from("courses")
       .select("*")
       .eq("user", user)
       .limit(limit);
-    //.order("date", { ascending: true });
-    // .range((page - 1) * limit, page * limit - 1);
 
     if (data !== null) {
       return {

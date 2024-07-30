@@ -26,7 +26,7 @@ const Collection = ({
   urlParamName,
 }: CollectionProps) => {
   const coursesList = data;
-  //console.log(coursesList, "coursesList");
+
   return (
     <div className="w-full">
       {coursesList.length > 0 ? (

@@ -3,6 +3,7 @@ import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { BiImageAdd } from "react-icons/bi";
 import Image from "next/image";
+import { toast } from "sonner";
 
 interface ImageUploadProps {
   onChange?: (value: string) => void;
@@ -64,6 +65,7 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onChange, value }) => {
 
     if (upload.ok) {
       console.log("Uploaded successfully!");
+      toast.success("Uploaded successfully!");
     } else {
       console.error("Upload failed.");
     }

@@ -17,7 +17,10 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { useMediaQuery } from "@uidotdev/usehooks";
+
+import { useEffect } from "react";
+import { Categories, newCategories as categories } from "../Categories";
+import { useMediaQuery } from "@/hooks/useMediaQuery";
 
 type Status = {
   value: string;
@@ -47,69 +50,81 @@ const statuses: Status[] = [
   },
 ];
 
-export function ComboBoxResponsive() {
+export function ComboBoxResponsive({
+  setCategory,
+  category,
+
+  ...props
+}: {
+  setCategory?: string;
+  category?: string;
+  value: any;
+  setValue: (status: Categories | null) => void;
+}) {
+  const { value, setValue } = props;
   const [open, setOpen] = React.useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [selectedStatus, setSelectedStatus] = React.useState<Status | null>(
-    null
-  );
 
   if (isDesktop) {
     return (
-      <Popover open={open} onOpenChange={setOpen}>
+      <Popover modal={false} open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant="outline" className="w-[150px] justify-start">
-            {selectedStatus ? <>{selectedStatus.label}</> : <>+ Set status</>}
+          <Button variant={"category"} className=" w-full justify-start">
+            {value ? <>{value.name}</> : <>+ Choose a category</>}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0" align="start">
-          <StatusList setOpen={setOpen} setSelectedStatus={setSelectedStatus} />
+          <CategoryList setOpen={setOpen} setSelectedCategory={setValue} />
         </PopoverContent>
       </Popover>
     );
   }
 
   return (
-    <Drawer open={open} onOpenChange={setOpen}>
+    <Drawer modal={false} open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline" className="w-[150px] justify-start">
-          {selectedStatus ? <>{selectedStatus.label}</> : <>+ Set status</>}
+        <Button variant="outline" className="w-full justify-start">
+          {value ? <>{value.label}</> : <>+ Choose a category</>}
         </Button>
       </DrawerTrigger>
       <DrawerContent>
         <div className="mt-4 border-t">
-          <StatusList setOpen={setOpen} setSelectedStatus={setSelectedStatus} />
+          <CategoryList setOpen={setOpen} setSelectedCategory={setValue} />
         </div>
       </DrawerContent>
     </Drawer>
   );
 }
 
-function StatusList({
+function CategoryList({
   setOpen,
-  setSelectedStatus,
+  setSelectedCategory,
 }: {
   setOpen: (open: boolean) => void;
-  setSelectedStatus: (status: Status | null) => void;
+  setSelectedCategory: (status: Categories | null) => void;
 }) {
   return (
     <Command>
-      <CommandInput placeholder="Filter status..." />
+      <CommandInput disabled={false} placeholder="Filter categories..." />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup>
-          {statuses.map((status) => (
+          {categories.map((category) => (
             <CommandItem
-              key={status.value}
-              value={status.value}
+              disabled={false}
+              key={category.name}
+              value={category.name}
               onSelect={(value) => {
-                setSelectedStatus(
-                  statuses.find((priority) => priority.value === value) || null
+                setSelectedCategory(
+                  categories.find((category) => category.name == value) || null
                 );
                 setOpen(false);
               }}
             >
-              {status.label}
+              <div className="flex items-center gap-2">
+                {category.name}
+                {category.icon}
+              </div>
             </CommandItem>
           ))}
         </CommandGroup>

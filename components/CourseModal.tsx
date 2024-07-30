@@ -150,17 +150,11 @@ const CourseModal = () => {
   };
 
   const onNext = async (data: FieldValues) => {
-    //console.log(data, step, "data");
     const validFields = await verifyFields(data);
-
-    //toast("Success, next step");
 
     if (!validFields?.errors) {
       setStep((value) => value + 1);
     } else {
-      //toast.error("Please fill in all fields");
-      //toast.error(validFields.errors);
-      //console.log(validFields.errors.forEach((error)=>error[0]), "validFields");
       Object.entries(validFields.errors).forEach(([category, messages]) => {
         console.log(`Errors for ${category}:`);
         messages.forEach((message) => toast.error(message));

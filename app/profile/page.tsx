@@ -47,7 +47,6 @@ const ProfilePage = async () => {
     page: 1,
   });
 
-  //console.log((await userOwnedCourses).data, "userowned courses");
   return (
     <div className="min-h-screen grid px-2 text-offblack pt-[12vh]">
       <div className="pt-8 px-4">

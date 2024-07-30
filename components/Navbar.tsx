@@ -54,7 +54,6 @@ function Navbar() {
   const onClick = () => {
     if (pathname !== "/courses") {
       router.push("/courses");
-      console.log("not courses");
     }
 
     uploadModal.onOpen();

@@ -33,7 +33,6 @@ interface CarouselProps {
 }
 
 const CategoriesCarousel = ({ xOffset }: CarouselProps) => {
-  console.log(categories, "categories");
   const targetRef = useRef<HTMLDivElement | null>(null);
   const { scrollY } = useScroll({
     target: targetRef,

@@ -22,7 +22,7 @@ const Course = async ({ params }: { params: IParams }) => {
     .eq("id", creatorId);
 
   const images = JSON.parse(listing.imageSrc);
-  console.log(images.length, "imagesLength");
+
   const { data: imageData } = supabase.storage
     .from("images")
     .getPublicUrl(images[0].uid);

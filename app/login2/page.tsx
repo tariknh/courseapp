@@ -28,7 +28,6 @@ const LoginSection = ({
   handleLoginChange: () => void;
 }) => {
   const [state, action, pending] = useActionState(login, undefined);
-  console.log(handleLoginChange);
 
   return (
     <form action={action}>

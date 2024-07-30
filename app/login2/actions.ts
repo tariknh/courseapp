@@ -117,7 +117,6 @@ export async function oldLogin(state: any, formData: FormData) {
 }
 
 export async function signInWithGithub() {
-  console.log("signing in with github");
   const supabase = createClient();
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",

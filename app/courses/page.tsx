@@ -37,22 +37,30 @@ const courseJSON = [
 
 export default async function Courses() {
   const courses = await getAllCourses();
+  console.log(courses, "courses");
+  const currentCategory = undefined;
+  const currentCity = undefined;
 
   return (
     <section className="">
       <div className="h-[10vh] z-[100] fixed w-full bg-black"></div>
-      <section className="bg-white grid-rows-6 w-full grid  h-fit pt-[12vh]">
-        <Filterbar />
-        <Collection
-          data={[]}
-          emptyTitle="No courses found"
-          emptyStateSubText="Change the filters to find more courses!"
-          collectionType="Courses_Organized"
-          limit={3}
-          page={1}
-          totalPages={2}
-          urlParamName={undefined}
+      <section className="bg-white w-full flex flex-col   h-fit pt-[12vh]">
+        <Filterbar
+          currentCity={currentCity}
+          currentCategory={currentCategory}
         />
+        <section className="pt-16 px-2">
+          <Collection
+            data={courses.data}
+            emptyTitle="No courses found"
+            emptyStateSubText="Change the filters to find more courses!"
+            collectionType="Courses_Organized"
+            limit={3}
+            page={1}
+            totalPages={2}
+            urlParamName={undefined}
+          />
+        </section>
       </section>
     </section>
   );
