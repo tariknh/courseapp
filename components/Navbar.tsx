@@ -1,5 +1,3 @@
-"use client";
-import React, { useEffect, useState } from "react";
 import Header from "./Header";
 import { AnimatePresence } from "framer-motion";
 import Hamburger from "./hamburgermenu";
@@ -8,12 +6,17 @@ import Link from "next/link";
 import useAuthModal from "@/hooks/useAuthModal";
 import { useUser } from "@/hooks/useUser";
 import useUploadModal from "@/hooks/useCourseModal";
-import { usePathname, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { logout } from "@/app/login2/actions";
+import { createClient } from "@/app/utils/supabase/server";
+import LogOutButton from "./LogOutButton";
 
-function Navbar() {
-  const [open, setOpen] = useState(false);
-  const pathname = usePathname();
+async function Navbar() {
+  //const [open, setOpen] = useState(false);
+  //const pathname = usePathname();
+  const supabase = createClient();
+
+  /*
 
   useEffect(() => {
     open
@@ -45,19 +48,27 @@ function Navbar() {
     // add `isMobile` state variable as a dependency so that
     // it is called every time the window is resized
   }, [isMobile]);
+  */
 
-  const authModal = useAuthModal();
-  const uploadModal = useUploadModal();
-  const { user } = useUser();
-  const router = useRouter();
+  // const authModal = useAuthModal();
+  // const uploadModal = useUploadModal();
+  const { data, error } = await supabase.auth.getSession();
+  //const router = useRouter();
 
-  const onClick = () => {
-    if (pathname !== "/courses") {
-      router.push("/courses");
-    }
+  // const onClick = () => {
+  //   if (error) {
+  //     return router.push("/login2");
+  //   }
+  //   if (pathname !== "/courses") {
+  //     router.push("/courses");
+  //   }
 
-    uploadModal.onOpen();
-  };
+  //   uploadModal.onOpen();
+  // };
+  function logOut() {
+    "use client";
+    return logout();
+  }
 
   return (
     <>
@@ -69,24 +80,30 @@ function Navbar() {
         </h1>
         <div className="flex items-center">
           <h1 className="hidden md:flex p-6 text-xl align-baseline text-white font-bold  gap-4">
-            <span className="cursor-pointer" onClick={onClick}>
-              Create a listing
-            </span>
-            <Link href={"/login2"}>Log in</Link>
-            <Link href={"/login2"}>Sign Up</Link>
-            <span className="cursor-pointer" onClick={() => logout()}>
-              Log out
-            </span>
+            <span className="cursor-pointer">Create a listing</span>
           </h1>
-          <div className="justify-self-end" onClick={() => setOpen(!open)}>
-            <Hamburger open={open} setOpen={setOpen} />
+          {data.session ? (
+            <div className="hidden text-nowrap items-center md:flex p-6 text-xl align-baseline text-white font-bold  gap-4">
+              <Link href={"/profile"}>My Profile</Link>
+
+              <LogOutButton />
+            </div>
+          ) : (
+            <div className="hidden items-center md:flex p-6 text-xl align-baseline text-white font-bold  gap-4">
+              <Link href={"/login2"}>Log in</Link>
+              <Link
+                className="bg-white py-2 px-4 text-offblack text-lg "
+                href={"/login2"}
+              >
+                Sign Up
+              </Link>
+            </div>
+          )}
+          <div className="md:hidden fixed left-0 top-0">
+            <Hamburger />
           </div>
         </div>
       </nav>
-
-      <AnimatePresence>
-        {open && <Header open={open} setOpen={setOpen} />}
-      </AnimatePresence>
     </>
   );
 }
