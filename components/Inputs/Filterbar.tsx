@@ -9,17 +9,19 @@ import { ComboBoxResponsive } from "../ui/Combobox";
 import { Categories } from "../Categories";
 import dynamic from "next/dynamic";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 
-const Filterbar = ({
-  currentCategory,
-  currentCity,
-}: {
-  currentCategory?: string;
-  currentCity?: string;
-}) => {
+
+const Filterbar = () => {
   //Later add types for the currentCategory and currentCity instead of string
   const [open, setOpen] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
+
+  const searchParams = useSearchParams()
+
+  const currentCategory = searchParams.get('category')?.toString()
+  const currentCity = searchParams.get('city')?.toString()
+  
 
   const mobileSearchVariants = {
     default: {
@@ -80,6 +82,29 @@ export const SearchInputs = (props: SProps) => {
   const { state } = props;
 
   const [value, setValue] = React.useState<Categories | null>(null);
+  const pathname = usePathname();
+  const { replace } = useRouter();
+  
+  function handleSearch(term: string) {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set('city', term);
+    } else {
+      params.delete('city');
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }
+  function handleCategory(term: string) {
+    const params = new URLSearchParams(searchParams);
+    if (term) {
+      params.set('category', term);
+    } else {
+      params.delete('category');
+    }
+    replace(`${pathname}?${params.toString()}`);
+  }
+
+  const searchParams = useSearchParams()
 
   const inputVariants = {
     default: {
@@ -118,15 +143,19 @@ export const SearchInputs = (props: SProps) => {
           placeholder="Technology"
         /> */}
         <ComboBoxResponsive
-          value={value}
+          value={searchParams.get('category')?.toString()}
           setValue={setValue}
           setCategory={""}
           category={""}
+          onChange={(category)=>handleCategory(category)}
         />
       </div>
       <div className="self-end">
         <h2 className="font-bold mb-2">Search for a city:</h2>
-        <Input className="" placeholder="Stavanger, Norway" />
+        <Input defaultValue={searchParams.get('city')?.toString()} onChange={(e)=>{
+          handleSearch(e.target.value)
+        }} className="text-offblack" placeholder="Stavanger, Norway" />
+        
       </div>
       <Button
         className="self-end mt-4 md:mt-0"

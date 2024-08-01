@@ -53,12 +53,13 @@ const statuses: Status[] = [
 export function ComboBoxResponsive({
   setCategory,
   category,
-
+  onChange,
   ...props
 }: {
   setCategory?: string;
   category?: string;
   value: any;
+  onChange: (value:string) => void,
   setValue: (status: Categories | null) => void;
 }) {
   const { value, setValue } = props;
@@ -68,13 +69,13 @@ export function ComboBoxResponsive({
   if (isDesktop) {
     return (
       <Popover modal={false} open={open} onOpenChange={setOpen}>
-        <PopoverTrigger asChild>
+        <PopoverTrigger  asChild>
           <Button variant={"category"} className=" w-full justify-start">
-            {value ? <>{value.name}</> : <>+ Choose a category</>}
+            {value ? <>{value}</> : <>+ Choose a category</>}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0" align="start">
-          <CategoryList setOpen={setOpen} setSelectedCategory={setValue} />
+          <CategoryList onChange={onChange} setOpen={setOpen} setSelectedCategory={setValue} />
         </PopoverContent>
       </Popover>
     );
@@ -89,7 +90,7 @@ export function ComboBoxResponsive({
       </DrawerTrigger>
       <DrawerContent>
         <div className="mt-4 border-t">
-          <CategoryList setOpen={setOpen} setSelectedCategory={setValue} />
+          <CategoryList onChange={onChange} setOpen={setOpen} setSelectedCategory={setValue} />
         </div>
       </DrawerContent>
     </Drawer>
@@ -99,9 +100,11 @@ export function ComboBoxResponsive({
 function CategoryList({
   setOpen,
   setSelectedCategory,
+  onChange,
 }: {
   setOpen: (open: boolean) => void;
   setSelectedCategory: (status: Categories | null) => void;
+  onChange: (value:string) => void
 }) {
   return (
     <Command>
@@ -114,7 +117,9 @@ function CategoryList({
               disabled={false}
               key={category.name}
               value={category.name}
+             
               onSelect={(value) => {
+                onChange(value)
                 setSelectedCategory(
                   categories.find((category) => category.name == value) || null
                 );
