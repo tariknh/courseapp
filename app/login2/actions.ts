@@ -46,6 +46,17 @@ export async function login(state: FormState, formData: any) {
   redirect("/profile");
 }
 
+export async function resetPassword(state: FormState, formData: any) {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.resetPasswordForEmail(
+    formData.get("email"),
+    {
+      redirectTo: "/login2",
+    }
+  );
+}
+
 export async function signup(state: FormState, formData: any) {
   const supabase = createClient();
 

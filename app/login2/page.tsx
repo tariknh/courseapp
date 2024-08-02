@@ -1,5 +1,5 @@
 "use client";
-import { login, signup, signInWithGithub } from "./actions";
+import { login, signup, signInWithGithub, resetPassword } from "./actions";
 
 import Image from "next/image";
 import Link from "next/link";
@@ -22,10 +22,72 @@ import { set } from "date-fns";
 //   );
 // }
 
+const ForgotPasswordSection = ({
+  handleForgotChange,
+}: {
+  handleForgotChange: () => void;
+}) => {
+  const [state, action, pending] = useActionState(resetPassword, undefined);
+
+  return (
+    <form action={action}>
+      <div className="w-full lg:grid lg:min-h-screen h-[90vh] pt-[10vh] lg:grid-cols-2 xl:min-h-[800px]">
+        <div className="flex items-center justify-center py-12">
+          <div className="mx-auto grid w-[350px] gap-6">
+            <div className="grid gap-2 text-center">
+              <h1 className="text-3xl font-bold">Reset password</h1>
+              <p className="text-balance text-muted-foreground">
+                Enter your email below to reset your password
+              </p>
+            </div>
+            <div className="grid gap-4">
+              <div className="grid gap-2">
+                <Label htmlFor="email">Email</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  placeholder="m@example.com"
+                  required
+                />
+              </div>
+              {/* {state?.errors?.email && <p>{state.errors.email}</p>} */}
+
+              <Button aria-disabled={pending} type="submit" className="w-full">
+                {pending ? "Requesting password reset..." : "Reset password"}
+              </Button>
+            </div>
+            <div className="mt-4 text-center text-sm">
+              Don&apos;t have an account?{" "}
+              <span
+                className="underline cursor-pointer"
+                onClick={handleForgotChange}
+              >
+                Log In
+              </span>
+            </div>
+          </div>
+        </div>
+        <div className="hidden bg-muted lg:block">
+          <Image
+            src="/class.jpg"
+            alt="Image"
+            width="1920"
+            height="1080"
+            className="h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
+          />
+        </div>
+      </div>
+    </form>
+  );
+};
+
 const LoginSection = ({
   handleLoginChange,
+  handleForgotChange,
 }: {
   handleLoginChange: () => void;
+  handleForgotChange: () => void;
 }) => {
   const [state, action, pending] = useActionState(login, undefined);
 
@@ -56,7 +118,8 @@ const LoginSection = ({
                 <div className="flex items-center">
                   <Label htmlFor="password">Password</Label>
                   <Link
-                    href="/forgot-password"
+                    href={""}
+                    onClick={handleForgotChange}
                     className="ml-auto inline-block text-sm underline"
                   >
                     Forgot your password?
@@ -215,15 +278,24 @@ const SignupSection = ({
 
 export default function AuthPage() {
   const [isLogin, setisLogin] = useState(true);
+  const [forgotPassword, setForgotPassword] = useState(false);
   const handleLoginChange = () => {
     setisLogin(!isLogin);
+  };
+  const handleForgotChange = () => {
+    setForgotPassword(!forgotPassword);
   };
 
   return (
     <section>
-      {isLogin ? (
+      {forgotPassword ? (
+        <ForgotPasswordSection handleForgotChange={handleForgotChange} />
+      ) : isLogin ? (
         <div>
-          <LoginSection handleLoginChange={handleLoginChange} />
+          <LoginSection
+            handleForgotChange={handleForgotChange}
+            handleLoginChange={handleLoginChange}
+          />
         </div>
       ) : (
         <SignupSection handleLoginChange={handleLoginChange} />
