@@ -154,6 +154,17 @@ export async function logout() {
   redirect("/");
 }
 
+export async function getSession() {
+  const supabase = createClient();
+
+  const { data, error } = await supabase.auth.getUser();
+
+  if (error) {
+    return redirect("/login2");
+  }
+  return data;
+}
+
 // export async function signup(formData: FormData) {
 //   const supabase = createClient();
 

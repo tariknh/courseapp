@@ -19,36 +19,8 @@ import {
 } from "@/components/ui/popover";
 
 import { useEffect } from "react";
-import { Categories, newCategories as categories } from "../Categories";
+import { CategoriesTypes, categories } from "../Categories";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-
-type Status = {
-  value: string;
-  label: string;
-};
-
-const statuses: Status[] = [
-  {
-    value: "backlog",
-    label: "Backlog",
-  },
-  {
-    value: "todo",
-    label: "Todo",
-  },
-  {
-    value: "in progress",
-    label: "In Progress",
-  },
-  {
-    value: "done",
-    label: "Done",
-  },
-  {
-    value: "canceled",
-    label: "Canceled",
-  },
-];
 
 export function ComboBoxResponsive({
   setCategory,
@@ -59,8 +31,8 @@ export function ComboBoxResponsive({
   setCategory?: string;
   category?: string;
   value: any;
-  onChange: (value:string) => void,
-  setValue: (status: Categories | null) => void;
+  onChange: (value: string) => void;
+  setValue: (status: CategoriesTypes | null) => void;
 }) {
   const { value, setValue } = props;
   const [open, setOpen] = React.useState(false);
@@ -69,13 +41,17 @@ export function ComboBoxResponsive({
   if (isDesktop) {
     return (
       <Popover modal={false} open={open} onOpenChange={setOpen}>
-        <PopoverTrigger  asChild>
+        <PopoverTrigger asChild>
           <Button variant={"category"} className=" w-full justify-start">
             {value ? <>{value}</> : <>+ Choose a category</>}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0" align="start">
-          <CategoryList onChange={onChange} setOpen={setOpen} setSelectedCategory={setValue} />
+          <CategoryList
+            onChange={onChange}
+            setOpen={setOpen}
+            setSelectedCategory={setValue}
+          />
         </PopoverContent>
       </Popover>
     );
@@ -90,7 +66,11 @@ export function ComboBoxResponsive({
       </DrawerTrigger>
       <DrawerContent>
         <div className="mt-4 border-t">
-          <CategoryList onChange={onChange} setOpen={setOpen} setSelectedCategory={setValue} />
+          <CategoryList
+            onChange={onChange}
+            setOpen={setOpen}
+            setSelectedCategory={setValue}
+          />
         </div>
       </DrawerContent>
     </Drawer>
@@ -103,8 +83,8 @@ function CategoryList({
   onChange,
 }: {
   setOpen: (open: boolean) => void;
-  setSelectedCategory: (status: Categories | null) => void;
-  onChange: (value:string) => void
+  setSelectedCategory: (status: CategoriesTypes | null) => void;
+  onChange: (value: string) => void;
 }) {
   return (
     <Command>
@@ -117,9 +97,8 @@ function CategoryList({
               disabled={false}
               key={category.name}
               value={category.name}
-             
               onSelect={(value) => {
-                onChange(value)
+                onChange(value);
                 setSelectedCategory(
                   categories.find((category) => category.name == value) || null
                 );

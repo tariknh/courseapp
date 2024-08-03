@@ -32,12 +32,16 @@ export const SigninFormSchema = z.object({
 
 export const CourseInfo = z.object({
   title: z.string().min(2, { message: "Please enter a valid title." }).trim(),
-  location: z.undefined({ message: "Please enter a valid location." }),
+  location: z.string({ message: "Please enter a valid location." }),
   description: z
     .string()
     .min(10, { message: "Please enter a valid description." })
     .trim(),
-  date: date(),
+  date: z.object({
+    from: date(),
+    to: date(),
+  }),
+
   capacity: z.number().int().positive().max(1000),
   category: z
     .string({ message: "Choose A Valid Category" })

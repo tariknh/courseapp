@@ -22,7 +22,7 @@ import type { UploadFile } from "antd/es/upload/interface";
 import { toast } from "sonner";
 import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
-import PlacesAutoComplete, { GMap } from "./Inputs/PlacesAutoComplete";
+import { GMap } from "./Inputs/PlacesAutoComplete";
 import { CourseInfo } from "@/app/lib/definitions";
 
 enum STEPS {
@@ -97,6 +97,7 @@ const CourseModal = () => {
   };
 
   const verifyFields = (data: FieldValues) => {
+    console.log(data);
     // Validate form fields
     // const validatedFields = CourseInfo.safeParse({
     //   title: data.title,
@@ -105,6 +106,7 @@ const CourseModal = () => {
     //   capacity: data.capacity,
     //   category: data.category,
     // });
+
     let validatedFields;
     let pickedValidations;
     switch (step) {
@@ -117,11 +119,12 @@ const CourseModal = () => {
         });
         break;
       case STEPS.LOCATION:
+        const { formatted_address } = data.location;
         pickedValidations = CourseInfo.pick({
           location: true,
         });
         validatedFields = pickedValidations.safeParse({
-          location: data.location,
+          location: formatted_address,
         });
         break;
       case STEPS.INFO:
@@ -135,14 +138,13 @@ const CourseModal = () => {
           title: data.title,
           description: data.description,
           date: data.date,
-          capacity: data.capacity,
+          capacity: Number(data.capacity),
         });
         break;
     }
 
     // If any form fields are invalid, return early
     if (validatedFields && !validatedFields.success) {
-      console.log(validatedFields.error.flatten().fieldErrors);
       return {
         errors: validatedFields.error.flatten().fieldErrors,
       };
@@ -157,8 +159,11 @@ const CourseModal = () => {
     } else {
       Object.entries(validFields.errors).forEach(([category, messages]) => {
         console.log(`Errors for ${category}:`);
-        messages.forEach((message) => toast.error(message));
+        messages.forEach((message) => {
+          toast.error(message);
+        });
       });
+      return;
     }
   };
 
@@ -233,13 +238,13 @@ const CourseModal = () => {
       "
       >
         {categories.map((item) => (
-          <div key={item.label} className="col-span-1">
+          <div key={item.name} className="col-span-1">
             <CategoryInput
               onClick={(category) => setCustomValue("category", category)}
-              label={item.label}
-              description={item.description}
-              selected={category === item.label}
-              icon={<item.icon />}
+              label={item.name}
+              description={item.name}
+              selected={category === item.name}
+              icon={item.icon}
             />
           </div>
         ))}
@@ -279,13 +284,13 @@ const CourseModal = () => {
           "
           >
             {categories.map((item) => (
-              <div key={item.label} className="col-span-1">
+              <div key={item.name} className="col-span-1">
                 <CategoryInput
                   onClick={(category) => setCustomValue("category", category)}
-                  label={item.label}
-                  description={item.description}
-                  selected={category === item.label}
-                  icon={<item.icon />}
+                  label={item.name}
+                  description={"Description"}
+                  selected={category === item.name}
+                  icon={item.icon}
                 />
               </div>
             ))}
@@ -355,11 +360,14 @@ const CourseModal = () => {
                 id="date"
                 value={date}
                 onChange={(value) => setCustomValue("date", value)}
+                disabled={(date) => date < new Date()}
               />
             </div>
             <div>
               <Label htmlFor="date">Max amount of people?</Label>
               <Input
+                min={2}
+                max={10000}
                 type="number"
                 value={capacity}
                 onChange={(e) => setCustomValue("capacity", e.target.value)}

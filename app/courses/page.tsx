@@ -48,27 +48,25 @@ export default async function Courses({
   const currentCategory = undefined;
   const currentCity = undefined;
 
-  const city = searchParams?.city || '';
-  const category = searchParams?.category || '';
-
-  
-
+  const city = searchParams?.city || "";
+  const category = searchParams?.category || "";
 
   //const currentPage = Number(searchParams?.page) || 1;
 
-  const coursesFiltered = await getFilteredCourses(city,category)
+  const coursesFiltered = await getFilteredCourses(city, category);
 
   return (
     <section className="">
       <div className="h-[10vh] z-[100] fixed w-full bg-black"></div>
       <section className="bg-white w-full flex flex-col   h-fit pt-[12vh]">
-        <Filterbar
-          
-        />
+        <Filterbar />
         <section className="pt-16 px-2">
-          
           <Collection
-            data={(city === "" && category === "") ? courses?.data : coursesFiltered?.data}
+            data={
+              city === "" && category === ""
+                ? courses?.data
+                : coursesFiltered?.data
+            }
             emptyTitle="No courses found"
             emptyStateSubText="Change the filters to find more courses!"
             collectionType="Courses_Organized"
@@ -77,7 +75,6 @@ export default async function Courses({
             totalPages={2}
             urlParamName={undefined}
           />
-         
         </section>
       </section>
     </section>

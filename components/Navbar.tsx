@@ -10,6 +10,7 @@ import { useRouter } from "next/navigation";
 import { logout } from "@/app/login2/actions";
 import { createClient } from "@/app/utils/supabase/server";
 import LogOutButton from "./LogOutButton";
+import CreateCourseButton from "./CreateCourseButton";
 
 async function Navbar() {
   //const [open, setOpen] = useState(false);
@@ -51,24 +52,8 @@ async function Navbar() {
   */
 
   // const authModal = useAuthModal();
-  // const uploadModal = useUploadModal();
+
   const { data, error } = await supabase.auth.getSession();
-  //const router = useRouter();
-
-  // const onClick = () => {
-  //   if (error) {
-  //     return router.push("/login2");
-  //   }
-  //   if (pathname !== "/courses") {
-  //     router.push("/courses");
-  //   }
-
-  //   uploadModal.onOpen();
-  // };
-  function logOut() {
-    "use client";
-    return logout();
-  }
 
   return (
     <>
@@ -80,7 +65,7 @@ async function Navbar() {
         </h1>
         <div className="flex items-center">
           <h1 className="hidden md:flex p-6 text-xl align-baseline text-white font-bold  gap-4">
-            <span className="cursor-pointer">Create a listing</span>
+            <CreateCourseButton session={data} />
           </h1>
           {data.session ? (
             <div className="hidden text-nowrap items-center md:flex p-6 text-xl align-baseline text-white font-bold  gap-4">
