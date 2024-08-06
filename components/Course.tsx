@@ -42,8 +42,9 @@ const AllCourses: React.FC<CourseProps> = async ({
   const { data: imageData } = supabase.storage
     .from("images")
     .getPublicUrl(images[0].uid);
+  const arrangerID = course.user;
 
-  const arranger = await getNameById(course.user);
+  const arranger = await getNameById(arrangerID);
 
   const { data: sessionData, error: sessionError } =
     await supabase.auth.getUser();
@@ -87,7 +88,7 @@ const AllCourses: React.FC<CourseProps> = async ({
         <div className="bg-offblack absolute bottom-2 right-2 py-2 px-5">
           <h3 className="text-white font-bold">
             {/* {hidePrice ? "200kr" : "Edit Course"} */}
-            {course.isFree ? "Free" : "200kr"}
+            {course.isFree ? "Free" : course.price + "kr"}
           </h3>
         </div>
       </div>

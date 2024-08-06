@@ -40,15 +40,15 @@ export const getAllCourses = async () => {
   return {
     data: JSON.parse(JSON.stringify(data)),
   };
-  
 };
 
-export const getFilteredCourses = async (city:string,category:string) => {
+export const getFilteredCourses = async (city: string, category: string) => {
   // const supabase = createServerComponentClient({
   //   cookies: cookies,
   // });
+  console.log(city, category, "CITY AND CATEGORY");
 
-  
+  //const { formatted_address } = city;
 
   const supabase = createClient();
   const conditions = {};
@@ -56,8 +56,10 @@ export const getFilteredCourses = async (city:string,category:string) => {
   const { data, error } = await supabase
     .from("courses")
     .select("*")
-    .ilike('category', category)
-    
+
+    .ilike("location", `%${city}%`)
+    .ilike("category", `%${category}%`);
+
   if (error) {
     console.log(error);
   }

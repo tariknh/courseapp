@@ -17,6 +17,8 @@ import { Input } from "../ui/input";
 interface PlaceAutocompleteProps {
   onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
   value?: google.maps.places.PlaceResult;
+  className?: string;
+  defaultValue?: string;
 }
 
 interface MapHandlerProps {
@@ -27,6 +29,8 @@ interface MapHandlerProps {
 export const PlaceAutocomplete = ({
   onPlaceSelect,
   value,
+  className,
+  defaultValue,
 }: PlaceAutocompleteProps) => {
   const [placeAutocomplete, setPlaceAutocomplete] =
     useState<google.maps.places.Autocomplete | null>(null);
@@ -57,7 +61,7 @@ export const PlaceAutocomplete = ({
 
   return (
     <div className=" autocomplete-container">
-      <Input defaultValue={value?.formatted_address} ref={inputRef} />
+      <Input className={className} defaultValue={defaultValue} ref={inputRef} />
     </div>
   );
 };

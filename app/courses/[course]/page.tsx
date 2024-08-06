@@ -20,8 +20,21 @@ const Course = async ({ params }: { params: IParams }) => {
     .from("users")
     .select("*")
     .eq("id", creatorId);
+  console.log(data![0].full_name, "data");
 
   const images = JSON.parse(listing.imageSrc);
+  const SLIDES: { id: Number; imageSrc: string }[] = [];
+  //console.log(images.length, "imagesLENGTH");
+
+  images.map((image: any) => {
+    const { data: imageData } = supabase.storage
+      .from("images")
+      .getPublicUrl(image.uid);
+    SLIDES.push({
+      id: image.id,
+      imageSrc: imageData.publicUrl,
+    });
+  });
 
   const { data: imageData } = supabase.storage
     .from("images")
@@ -29,16 +42,6 @@ const Course = async ({ params }: { params: IParams }) => {
   const OPTIONS: EmblaOptionsType = { dragFree: true, loop: true };
 
   //const SLIDE_COUNT = 5;
-  const SLIDES = [
-    {
-      id: 0,
-      imageSrc: imageData.publicUrl,
-    },
-    {
-      id: 1,
-      imageSrc: imageData.publicUrl,
-    },
-  ];
 
   const location = JSON.parse(listing.location);
 
@@ -58,7 +61,7 @@ const Course = async ({ params }: { params: IParams }) => {
             <h1 className="text-3xl font-bold">{listing.title}</h1>
             {/* Fix conditional of full name
             <h2>{data && data[0].full_name}</h2> */}
-            <h2>Anonymous</h2>
+            <h2>Hosted by {data && data[0].full_name}</h2>
             <button className="border-[1px] mt-2 font-bold w-fit py-2 px-6 rounded-[2px] border-black solid">
               buy ticket
             </button>

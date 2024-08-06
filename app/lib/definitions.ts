@@ -1,3 +1,4 @@
+import { message } from "antd";
 import { date, z } from "zod";
 
 export const SignupFormSchema = z.object({
@@ -41,6 +42,11 @@ export const CourseInfo = z.object({
     from: date(),
     to: date(),
   }),
+  price: z.number().int().positive().max(10000),
+  imageSrc: z
+    .object({})
+    .array()
+    .nonempty({ message: "Please upload an image." }),
 
   capacity: z.number().int().positive().max(1000),
   category: z

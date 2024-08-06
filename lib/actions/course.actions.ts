@@ -26,7 +26,16 @@ type DeleteCourseParams = {
 
 export const getNameById = async (id: any) => {
   const supabase = createClient();
+
   const { data, error } = await supabase.from("users").select("*").eq("id", id);
+  if (data) {
+    const { full_name } = data[0];
+
+    return {
+      name: full_name,
+      id: id,
+    };
+  }
 
   if (data === null) {
     return {
@@ -34,10 +43,6 @@ export const getNameById = async (id: any) => {
       id: id,
     };
   }
-  return {
-    name: data[0]?.full_name,
-    id: id,
-  };
 };
 
 export const deleteCourse = async ({ courseId, path }: DeleteCourseParams) => {

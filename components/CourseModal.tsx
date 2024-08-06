@@ -16,7 +16,10 @@ import { Label } from "./ui/label";
 import ImageUpload from "./Inputs/ImageUpload";
 import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useUser } from "@/hooks/useUser";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import {
+  User,
+  createClientComponentClient,
+} from "@supabase/auth-helpers-nextjs";
 import ImageWall from "./Inputs/Imagewall";
 import type { UploadFile } from "antd/es/upload/interface";
 import { toast } from "sonner";
@@ -24,6 +27,8 @@ import { revalidatePath } from "next/cache";
 import { useRouter } from "next/navigation";
 import { GMap } from "./Inputs/PlacesAutoComplete";
 import { CourseInfo } from "@/app/lib/definitions";
+import { set } from "date-fns";
+import { createClient } from "@/app/utils/supabase/client";
 
 enum STEPS {
   CATEGORY = 0,
@@ -38,9 +43,34 @@ type StepConfig = {
 };
 
 const CourseModal = () => {
+  const [mysession, setMySession] = useState<any>(null);
   const supabaseClient = useSupabaseClient();
   const supabase = createClientComponentClient();
-  const { user } = useUser();
+  const supabase2 = createClient();
+  //console.log(supabase2, "SUPABASE2");
+  //const { user } = useUser();
+
+  useEffect(() => {
+    supabase2.auth.getUser().then((response) => {
+      const user = response.data.user;
+      if (user) {
+        console.log(user, "USERUSER");
+        setMySession(user);
+        console.log("mysession", mysession);
+        console.log("mysession?.id", mysession?.id);
+      } else {
+        console.error("No user found:", response.error);
+      }
+    });
+
+    return () => {};
+  }, []);
+
+  // const {
+  //   data: { user },
+  // } = supabase2.auth.getUser();
+  //await console.log(user, "USER");
+  const [inputErrors, setinputErrors] = useState<any>({});
 
   const {
     register,
@@ -56,9 +86,10 @@ const CourseModal = () => {
       date: null,
       capacity: 0,
       imageSrc: null,
-      price: 1,
+      price: 0,
       title: "",
       description: "",
+      user: mysession?.id,
     },
   });
 
@@ -69,6 +100,7 @@ const CourseModal = () => {
   const description = watch("description");
   const capacity = watch("capacity");
   const image = watch("imageSrc");
+  const price = watch("price");
 
   const Map = useMemo(
     () =>
@@ -141,10 +173,27 @@ const CourseModal = () => {
           capacity: Number(data.capacity),
         });
         break;
+      case STEPS.IMAGES:
+        pickedValidations = CourseInfo.pick({
+          imageSrc: true,
+        });
+        validatedFields = pickedValidations.safeParse({
+          imageSrc: data.imageSrc,
+        });
+        break;
+      case STEPS.PRICE:
+        pickedValidations = CourseInfo.pick({
+          price: true,
+        });
+        validatedFields = pickedValidations.safeParse({
+          price: Number(data.price),
+        });
+        break;
     }
 
     // If any form fields are invalid, return early
     if (validatedFields && !validatedFields.success) {
+      setinputErrors(validatedFields.error.flatten().fieldErrors);
       return {
         errors: validatedFields.error.flatten().fieldErrors,
       };
@@ -153,24 +202,39 @@ const CourseModal = () => {
 
   const onNext = async (data: FieldValues) => {
     const validFields = await verifyFields(data);
+    //let errors: any[] = [];
 
     if (!validFields?.errors) {
       setStep((value) => value + 1);
     } else {
       Object.entries(validFields.errors).forEach(([category, messages]) => {
-        console.log(`Errors for ${category}:`);
+        //console.log(`Errors for ${category}:`);
+        //errors.push({ category, messages });
+
         messages.forEach((message) => {
           toast.error(message);
         });
       });
-      return;
+      console.log(inputErrors, "ERRRRRORS");
+
+      return errors;
     }
   };
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (step !== STEPS.PRICE) {
-      return onNext(data);
+      //returns input errors if any
+      const errors = await onNext(data);
+      //console.log(errors, "ERRRRRORS");
+
+      //console.log(inputErrors, "ERRRRRORS");
+      return errors;
     }
+    const verify = await verifyFields(data);
+    if (verify?.errors) {
+      return console.log(verify);
+    }
+
     setIsLoading(true);
 
     const imageFile = image.map(async (item: UploadFile) => {
@@ -188,8 +252,8 @@ const CourseModal = () => {
       }
     });
 
-    const { error: supabaseError } = await supabase.from("courses").insert({
-      title: data.title,
+    const { error } = await supabase.from("courses").insert({
+      title: data?.title,
       description: data.description,
       price: data.price,
       capacity: data.capacity,
@@ -197,8 +261,11 @@ const CourseModal = () => {
       category: data.category,
       location: data.location,
       imageSrc: data.imageSrc,
-      user: user?.id,
+      user: mysession?.id,
     });
+    if (error) {
+      console.log(error);
+    }
     router.refresh();
     toast("Course has been created.");
 
@@ -343,6 +410,7 @@ const CourseModal = () => {
                 value={title}
                 id="title"
               />
+              <span className="text-destructive">{inputErrors?.title}</span>
             </div>
             <div>
               <Label htmlFor="description">Description</Label>
@@ -353,6 +421,9 @@ const CourseModal = () => {
                 placeholder="Tell people what the course will be about, what they can learn and more..."
                 value={description}
               />
+              <span className="text-destructive">
+                {inputErrors?.description}
+              </span>
             </div>
             <div>
               <Label htmlFor="date">Choose the length of your course</Label>
@@ -362,6 +433,7 @@ const CourseModal = () => {
                 onChange={(value) => setCustomValue("date", value)}
                 disabled={(date) => date < new Date()}
               />
+              <span className="text-destructive">{inputErrors?.date}</span>
             </div>
             <div>
               <Label htmlFor="date">Max amount of people?</Label>
@@ -372,6 +444,7 @@ const CourseModal = () => {
                 value={capacity}
                 onChange={(e) => setCustomValue("capacity", e.target.value)}
               />
+              <span className="text-destructive">{inputErrors?.capacity}</span>
             </div>
           </div>
         </div>
@@ -432,6 +505,8 @@ const CourseModal = () => {
               disabled={isLoading}
               required
               type="number"
+              value={price}
+              onChange={(e) => setCustomValue("price", e.target.value)}
             />
           </div>
         </div>

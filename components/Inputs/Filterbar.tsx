@@ -9,19 +9,19 @@ import { ComboBoxResponsive } from "../ui/Combobox";
 import { Categories } from "../Categories";
 import dynamic from "next/dynamic";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useSearchParams, usePathname, useRouter } from 'next/navigation';
-
+import { useSearchParams, usePathname, useRouter } from "next/navigation";
+import { PlaceAutocomplete } from "./PlacesAutoComplete";
+import { APIProvider } from "@vis.gl/react-google-maps";
 
 const Filterbar = () => {
   //Later add types for the currentCategory and currentCity instead of string
   const [open, setOpen] = useState(false);
   const isMobile = useMediaQuery("(max-width: 768px)");
 
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams();
 
-  const currentCategory = searchParams.get('category')?.toString()
-  const currentCity = searchParams.get('city')?.toString()
-  
+  const currentCategory = searchParams.get("category")?.toString();
+  const currentCity = searchParams.get("city")?.toString();
 
   const mobileSearchVariants = {
     default: {
@@ -40,7 +40,7 @@ const Filterbar = () => {
       transition: { duration: 0.1, ease: "easeOut" },
     },
     open: {
-      height: "15vh",
+      height: "11vh",
       transition: { duration: 0.1, ease: "easeIn" },
     },
   };
@@ -54,7 +54,7 @@ const Filterbar = () => {
         variants={isMobile ? mobileSearchVariants : desktopSearchVariants}
         className={`${
           !open && "cursor-pointer hover:bg-primary/90"
-        } bg-primary overflow-hidden h-[20%] text-primary-foreground  p-3 flex gap-3 items-center`}
+        } bg-offblack overflow-hidden h-[20%] text-primary-foreground  p-3 flex gap-3 items-center`}
       >
         {!open && <Search size={24} />}
         <h2 className={open ? `hidden` : "inline-block w-full"}>
@@ -84,27 +84,27 @@ export const SearchInputs = (props: SProps) => {
   const [value, setValue] = React.useState<Categories | null>(null);
   const pathname = usePathname();
   const { replace } = useRouter();
-  
-  function handleSearch(term: string) {
+
+  function handleSearch(term: string | undefined) {
     const params = new URLSearchParams(searchParams);
     if (term) {
-      params.set('city', term);
+      params.set("city", term);
     } else {
-      params.delete('city');
+      params.delete("city");
     }
     replace(`${pathname}?${params.toString()}`);
   }
   function handleCategory(term: string) {
     const params = new URLSearchParams(searchParams);
     if (term) {
-      params.set('category', term);
+      params.set("category", term);
     } else {
-      params.delete('category');
+      params.delete("category");
     }
     replace(`${pathname}?${params.toString()}`);
   }
 
-  const searchParams = useSearchParams()
+  const searchParams = useSearchParams();
 
   const inputVariants = {
     default: {
@@ -136,29 +136,40 @@ export const SearchInputs = (props: SProps) => {
         scale={2}
         className="absolute top-0 right-0 cursor-pointer"
       />
-      <div className="mb-4 md:mb-0 self-end">
+      <div className="md:w-1/4 mb-4 md:mb-0 self-end">
         <h2 className="font-bold mb-2">Choose a Category:</h2>
         {/* <Input
           onChange={(e) => handleSearch(e.target.value)}
           placeholder="Technology"
         /> */}
         <ComboBoxResponsive
-          value={searchParams.get('category')?.toString()}
+          value={searchParams.get("category")?.toString()}
           setValue={setValue}
           setCategory={""}
           category={""}
-          onChange={(category)=>handleCategory(category)}
+          onChange={(category) => handleCategory(category)}
         />
       </div>
-      <div className="self-end">
+      <div className="self-end  md:w-1/4">
         <h2 className="font-bold mb-2">Search for a city:</h2>
-        <Input defaultValue={searchParams.get('city')?.toString()} onChange={(e)=>{
-          handleSearch(e.target.value)
-        }} className="text-offblack" placeholder="Stavanger, Norway" />
-        
+        {/* <Input
+          defaultValue={searchParams.get("city")?.toString()}
+          onChange={(e) => {
+            handleSearch(e.target.value);
+          }}
+          className="text-offblack "
+          placeholder="Stavanger, Norway"
+        /> */}
+        <APIProvider apiKey={`AIzaSyBuMu7Z7uz7-75yeLUHEkBgIXDyIOHxDhE`}>
+          <PlaceAutocomplete
+            className="text-offblack"
+            defaultValue={searchParams.get("city")?.toString()}
+            onPlaceSelect={(e) => handleSearch(e?.formatted_address)}
+          />
+        </APIProvider>
       </div>
       <Button
-        className="self-end mt-4 md:mt-0"
+        className=" self-end mt-4 md:mt-0"
         variant={"secondary"}
         onClick={() => state(false)}
       >

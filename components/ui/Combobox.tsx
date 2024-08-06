@@ -42,7 +42,10 @@ export function ComboBoxResponsive({
     return (
       <Popover modal={false} open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant={"category"} className=" w-full justify-start">
+          <Button
+            variant={"category"}
+            className="px-3 py-2 w-full justify-start"
+          >
             {value ? <>{value}</> : <>+ Choose a category</>}
           </Button>
         </PopoverTrigger>
@@ -60,8 +63,8 @@ export function ComboBoxResponsive({
   return (
     <Drawer modal={false} open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline" className="w-full justify-start">
-          {value ? <>{value.label}</> : <>+ Choose a category</>}
+        <Button variant="category" className="px-3 py-2 w-full justify-start">
+          {value ? <>{value}</> : <>+ Choose a category</>}
         </Button>
       </DrawerTrigger>
       <DrawerContent>
