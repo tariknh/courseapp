@@ -16,7 +16,7 @@ export interface CourseTypes {
   date: any;
   capacity: string;
   imageSrc: string;
-  price: string;
+  price: number;
   title: string;
   description: string;
   isFree: boolean;

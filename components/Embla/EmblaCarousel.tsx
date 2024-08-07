@@ -17,7 +17,7 @@ import Image from "next/image";
 const TWEEN_FACTOR_BASE = 0.2;
 
 type SlideType = {
-  id?: number;
+  id?: Number;
   imageSrc?: string;
   // Add other properties if needed
 };
@@ -115,7 +115,7 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
           {slides.map((index) => (
-            <div className="embla__slide" key={index.id}>
+            <div className="embla__slide">
               <div className="embla__parallax">
                 <div className="embla__parallax__layer">
                   <img

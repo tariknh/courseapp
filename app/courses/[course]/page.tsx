@@ -7,6 +7,10 @@ import { CarouselDemo } from "@/components/Carousel";
 import { createClient } from "@/app/utils/supabase/server";
 import EmblaCarousel from "@/components/Embla/EmblaCarousel";
 import { EmblaOptionsType } from "embla-carousel";
+import { getRelatedEvents } from "@/lib/actions/course.actions";
+import Collection from "@/components/Collection";
+import { categories } from "@/components/Categories";
+import BuyButton from "@/components/BuyButton";
 
 interface IParams {
   listingId?: string;
@@ -15,12 +19,24 @@ interface IParams {
 const Course = async ({ params }: { params: IParams }) => {
   const supabase = createClient();
   const listing = await getCourseById(params);
+  const { category } = listing;
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getUser();
+
+  const isCourseCreator = sessionData.user?.id === listing.user;
+
+  const relatedEvents = await getRelatedEvents({
+    category: category,
+    limit: 3,
+    page: 1,
+    currentEvent: listing.id,
+  });
+
   const creatorId = listing?.user;
   const { data, error } = await supabase
     .from("users")
     .select("*")
     .eq("id", creatorId);
-  console.log(data![0].full_name, "data");
 
   const images = JSON.parse(listing.imageSrc);
   const SLIDES: { id: Number; imageSrc: string }[] = [];
@@ -45,12 +61,16 @@ const Course = async ({ params }: { params: IParams }) => {
 
   const location = JSON.parse(listing.location);
 
-  const options = { day: "numeric", month: "long", year: "numeric" };
-  const fromDate = new Date(listing.date.from).toLocaleDateString(
-    "en-US",
-    options
-  );
-  const toDate = new Date(listing.date.to).toLocaleDateString("en-US", options);
+  const fromDate = new Date(listing.date.from).toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
+  const toDate = new Date(listing.date.to).toLocaleDateString("en-US", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+  });
 
   return (
     <>
@@ -62,9 +82,16 @@ const Course = async ({ params }: { params: IParams }) => {
             {/* Fix conditional of full name
             <h2>{data && data[0].full_name}</h2> */}
             <h2>Hosted by {data && data[0].full_name}</h2>
-            <button className="border-[1px] mt-2 font-bold w-fit py-2 px-6 rounded-[2px] border-black solid">
-              buy ticket
-            </button>
+            <div className="flex gap-2">
+              <BuyButton session={sessionData} listing={listing} />
+
+              {isCourseCreator && (
+                <button className="border-[1px] bg-offblack text-background mt-2 font-bold w-fit py-2 px-6 rounded-[2px] border-black solid">
+                  Edit listing
+                </button>
+              )}
+            </div>
+
             <div className="mt-2 flex flex-col gap-2">
               <div className="flex gap-2">
                 <MdDateRange size="20" />
@@ -80,6 +107,10 @@ const Course = async ({ params }: { params: IParams }) => {
                     : "Undisclosed Location"}
                 </span>
               </div>
+              <div className="flex gap-2">
+                {categories.find((cat) => cat.name === listing.category)?.icon}
+                <span className="text-sm">{listing.category}</span>
+              </div>
             </div>
 
             <div className="mt-10 flex flex-col gap-5">
@@ -89,9 +120,19 @@ const Course = async ({ params }: { params: IParams }) => {
             <div className="mt-10 flex flex-col gap-5">
               <h2 className="text-xl font-medium">Other related events</h2>
             </div>
+            <Collection
+              data={relatedEvents?.data}
+              emptyTitle="No related events"
+              emptyStateSubText="We could not find any related events in this category, sorry!"
+              collectionType="Courses_Organized"
+              limit={3}
+              page={1}
+              totalPages={2}
+              urlParamName={undefined}
+            />
           </div>
         </article>
-        <CarouselDemo />
+        {/* <CarouselDemo /> */}
       </main>
     </>
   );
