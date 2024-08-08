@@ -63,3 +63,12 @@ export type FormState =
       message?: string;
     }
   | undefined;
+
+export type SendResetLinkFormState =
+  | {
+      errors?: {
+        email?: string[];
+      };
+      message?: string;
+    }
+  | undefined;

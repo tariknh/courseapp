@@ -4,14 +4,12 @@ import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
 import { createClient } from "@/app/utils/supabase/server";
-import { Toaster, toast } from "sonner";
 
 import {
-  SignupFormSchema,
   FormState,
   SigninFormSchema,
+  SignupFormSchema,
 } from "@/app/lib/definitions";
-import { useToast } from "@/components/ui/use-toast";
 
 export async function login(state: FormState, formData: any) {
   const supabase = createClient();
@@ -46,7 +44,7 @@ export async function login(state: FormState, formData: any) {
   redirect("/profile");
 }
 
-export async function resetPassword(state: FormState, formData: any) {
+export async function resetPassword(state: void | undefined, formData: any) {
   const supabase = createClient();
 
   const { data, error } = await supabase.auth.resetPasswordForEmail(

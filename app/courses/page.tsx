@@ -1,10 +1,6 @@
 import { getAllCourses, getFilteredCourses } from "@/actions/getCourses";
 import Collection from "@/components/Collection";
-import Course from "@/components/Course";
 import Filterbar from "@/components/Inputs/Filterbar";
-import { GMap } from "@/components/Inputs/PlacesAutoComplete";
-import { DatePicker } from "@/components/ui/DatePicker";
-import Link from "next/link";
 
 export const revalidate = 0;
 

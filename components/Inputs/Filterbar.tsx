@@ -1,17 +1,15 @@
 "use client";
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Button } from "../ui/button";
-import { Cross, Search, X } from "lucide-react";
 import { motion } from "framer-motion";
-import { Input } from "../ui/input";
+import { Search, X } from "lucide-react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import { ComboBoxResponsive } from "../ui/Combobox";
+import { Button } from "../ui/button";
 
-import { Categories } from "../Categories";
-import dynamic from "next/dynamic";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
-import { useSearchParams, usePathname, useRouter } from "next/navigation";
-import { PlaceAutocomplete } from "./PlacesAutoComplete";
 import { APIProvider } from "@vis.gl/react-google-maps";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { CategoriesTypes } from "../Categories";
+import { PlaceAutocomplete } from "./PlacesAutoComplete";
 
 const Filterbar = () => {
   //Later add types for the currentCategory and currentCity instead of string
@@ -81,7 +79,7 @@ type Status = {
 export const SearchInputs = (props: SProps) => {
   const { state } = props;
 
-  const [value, setValue] = React.useState<Categories | null>(null);
+  const [value, setValue] = React.useState<CategoriesTypes | null>(null);
   const pathname = usePathname();
   const { replace } = useRouter();
 
@@ -106,29 +104,22 @@ export const SearchInputs = (props: SProps) => {
 
   const searchParams = useSearchParams();
 
-  const inputVariants = {
-    default: {
-      y: "30%",
-      opacity: 0,
-      visibility: "collapse",
-      transition: {
-        duration: 0.4,
-        ease: [0.83, 0, 0.17, 1],
-      },
-    },
-    open: {
-      y: "0%",
-      opacity: 1,
-      visibility: "visible",
-      transition: {
-        duration: 0.4,
-        ease: [0.83, 0, 0.17, 1],
-      },
-    },
-  };
   return (
     <motion.div
-      variants={inputVariants}
+      initial={{
+        y: "30%",
+        opacity: 0,
+        visibility: "collapse",
+      }}
+      animate={{
+        y: "0%",
+        opacity: 1,
+        visibility: "visible",
+        transition: {
+          duration: 0.4,
+          ease: [0.83, 0, 0.17, 1],
+        },
+      }}
       className="md:flex w-full h-full  gap-5 items-center"
     >
       <X

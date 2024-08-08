@@ -1,16 +1,12 @@
-import Link from "next/link";
-import Image from "next/image";
 import getCourseById from "@/actions/getCourseById";
-import { MdDateRange } from "react-icons/md";
-import { MdLocationOn } from "react-icons/md";
-import { CarouselDemo } from "@/components/Carousel";
 import { createClient } from "@/app/utils/supabase/server";
-import EmblaCarousel from "@/components/Embla/EmblaCarousel";
-import { EmblaOptionsType } from "embla-carousel";
-import { getRelatedEvents } from "@/lib/actions/course.actions";
-import Collection from "@/components/Collection";
-import { categories } from "@/components/Categories";
 import BuyButton from "@/components/BuyButton";
+import { categories } from "@/components/Categories";
+import Collection from "@/components/Collection";
+import EmblaCarousel from "@/components/Embla/EmblaCarousel";
+import { getRelatedEvents } from "@/lib/actions/course.actions";
+import { EmblaOptionsType } from "embla-carousel";
+import { MdDateRange, MdLocationOn } from "react-icons/md";
 
 interface IParams {
   listingId?: string;

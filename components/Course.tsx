@@ -1,12 +1,7 @@
-import useLoadImage from "@/hooks/useLoadImage";
-import { StarFilledIcon } from "@radix-ui/react-icons";
-import { StarIcon } from "lucide-react";
-import { AiFillContacts } from "react-icons/ai";
 import Image from "next/image";
 import Link from "next/link";
 import { CourseTypes } from "@/types";
 import { createClient } from "@/app/utils/supabase/server";
-import { get } from "http";
 import { getNameById } from "@/lib/actions/course.actions";
 import { AiFillEdit } from "react-icons/ai";
 import { DeleteConfirmation } from "./DeleteConfirmation";
@@ -100,7 +95,7 @@ const AllCourses: React.FC<CourseProps> = async ({
           <h2>
             Hosted by{" "}
             <p className="text-offblack font-bold inline-block">
-              {isCourseCreator ? "You" : arranger.name}
+              {isCourseCreator ? "You" : arranger ? arranger.name : "Anonymous"}
             </p>
           </h2>
         </div>
