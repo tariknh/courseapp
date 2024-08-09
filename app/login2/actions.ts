@@ -127,16 +127,18 @@ export async function oldLogin(state: any, formData: FormData) {
 
 export async function signInWithGithub() {
   const supabase = createClient();
+  const redirectUrl = "http://localhost:3000/auth/callback";
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
     options: {
-      redirectTo: "https://dliobleuxirzpstdyzcn.supabase.co/auth/v1/callback",
+      redirectTo: redirectUrl,
     },
   });
 
-  if (data.url) {
-    redirect(data.url); // use the redirect API for your server framework
+  if (error) {
+    redirect("/login2?message=Could not authenticate with Github");
   }
+  return redirect(data.url);
 }
 
 export async function logout() {

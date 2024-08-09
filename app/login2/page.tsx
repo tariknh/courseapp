@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { useActionState, useState } from "react";
+import { FaGithub } from "react-icons/fa";
 // export function LoginPage0() {
 //   return (
 //     <form className="h-screen pt-[12vh]">
@@ -140,10 +141,11 @@ const LoginSection = ({
                 {pending ? "Logging in..." : "Log In"}
               </Button>
               <Button
-                onClick={() => signInWithGithub()}
+                onClick={async () => await signInWithGithub()}
                 variant="outline"
-                className="w-full"
+                className="w-full flex gap-2"
               >
+                <FaGithub />
                 Login with Github
               </Button>
               {/* Add Google login */}

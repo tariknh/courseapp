@@ -2,7 +2,6 @@
 import { createClient } from "@/app/utils/supabase/server";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
-import { toast } from "sonner";
 import Stripe from "stripe";
 
 type GetOrganizedCoursesParams = {
@@ -86,6 +85,7 @@ export const createOrder = async (order: any) => {
       listingId: order.listingId,
       buyer: order.buyer,
       totalAmount: order.totalAmount,
+      createdAt: order.createdAt,
     });
     console.log("inserted:", newOrder);
     return JSON.parse(JSON.stringify(newOrder));
