@@ -60,7 +60,7 @@ const Filterbar = () => {
             ? currentCategory + " - " + currentCity
             : "Any Category - Any City"}
         </h2>
-        <SearchInputs state={setOpen} />
+        <SearchInputs setState={setOpen} open={open} />
       </motion.div>
 
       <hr className="w-full" />
@@ -69,7 +69,8 @@ const Filterbar = () => {
 };
 
 interface SProps {
-  state: Dispatch<SetStateAction<boolean>>;
+  setState: Dispatch<SetStateAction<boolean>>;
+  open: boolean;
 }
 type Status = {
   value: string;
@@ -77,7 +78,7 @@ type Status = {
 };
 
 export const SearchInputs = (props: SProps) => {
-  const { state } = props;
+  const { open, setState } = props;
 
   const [value, setValue] = React.useState<CategoriesTypes | null>(null);
   const pathname = usePathname();
@@ -107,23 +108,39 @@ export const SearchInputs = (props: SProps) => {
   return (
     <motion.div
       initial={{
-        y: "30%",
+        y: "80%",
         opacity: 0,
         visibility: "collapse",
       }}
-      animate={{
-        y: "0%",
-        opacity: 1,
-        visibility: "visible",
-        transition: {
-          duration: 0.4,
-          ease: [0.83, 0, 0.17, 1],
+      variants={{
+        initial: {
+          y: "80%",
+          opacity: 0,
+        },
+        open: {
+          y: "0%",
+          opacity: 1,
+          visibility: "visible",
+          transition: {
+            duration: 0.4,
+            ease: [0.83, 0, 0.17, 1],
+          },
         },
       }}
-      className="md:flex w-full h-full  gap-5 items-center"
+      animate={open ? "open" : "initial"}
+      // animate={{
+      //   y: "0%",
+      //   opacity: 0.2,
+      //   visibility: "visible",
+      //   transition: {
+      //     duration: 0.4,
+      //     ease: [0.83, 0, 0.17, 1],
+      //   },
+      // }}
+      className="md:flex w-full h-full collapse gap-5 items-center"
     >
       <X
-        onClick={() => state(false)}
+        onClick={() => setState(false)}
         scale={2}
         className="absolute top-0 right-0 cursor-pointer"
       />
@@ -162,7 +179,7 @@ export const SearchInputs = (props: SProps) => {
       <Button
         className=" self-end mt-4 md:mt-0"
         variant={"secondary"}
-        onClick={() => state(false)}
+        onClick={() => setState(false)}
       >
         Apply Filters
       </Button>

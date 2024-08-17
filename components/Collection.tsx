@@ -1,8 +1,7 @@
-import { CourseTypes } from "@/types";
-import React from "react";
 import Course from "@/components/Course";
-import { Button } from "./ui/button";
+import { CourseTypes } from "@/types";
 import Link from "next/link";
+import { Button } from "./ui/button";
 
 type CollectionProps = {
   data: CourseTypes[];
@@ -25,7 +24,7 @@ const Collection = ({
   totalPages,
   urlParamName,
 }: CollectionProps) => {
-  const coursesList = data;
+  let coursesList = data.slice(0, limit);
 
   return (
     <div className="w-full">

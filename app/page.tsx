@@ -1,30 +1,29 @@
-"use client";
+// "use client";
 
-import Hero from "./Home";
 import About from "@/components/About";
 import Steps from "@/components/Steps";
-import Courses from "@/components/Courses";
-import Footer from "@/components/Footer";
-import { useEffect } from "react";
-import { getAllCourses } from "@/actions/getCourses";
 import { Categories } from "@/components/sections/Categories";
+import { Explore } from "@/components/sections/Explore";
+// import { useEffect } from "react";
+import Hero from "./Home";
 
 export default function Home() {
-  useEffect(() => {
-    let scroll: import("locomotive-scroll");
-    import("locomotive-scroll").then((locomotiveModule) => {
-      scroll = new locomotiveModule.default();
-    });
+  // useEffect(() => {
+  //   let scroll: import("locomotive-scroll");
+  //   import("locomotive-scroll").then((locomotiveModule) => {
+  //     scroll = new locomotiveModule.default();
+  //   });
 
-    return () => {
-      if (scroll) scroll.destroy();
-    };
-  });
+  //   return () => {
+  //     if (scroll) scroll.destroy();
+  //   };
+  // });
 
   return (
     <main>
       <Hero />
       <Categories />
+      <Explore />
       <About />
       <Steps />
       {/* <Courses /> */}

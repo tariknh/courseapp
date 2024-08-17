@@ -16,9 +16,9 @@ function About() {
     <motion.section
       ref={firstRef}
       style={{ translateY: yValue }}
-      className="text-white w-full font-bold p-8 justify-center content-center h-screen grid bg-accent gap-6 [text-wrap:balance]"
+      className="text-white w-full font-bold p-8 justify-center content-center h-screen grid bg-white gap-6 [text-wrap:balance]"
     >
-      <h1 className="text-center  text-white max-w-4xl lg:text-8xl text-5xl">
+      <h1 className="text-center  text-offblack max-w-4xl lg:text-8xl text-5xl">
         learn <span className="opacity-50">a new talent</span> and teach
         <span className="opacity-50"> away </span>your talent.
       </h1>

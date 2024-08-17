@@ -3,13 +3,9 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/app/utils/supabase/server";
 
 import Image from "next/image";
-import getProfile from "@/actions/getProfile";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import Course from "@/components/Course";
 
-import Link from "next/link";
 import Collection from "@/components/Collection";
-import { getOrganizedCourses } from "@/lib/actions/course.actions";
+import { getOrganizedCourses, getTickets } from "@/lib/actions/course.actions";
 
 const ProfilePage = async () => {
   const supabase = createClient();
@@ -40,7 +36,7 @@ const ProfilePage = async () => {
     page: 1,
   });
 
-  const userTickets = await getOrganizedCourses({
+  const userTickets = await getTickets({
     user: sessionData.user.id,
     query: "",
     limit: 3,
@@ -93,7 +89,7 @@ const ProfilePage = async () => {
       <div className="text-offblack p-4 gap-2 flex flex-col">
         <h2 className="font-extrabold">My Tickets</h2>
         <Collection
-          data={[]}
+          data={userTickets?.data}
           emptyTitle="No tickets yet"
           emptyStateSubText="You have not signed up for any courses, check some out!"
           collectionType="Courses_Organized"
