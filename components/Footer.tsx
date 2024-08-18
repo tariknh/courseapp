@@ -1,33 +1,31 @@
-"use client"
+"use client";
 import { motion } from "framer-motion";
 import React from "react";
 
-function Footer() {
+const Footer = () => {
   return (
-    <section className="p-8 rounded-t-3xl font-bold h-[50vh] grid grid-cols-1 md:grid-cols-2 md:grid-rows-2 text-white bg-[#0e0e0e]">
-      <div className="col-start-1 row-start-1 flex flex-col gap-2 max-w-fit">
-        <h1 className="text-white text-2xl">settle for quality</h1>
-        <motion.button className="px-6 py-2 text-lg border rounded-full bg-white text-black p-2">
-          build your supplement
-        </motion.button>
+    <footer className="pb-4 h-[50vh] px-4 pt-12  grid text-white bg-[#0e0e0e]">
+      <div className="flex row-span-1 font-bold">
+        <span>CAPP</span> <span className="-mt-.5 ml-[.2rem] text-xs">®</span>
       </div>
-      <div className="col-start-2 md:justify-self-end lg:pr-20 row-start-1 flex flex-col gap-2 max-w-fit">
-        <span>home</span>
-        <span>about</span>
-        <span>FAQ</span>
+      <span className="row-span-4 h-fit text-sm opacity-50 font-medium">
+        Courseapp's goal was for people to be able to expand their skills and
+        easily contribute to the community, being able to share their courses
+        online.
+      </span>
+      <div className="row-span-5">
+        <h2 className="font-bold mb-2">NAVIGATE</h2>
+        <ul className="flex font-normal flex-col gap-1 ">
+          <li className="font-normal">All courses</li>
+          <li className="font-normal">Create a course</li>
+          <li className="font-normal">Profile</li>
+        </ul>
       </div>
-      <div className="col-start-1 row-start-2 col-span-2 flex place-self-end flex-col gap-2 w-full">
-        <div className="flex justify-between flex-wrap gap-2">
-          <span>Stavanger-Norway</span>
-          <span>©2023</span>
-          <div className="">
-            <span>hello@mysup.no</span>
-          </div>
-        </div>
-        <h1 className="text-center text-7xl w-full">mysup</h1>
+      <div className="self-end font-bold justify-self-center text-6xl">
+        <h2>COURSEAPP</h2>
       </div>
-    </section>
+    </footer>
   );
-}
+};
 
 export default Footer;

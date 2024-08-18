@@ -6,6 +6,7 @@ import { Categories } from "@/components/sections/Categories";
 import { Explore } from "@/components/sections/Explore";
 // import { useEffect } from "react";
 import Hero from "./Home";
+import Footer from "@/components/Footer";
 
 export default function Home() {
   // useEffect(() => {
@@ -26,6 +27,7 @@ export default function Home() {
       <Explore />
       <About />
       <Steps />
+      <Footer />
       {/* <Courses /> */}
     </main>
   );

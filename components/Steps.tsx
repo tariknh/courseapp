@@ -44,15 +44,15 @@ const Steps = () => {
           Sign up today
         </Button>
       </div>
-      <div></div>
-      <section className="md:px-44 justify-center items-center grid h-screen md:h-[200vh] gap-y-5 md:gap-y-10 grid-rows-3 grid-cols-2">
+
+      {/* <section className="md:px-44 justify-center items-center grid h-screen md:h-[200vh] gap-y-5 md:gap-y-10 grid-rows-3 grid-cols-2 bg-accent text-white">
         <div
           data-scroll
           data-scroll-speed="0.3"
           className="col-start-1 row-start-1 text-left grid gap-3 text-3xl md:text-6xl lg:text-7xl p-8 font-bold"
         >
           <h1 className="text-6xl md:text-9xl">1.</h1>
-          <h1>record your teaching</h1>
+          <h1>Choose a category</h1>
         </div>
         <div
           data-scroll
@@ -60,7 +60,7 @@ const Steps = () => {
           className="col-start-1 row-start-2 text-left md:text-6xl lg:text-7xl grid gap-3 text-3xl p-8 font-bold"
         >
           <h1 className="text-6xl md:text-9xl">2.</h1>
-          <h1>write a few tasks</h1>
+          <h1>Fill out the fields</h1>
         </div>
         <div
           data-scroll
@@ -68,7 +68,7 @@ const Steps = () => {
           className="col-start-1 row-start-3 text-left md:text-6xl lg:text-7xl grid gap-3 text-3xl p-8 font-bold"
         >
           <h1 className="text-6xl md:text-9xl">3.</h1>
-          <h1>publish your course</h1>
+          <h1>Publish your course!</h1>
         </div>
         <div className="bg-black col-start-2 rounded-[3rem] w-full max-h-full  md:h-full md:w-full aspect-[3/4] overflow-hidden grid items-center">
           <video
@@ -97,7 +97,7 @@ const Steps = () => {
             alt={""}
           />
         </div>
-      </section>
+      </section> */}
     </>
   );
 };
