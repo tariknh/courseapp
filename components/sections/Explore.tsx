@@ -20,11 +20,14 @@ export const Explore = async () => {
           emptyTitle="No courses found"
           emptyStateSubText="Change the filters to find more courses!"
           collectionType="Courses_Organized"
-          limit={6}
+          limit={3}
           page={1}
           totalPages={2}
           urlParamName={undefined}
         />
+      </div>
+      <div className="text-3xl text-center justify-self-center col-span-full row-start-12 md:text-4xl font-bold">
+        <h2>Explore by cities</h2>
       </div>
     </section>
   );
