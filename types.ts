@@ -10,6 +10,8 @@ export interface UserDetails {
 }
 
 export interface CourseTypes {
+  listingId: any;
+  stripeId: string;
   id: number;
   category: string;
   location: string;

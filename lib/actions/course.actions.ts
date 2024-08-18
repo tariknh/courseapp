@@ -176,6 +176,7 @@ export const getOrganizedCourses = async ({
       .select("*")
       .eq("user", user)
       .limit(limit);
+    console.log(data, "organized courses");
 
     if (data !== null) {
       return {
@@ -208,14 +209,19 @@ export const getTickets = async ({
 
   try {
     const { data, error } = await supabase
-      .from("courses")
-      .select("*")
-      .eq("user", user)
+      .from("orders")
+      .select("*, listingId(*)")
+      .eq("buyer", user)
       .limit(limit);
 
     if (data !== null) {
+      const extractedData = data.map((item) => {
+        // Replace 'listingId' with the actual key or path to the nested object/array you want to extract
+        return item.listingId;
+      });
+
       return {
-        data: data,
+        data: extractedData,
         totalPages: Math.ceil(data.length / limit),
       };
     } else {

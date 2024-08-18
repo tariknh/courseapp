@@ -1,11 +1,11 @@
-import Image from "next/image";
-import Link from "next/link";
-import { CourseTypes } from "@/types";
 import { createClient } from "@/app/utils/supabase/server";
 import { getNameById } from "@/lib/actions/course.actions";
+import { CourseTypes } from "@/types";
+import Image from "next/image";
+import Link from "next/link";
 import { AiFillEdit } from "react-icons/ai";
+import { HiArrowRight } from "react-icons/hi2";
 import { DeleteConfirmation } from "./DeleteConfirmation";
-
 interface CourseProps {
   title: string;
   rating: string;
@@ -32,7 +32,8 @@ const AllCourses: React.FC<CourseProps> = async ({
   hidePrice,
 }) => {
   const supabase = createClient();
-  const images = JSON.parse(course.imageSrc);
+
+  let images = await JSON.parse(course.imageSrc);
   let isCreator = false;
   const { data: imageData } = supabase.storage
     .from("images")
@@ -102,15 +103,15 @@ const AllCourses: React.FC<CourseProps> = async ({
 
         <h2 className="font-semibold text-xl">{title}</h2>
       </div>
-      {hasBuyButton && (
-        <Link href={`/orders?eventId=${course.id}`}>
-          <p className="">Order Details</p>
-          <Image
-            src="/assets/icons/arrow.svg"
-            alt="search"
-            width={10}
-            height={10}
-          />
+      {isCourseCreator && (
+        <Link
+          className="justify-self-end"
+          href={`/orders?eventId=${course.id}`}
+        >
+          <div className="w-full justify-self-end flex gap-2 items-center">
+            <p className="">Order Details</p>
+            <HiArrowRight />
+          </div>
         </Link>
       )}
     </div>
