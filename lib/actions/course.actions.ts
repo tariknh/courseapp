@@ -32,6 +32,10 @@ type GetTicketsParams = {
   user: string;
 };
 
+type GetCourseByIdParams = {
+  course: any;
+};
+
 type DeleteCourseParams = {
   courseId: number;
   path: string;
@@ -157,6 +161,63 @@ export const getRelatedEvents = async ({
     return {
       data: [],
       totalPages: 0,
+    };
+  }
+};
+
+export const getCourseById = async (course: Number) => {
+  const supabase = createClient();
+  await console.log(course, "course id");
+
+  try {
+    const { data, error } = await supabase
+      .from("courses")
+      .select("*")
+      .eq("id", course)
+      .single();
+
+    if (data !== null) {
+      return {
+        data: data,
+      };
+    } else {
+      // Handle the case when data is null
+      return {
+        data: [],
+      };
+    }
+  } catch (error) {
+    console.log(error, "Error fetching organized courses");
+    return {
+      data: [],
+    };
+  }
+};
+
+export const getOrdersByCourseId = async (courseId: string) => {
+  const supabase = createClient();
+
+  try {
+    const { data, error } = await supabase
+      .from("orders")
+      .select("*, listingId(*)")
+      .eq("listingId", courseId);
+
+    if (data !== null) {
+      //console.log(data, "orders by course id");
+      return {
+        data: data,
+      };
+    } else {
+      // Handle the case when data is null
+      return {
+        data: [],
+      };
+    }
+  } catch (error) {
+    console.log(error, "Error fetching orders");
+    return {
+      data: [],
     };
   }
 };
