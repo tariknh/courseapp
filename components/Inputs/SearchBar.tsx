@@ -1,31 +1,96 @@
+"use client";
+import { APIProvider } from "@vis.gl/react-google-maps";
+import Link from "next/link";
+import { useState } from "react";
+import { CategoriesTypes } from "../Categories";
+import { ComboBoxResponsive } from "../ui/Combobox";
 import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import { PlaceAutocomplete } from "./PlacesAutoComplete";
 
 type Props = {};
 type SearchVariants = {
   variant: string;
+  searchParams: { city: string; category: string };
+  setSearchParams: React.Dispatch<
+    React.SetStateAction<{ city: string; category: string }>
+  >;
 };
 
-const SearchInput = ({ variant }: SearchVariants) => {
+const SearchInput = ({
+  variant,
+  searchParams,
+  setSearchParams,
+}: SearchVariants) => {
   return variant === "Category" ? (
-    <div className="">
+    <div className="flex flex-col">
       <h2 className="text-sm text-offblack">I wanna learn:</h2>
-      <Input className="text-xs border-none" placeholder="Enter a category" />
+      {/* <Input
+        onChange={(e) =>
+          setSearchParams({ ...searchParams, category: e.target.value })
+        }
+        className="text-xs border-none"
+        placeholder="Enter a category"
+      /> */}
+      <ComboBoxResponsive
+        setCategory={""}
+        category={""}
+        onChange={(e: any) => {
+          console.log(e, "VALUEVALUE");
+          setSearchParams({ ...searchParams, category: e });
+        }}
+        value={searchParams.category}
+        setValue={function (status: CategoriesTypes | null): void {
+          return;
+        }}
+      />
     </div>
   ) : (
     <div className="">
       <h2 className="text-sm text-offblack">In the city of:</h2>
-      <Input className="text-xs border-none" placeholder="Enter a City" />
+      {/* <Input
+        onChange={(e) =>
+          setSearchParams({ ...searchParams, city: e.target.value })
+        }
+        className="text-xs border-none"
+        placeholder="Enter a City"
+      /> */}
+      <APIProvider apiKey={`AIzaSyBuMu7Z7uz7-75yeLUHEkBgIXDyIOHxDhE`}>
+        <PlaceAutocomplete
+          className="text-offblack"
+          onPlaceSelect={(e) =>
+            e?.formatted_address &&
+            setSearchParams({ ...searchParams, city: e.formatted_address })
+          }
+        />
+      </APIProvider>
     </div>
   );
 };
 
 const SearchBar = (props: Props) => {
+  const [searchParams, setSearchParams] = useState({
+    city: "",
+    category: "",
+  });
   return (
     <div className="bg-white max-w-2xl text-black flex gap-2 flex-col sm:flex-row sm:items-center p-5">
-      <SearchInput variant="Category" />
-      <SearchInput variant="City" />
-      <Button className="w-1/4 sm:mx-auto justify-self-center">Search</Button>
+      <SearchInput
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}
+        variant="Category"
+      />
+      <SearchInput
+        searchParams={searchParams}
+        setSearchParams={setSearchParams}
+        variant="City"
+      />
+      <Button className="w-1/4 sm:mx-auto justify-self-center">
+        <Link
+          href={`/courses?category=${searchParams.category}&city=${searchParams.city}`}
+        >
+          Search
+        </Link>
+      </Button>
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import { getAllCourses, getFilteredCourses } from "@/actions/getCourses";
 import Collection from "@/components/Collection";
+import Footer from "@/components/Footer";
 import Filterbar from "@/components/Inputs/Filterbar";
 
 export const revalidate = 0;
@@ -54,7 +55,7 @@ export default async function Courses({
   return (
     <section>
       <div className="h-[10vh] z-[100] fixed w-full bg-black"></div>
-      <section className="bg-white w-full flex flex-col   h-fit pt-[12vh]">
+      <section className="bg-white w-full flex flex-col mb-48  h-fit pt-[12vh]">
         <Filterbar />
         <section className="pt-16 px-2">
           <Collection
@@ -64,7 +65,7 @@ export default async function Courses({
                 : coursesFiltered?.data
             }
             emptyTitle="No courses found"
-            emptyStateSubText="Change the filters to find more courses!"
+            emptyStateSubText="Click below to reset filters!"
             collectionType="Courses_Organized"
             limit={20}
             page={1}
@@ -73,6 +74,7 @@ export default async function Courses({
           />
         </section>
       </section>
+      <Footer />
     </section>
   );
 }

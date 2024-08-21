@@ -1,5 +1,8 @@
 "use client";
 
+import Link from "next/link";
+import CreateCourseButton from "./CreateCourseButton";
+
 const Footer = () => {
   return (
     <footer className="pb-4 md:grid-cols-3 h-[50vh] px-4 pt-12  grid text-white bg-[#0e0e0e]">
@@ -14,9 +17,10 @@ const Footer = () => {
       <div className="row-span-5 md:col-start-3 md:row-start-1">
         <h2 className="font-bold mb-2">NAVIGATE</h2>
         <ul className="flex font-normal flex-col gap-1 ">
-          <li className="font-normal">All courses</li>
-          <li className="font-normal">Create a course</li>
-          <li className="font-normal">Profile</li>
+          <Link href="/courses">All courses</Link>
+
+          <Link href="/profile">Profile</Link>
+          <CreateCourseButton />
         </ul>
       </div>
       <div className="self-end col-span-full font-bold justify-self-center text-6xl">

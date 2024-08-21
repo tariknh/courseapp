@@ -55,7 +55,7 @@ const Filterbar = () => {
         } bg-offblack overflow-hidden h-[20%] text-primary-foreground  p-3 flex gap-3 items-center`}
       >
         {!open && <Search size={24} />}
-        <h2 className={open ? `hidden` : "inline-block w-full"}>
+        <h2 className={open ? `hidden` : "inline-block w-full  text-nowrap"}>
           {currentCategory && currentCity
             ? currentCategory + " - " + currentCity
             : "Any Category - Any City"}
