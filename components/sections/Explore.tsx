@@ -1,4 +1,5 @@
 import { getAllCourses } from "@/actions/getCourses";
+import Link from "next/link";
 import Collection from "../Collection";
 import { Button } from "../ui/button";
 
@@ -14,7 +15,9 @@ export const Explore = async () => {
           These courses have been made by people, and are available for you to
           sign up for!{" "}
         </span>
-        <Button className="w-48">View all courses</Button>
+        <Button className="w-48">
+          <Link href="/courses">View all courses</Link>
+        </Button>
       </div>
       <div className="col-span-full row-start-3">
         <Collection
