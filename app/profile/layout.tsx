@@ -7,7 +7,7 @@ export default function RootLayout({
 }) {
   return (
     <>
-      <main className="pt-[12vh] overflow-hidden mb-24">{children}</main>
+      <main className="mb-24">{children}</main>
       <Footer />
     </>
   );

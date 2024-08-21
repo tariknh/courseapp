@@ -50,7 +50,7 @@ export async function resetPassword(state: void | undefined, formData: any) {
   const { data, error } = await supabase.auth.resetPasswordForEmail(
     formData.get("email"),
     {
-      redirectTo: "/login2",
+      redirectTo: "/login",
     }
   );
 }
@@ -136,7 +136,7 @@ export async function signInWithGithub() {
   });
 
   if (error) {
-    redirect("/login2?message=Could not authenticate with Github");
+    redirect("/login?message=Could not authenticate with Github");
   }
   return redirect(data.url);
 }
@@ -160,7 +160,7 @@ export async function getSession() {
   const { data, error } = await supabase.auth.getUser();
 
   if (error) {
-    return redirect("/login2");
+    return redirect("/login");
   }
   return data;
 }

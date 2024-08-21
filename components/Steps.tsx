@@ -1,6 +1,6 @@
 "use client";
 import { motion, useScroll, useTransform } from "framer-motion";
-import Image from "next/image";
+import Link from "next/link";
 import { useRef } from "react";
 import { Button } from "./ui/button";
 
@@ -41,7 +41,7 @@ const Steps = () => {
           Ready to learn that skill you always wanted?
         </h1>
         <Button className="md:h-24 h-12 w-2/4  self-center justify-self-center md:text-4xl text-2xl font-bold ">
-          Sign up today
+          <Link href={"/login"}>Sign up today</Link>
         </Button>
       </div>
 

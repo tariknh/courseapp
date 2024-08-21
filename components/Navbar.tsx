@@ -1,16 +1,8 @@
-import Header from "./Header";
-import { AnimatePresence } from "framer-motion";
-import Hamburger from "./hamburgermenu";
-import DesktopNav from "./DesktopNav";
-import Link from "next/link";
-import useAuthModal from "@/hooks/useAuthModal";
-import { useUser } from "@/hooks/useUser";
-import useUploadModal from "@/hooks/useCourseModal";
-import { useRouter } from "next/navigation";
-import { logout } from "@/app/login2/actions";
 import { createClient } from "@/app/utils/supabase/server";
-import LogOutButton from "./LogOutButton";
+import Link from "next/link";
 import CreateCourseButton from "./CreateCourseButton";
+import LogOutButton from "./LogOutButton";
+import Hamburger from "./hamburgermenu";
 
 async function Navbar() {
   //const [open, setOpen] = useState(false);
@@ -75,10 +67,10 @@ async function Navbar() {
             </div>
           ) : (
             <div className="hidden items-center md:flex p-6 text-xl align-baseline text-white font-bold  gap-4">
-              <Link href={"/login2"}>Log in</Link>
+              <Link href={"/login"}>Log in</Link>
               <Link
                 className="bg-white py-2 px-4 text-offblack text-lg "
-                href={"/login2"}
+                href={"/login"}
               >
                 Sign Up
               </Link>

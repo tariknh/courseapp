@@ -1,8 +1,7 @@
 "use client";
-import React from "react";
-import { Button } from "./ui/button";
-import { logout } from "@/app/login2/actions";
+import { logout } from "@/app/login/actions";
 import { toast } from "sonner";
+import { Button } from "./ui/button";
 
 const LogOutButton = () => {
   return (

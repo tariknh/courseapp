@@ -4,6 +4,7 @@ import BuyButton from "@/components/BuyButton";
 import { categories } from "@/components/Categories";
 import Collection from "@/components/Collection";
 import EmblaCarousel from "@/components/Embla/EmblaCarousel";
+import { Button } from "@/components/ui/button";
 import { getRelatedEvents } from "@/lib/actions/course.actions";
 import { EmblaOptionsType } from "embla-carousel";
 import { MdDateRange, MdLocationOn } from "react-icons/md";
@@ -113,8 +114,9 @@ const Course = async ({ params }: { params: IParams }) => {
               <h2 className="text-xl font-medium">About the event</h2>
               <p className="text-sm">{listing.description}</p>
             </div>
-            <div className="mt-10 flex flex-col gap-5">
-              <h2 className="text-xl font-medium">Other related events</h2>
+            <div className="mt-10 flex justify-between items-center gap-5">
+              <h2 className="text-xl font-medium">Other related courses</h2>
+              <Button>View all courses</Button>
             </div>
             <Collection
               data={relatedEvents?.data}

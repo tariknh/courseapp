@@ -13,7 +13,7 @@ const ProfilePage = async () => {
   const { data: sessionData, error: sessionError } =
     await supabase.auth.getUser();
   if (sessionError || !sessionData?.user) {
-    redirect("/login2");
+    redirect("/login");
   }
   const memberSince = new Date(sessionData.user.created_at).toLocaleDateString(
     "en-US",

@@ -122,7 +122,7 @@ export const SearchInputs = (props: SProps) => {
           opacity: 1,
           visibility: "visible",
           transition: {
-            duration: 0.4,
+            duration: 0.2,
             ease: [0.83, 0, 0.17, 1],
           },
         },
@@ -177,7 +177,7 @@ export const SearchInputs = (props: SProps) => {
         </APIProvider>
       </div>
       <Button
-        className=" self-end mt-4 md:mt-0"
+        className="w-full md:max-w-48 self-end mt-4 md:mt-0"
         variant={"secondary"}
         onClick={() => setState(false)}
       >

@@ -1,5 +1,6 @@
 import { getAllCourses } from "@/actions/getCourses";
 import Collection from "../Collection";
+import { Button } from "../ui/button";
 
 export const Explore = async () => {
   const courses = await getAllCourses();
@@ -13,6 +14,7 @@ export const Explore = async () => {
           These courses have been made by people, and are available for you to
           sign up for!{" "}
         </span>
+        <Button className="w-48">View all courses</Button>
       </div>
       <div className="col-span-full row-start-3">
         <Collection
@@ -26,9 +28,11 @@ export const Explore = async () => {
           urlParamName={undefined}
         />
       </div>
+      {/* 
+      CLICKABLE CITIES AND REDIRECT TO /COURSES?CITY AND THE CITY CLICKED
       <div className="text-3xl text-center justify-self-center col-span-full row-start-12 md:text-4xl font-bold">
         <h2>Explore by cities</h2>
-      </div>
+      </div> */}
     </section>
   );
 };

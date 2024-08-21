@@ -52,7 +52,7 @@ export default async function Courses({
   const coursesFiltered = await getFilteredCourses(city, category);
 
   return (
-    <section className="">
+    <section>
       <div className="h-[10vh] z-[100] fixed w-full bg-black"></div>
       <section className="bg-white w-full flex flex-col   h-fit pt-[12vh]">
         <Filterbar />
@@ -66,7 +66,7 @@ export default async function Courses({
             emptyTitle="No courses found"
             emptyStateSubText="Change the filters to find more courses!"
             collectionType="Courses_Organized"
-            limit={3}
+            limit={20}
             page={1}
             totalPages={2}
             urlParamName={undefined}

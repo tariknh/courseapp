@@ -1,34 +1,25 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
-import Modal from "./Modal";
+import { CourseInfo } from "@/app/lib/definitions";
+import { createClient } from "@/app/utils/supabase/client";
 import useCourseModal from "@/hooks/useCourseModal";
-import Heading from "./Heading";
-import { categories } from "./Categories";
-import Image from "next/image";
-import CategoryInput from "./CategoryInput";
-import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
-import CountrySelect from "./Inputs/CountrySelect";
+import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import type { UploadFile } from "antd/es/upload/interface";
 import dynamic from "next/dynamic";
+import { useRouter } from "next/navigation";
+import { useEffect, useMemo, useState } from "react";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { toast } from "sonner";
+import { categories } from "./Categories";
+import CategoryInput from "./CategoryInput";
+import Heading from "./Heading";
+import ImageWall from "./Inputs/Imagewall";
+import { GMap } from "./Inputs/PlacesAutoComplete";
+import Modal from "./Modal";
 import { DatePicker } from "./ui/DatePicker";
 import { Input } from "./ui/input";
-import { Textarea } from "./ui/textarea";
 import { Label } from "./ui/label";
-import ImageUpload from "./Inputs/ImageUpload";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
-import { useUser } from "@/hooks/useUser";
-import {
-  User,
-  createClientComponentClient,
-} from "@supabase/auth-helpers-nextjs";
-import ImageWall from "./Inputs/Imagewall";
-import type { UploadFile } from "antd/es/upload/interface";
-import { toast } from "sonner";
-import { revalidatePath } from "next/cache";
-import { useRouter } from "next/navigation";
-import { GMap } from "./Inputs/PlacesAutoComplete";
-import { CourseInfo } from "@/app/lib/definitions";
-import { set } from "date-fns";
-import { createClient } from "@/app/utils/supabase/client";
+import { Textarea } from "./ui/textarea";
 
 enum STEPS {
   CATEGORY = 0,
@@ -417,7 +408,7 @@ const CourseModal = () => {
               <Textarea
                 onChange={(e) => setCustomValue("description", e.target.value)}
                 minLength={10}
-                maxLength={250}
+                maxLength={600}
                 placeholder="Tell people what the course will be about, what they can learn and more..."
                 value={description}
               />

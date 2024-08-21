@@ -1,14 +1,12 @@
 "use client";
-import React, { useLayoutEffect, useState } from "react";
-import gsap from "gsap";
-import { motion, stagger } from "framer-motion";
-import Hamburger from "./hamburgermenu";
 import useAuthModal from "@/hooks/useAuthModal";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import { useUser } from "@/hooks/useUser";
-import { useRouter } from "next/navigation";
-import toast from "react-hot-toast";
+import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { motion } from "framer-motion";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
+import React from "react";
+import toast from "react-hot-toast";
 
 type openStates = {
   open: boolean;
@@ -252,13 +250,13 @@ function Header({ open, setOpen }: openStates) {
                 }}
                 className="px-8 py-4 text-xl border rounded-sm bg-black max-w-fit text-white p-8"
               >
-                <Link href="/login2">Log in</Link>
+                <Link href="/login">Log in</Link>
               </motion.button>
               <motion.button
                 variants={up}
                 className="px-8 py-4 text-xl border rounded-sm bg-black max-w-fit text-white p-8"
               >
-                <Link href="/login2">Sign up</Link>
+                <Link href="/login">Sign up</Link>
               </motion.button>
             </>
           )}
