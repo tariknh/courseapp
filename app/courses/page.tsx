@@ -65,7 +65,7 @@ export default async function Courses({
                 : coursesFiltered?.data
             }
             emptyTitle="No courses found"
-            emptyStateSubText="Click below to reset filters!"
+            emptyStateSubText="Change filters, or click below to reset filters!"
             collectionType="Courses_Organized"
             limit={20}
             page={1}
