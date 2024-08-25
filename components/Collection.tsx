@@ -30,7 +30,7 @@ const Collection = ({
     <div className="w-full">
       {coursesList.length > 0 ? (
         <div className="flex flex-col items-center gap-10">
-          <ul className="grid w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:gap-8 xl:gap-10">
+          <ul className="grid gap-8 w-full grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 md:gap-8 xl:gap-10">
             {coursesList.map((course) => {
               const hasBuyButton = collectionType === "Courses_Organized";
               const hidePrice = collectionType === "My_Tickets";

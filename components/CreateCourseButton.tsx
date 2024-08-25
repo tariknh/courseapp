@@ -21,7 +21,7 @@ const CreateCourseButton = (sessionProps: any) => {
   };
   return (
     <span onClick={() => openCourseModal()} className="cursor-pointer">
-      Create a listing
+      Create a course
     </span>
   );
 };

@@ -23,7 +23,7 @@ const SearchInput = ({
 }: SearchVariants) => {
   return variant === "Category" ? (
     <div className="flex flex-col">
-      <h2 className="text-sm text-offblack">I wanna learn:</h2>
+      <h2 className="text-sm mb-2 text-offblack">I wanna learn:</h2>
       {/* <Input
         onChange={(e) =>
           setSearchParams({ ...searchParams, category: e.target.value })
@@ -46,7 +46,7 @@ const SearchInput = ({
     </div>
   ) : (
     <div className="">
-      <h2 className="text-sm text-offblack">In the city of:</h2>
+      <h2 className="text-sm mb-2 text-offblack">In the city of:</h2>
       {/* <Input
         onChange={(e) =>
           setSearchParams({ ...searchParams, city: e.target.value })
@@ -73,7 +73,7 @@ const SearchBar = (props: Props) => {
     category: "",
   });
   return (
-    <div className="bg-white max-w-2xl text-black flex gap-2 flex-col sm:flex-row sm:items-center p-5">
+    <div className="bg-white max-w-2xl text-black flex gap-6 flex-col sm:flex-row sm:items-center p-5">
       <SearchInput
         searchParams={searchParams}
         setSearchParams={setSearchParams}
@@ -84,7 +84,7 @@ const SearchBar = (props: Props) => {
         setSearchParams={setSearchParams}
         variant="City"
       />
-      <Button className="w-1/4 sm:mx-auto justify-self-center">
+      <Button className="sm:w-1/4 sm:mx-auto justify-self-center">
         <Link
           href={`/courses?category=${searchParams.category}&city=${searchParams.city}`}
         >

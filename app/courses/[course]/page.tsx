@@ -73,7 +73,7 @@ const Course = async ({ params }: { params: IParams }) => {
     <>
       <main className="w-full flex flex-col items-left justify-start md:px-24 ">
         <article className=" grid">
-          <div className="px-6 pt-4 flex flex-col gap-2">
+          <div className="px-6 pt-4 flex flex-col gap-4">
             <EmblaCarousel images={images} slides={SLIDES} options={OPTIONS} />
             <h1 className="text-3xl font-bold">{listing.title}</h1>
             {/* Fix conditional of full name
@@ -118,16 +118,18 @@ const Course = async ({ params }: { params: IParams }) => {
               <h2 className="text-xl font-medium">Other related courses</h2>
               <Button>View all courses</Button>
             </div>
-            <Collection
-              data={relatedEvents?.data}
-              emptyTitle="No related events"
-              emptyStateSubText="We could not find any related events in this category, sorry!"
-              collectionType="Courses_Organized"
-              limit={3}
-              page={1}
-              totalPages={2}
-              urlParamName={undefined}
-            />
+            <div className="p-12">
+              <Collection
+                data={relatedEvents?.data}
+                emptyTitle="No related events"
+                emptyStateSubText="We could not find any related events in this category, sorry!"
+                collectionType="Courses_Organized"
+                limit={3}
+                page={1}
+                totalPages={2}
+                urlParamName={undefined}
+              />
+            </div>
           </div>
         </article>
         {/* <CarouselDemo /> */}

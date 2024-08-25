@@ -7,7 +7,7 @@
   margin: auto;
   --slide-height: 35rem;
   --slide-spacing: 1rem;
-  --slide-size: 90%;
+  --slide-size: 100%;
 }
 .embla__viewport {
   overflow: visible;
@@ -160,6 +160,22 @@ html.lenis {
 .pac-container {
   z-index: 10000000 !important;
   pointer-events: auto;
+  font-size: large;
+}
+
+.pac-item{
+  color: var(--offblack);
+  font-family: var(--font-clean);
+  font-size: medium;
+  padding: .6rem .6rem;
+}
+
+.pac-item-query{
+  font-size: medium
+}
+
+.pac-icon {
+  display: none;
 }
 
 

@@ -1,17 +1,14 @@
 "use client";
-import React, { useEffect, useRef, useState } from "react";
 import {
   APIProvider,
   AdvancedMarker,
   Map,
-  MapControl,
-  ControlPosition,
-  Marker,
   Pin,
   useAdvancedMarkerRef,
   useMap,
   useMapsLibrary,
 } from "@vis.gl/react-google-maps";
+import { useEffect, useRef, useState } from "react";
 import { Input } from "../ui/input";
 
 interface PlaceAutocompleteProps {
@@ -60,7 +57,7 @@ export const PlaceAutocomplete = ({
   }, [onPlaceSelect, placeAutocomplete]);
 
   return (
-    <div className=" autocomplete-container">
+    <div className="font-normal autocomplete-container">
       <Input className={className} defaultValue={defaultValue} ref={inputRef} />
     </div>
   );
