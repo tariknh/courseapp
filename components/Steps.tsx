@@ -1,9 +1,9 @@
 "use client";
 import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
 import Link from "next/link";
 import { useRef } from "react";
 import { Button } from "./ui/button";
-
 const Steps = () => {
   const circleClip = {
     initial: {
@@ -38,14 +38,11 @@ const Steps = () => {
       ></motion.section>
       <div className="text-white w-full font-bold p-8 justify-center content-center h-screen grid bg-accent gap-6 [text-wrap:balance]">
         <h1 className="text-center text-white max-w-4xl lg:text-8xl text-5xl">
-          Ready to learn that skill you always wanted?
+          Creating a course is <span className="text-[#F0E04D]">easy:</span>
         </h1>
-        <Button className="md:h-24 h-12 w-2/4  self-center justify-self-center md:text-4xl text-2xl font-bold ">
-          <Link href={"/login"}>Sign up today</Link>
-        </Button>
       </div>
 
-      {/* <section className="md:px-44 justify-center items-center grid h-screen md:h-[200vh] gap-y-5 md:gap-y-10 grid-rows-3 grid-cols-2 bg-accent text-white">
+      <section className="md:px-44 justify-center items-center grid h-screen md:h-[200vh] gap-y-5 md:gap-y-10 grid-rows-3 grid-cols-2 bg-accent text-white">
         <div
           data-scroll
           data-scroll-speed="0.3"
@@ -97,7 +94,15 @@ const Steps = () => {
             alt={""}
           />
         </div>
-      </section> */}
+      </section>
+      <div className="text-white w-full font-bold p-8 justify-center content-center h-screen grid bg-accent gap-6 [text-wrap:balance]">
+        <h1 className="text-center text-white max-w-4xl lg:text-8xl text-5xl">
+          Ready to learn that skill you always wanted?
+        </h1>
+        <Button className="md:h-24 h-12 w-2/4  self-center justify-self-center md:text-4xl text-2xl font-bold ">
+          <Link href={"/login"}>Sign up today</Link>
+        </Button>
+      </div>
     </>
   );
 };
