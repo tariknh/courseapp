@@ -49,7 +49,7 @@ const Steps = () => {
           className="col-start-1 row-start-1 text-left grid gap-3 text-3xl md:text-6xl lg:text-7xl p-8 font-bold"
         >
           <h1 className="text-6xl md:text-9xl">1.</h1>
-          <h1>Choose a category</h1>
+          <h1>Fill in the info</h1>
         </div>
         <div
           data-scroll
@@ -57,7 +57,7 @@ const Steps = () => {
           className="col-start-1 row-start-2 text-left md:text-6xl lg:text-7xl grid gap-3 text-3xl p-8 font-bold"
         >
           <h1 className="text-6xl md:text-9xl">2.</h1>
-          <h1>Fill out the fields</h1>
+          <h1>Choose a location</h1>
         </div>
         <div
           data-scroll
