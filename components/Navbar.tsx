@@ -76,7 +76,7 @@ async function Navbar() {
               </Link>
             </div>
           )}
-          <div className="md:hidden fixed left-0 top-0">
+          <div className="md:hidden z-[50000] fixed left-0 top-0">
             <Hamburger />
           </div>
         </div>
