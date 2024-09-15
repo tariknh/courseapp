@@ -1,12 +1,9 @@
-"use client";
-import useAuthModal from "@/hooks/useAuthModal";
-import { useUser } from "@/hooks/useUser";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
+import { createClient } from "@/app/utils/supabase/client";
+import { UserResponse } from "@supabase/supabase-js";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
-import React from "react";
-import toast from "react-hot-toast";
+import React, { useEffect, useState } from "react";
+import CreateCourseButton from "./CreateCourseButton";
 
 type openStates = {
   open: boolean;
@@ -138,53 +135,18 @@ function Header({ open, setOpen }: openStates) {
     },
   };
 
-  const authModal = useAuthModal();
-  const supabaseClient = useSupabaseClient();
-  const { user } = useUser();
-  const router = useRouter();
+  const supabase = createClient();
+  const [session, setSession] = useState<UserResponse | null>(null);
 
-  const handleLogout = async () => {
-    const { error } = await supabaseClient.auth.signOut();
-
-    router.refresh();
-
-    if (error) {
-      toast.error(error.message);
-    } else {
-      toast.success("Logged out!");
-    }
-  };
-
-  /*
-  useLayoutEffect(() => {
-    let ctx = gsap.context(() => {
-      const tl = gsap.timeline();
-      if (!open) {
-        if (tl.reversed()) {
-          tl.play();
-        } else {
-          tl.reverse();
-        }
-      }
-      tl.from(".topbar", {
-        y: -300,
-        autoAlpha: 0,
-        duration: 1,
-      });
-      tl.from(
-        ".bottombar",
-        {
-          y: 300,
-          autoAlpha: 0,
-          duration: 1,
-        },
-        "<"
-      );
+  useEffect(() => {
+    supabase.auth.getUser().then((session) => {
+      // do something here with the session like  ex: setState(session)
+      return setSession(session);
     });
+  }, []);
 
-    return () => ctx.revert();
-  }, [open]);
-  */
+  console.log(session, "session");
+
   return (
     <div className="z-[1000] fixed grid grid-rows-8 h-screen max-h-screen w-screen overflow-hidden">
       <motion.div
@@ -195,11 +157,19 @@ function Header({ open, setOpen }: openStates) {
         className="p-8 pt-24 flex flex-col justify-between bg-white row-span-5 rounded-b-3xl font-bold text-4xl sm:text-5xl font-sans text-black"
       >
         <motion.div className="flex gap-2 flex-col" variants={staggerChildren}>
-          <motion.h1 variants={textAnimate}>View courses</motion.h1>
-          <motion.h1 variants={textAnimate}>Create a course</motion.h1>
-          {user && (
+          <motion.h1 variants={textAnimate}>
+            <Link onClick={() => setOpen(!open)} href={"/courses"}>
+              View courses
+            </Link>
+          </motion.h1>
+          <motion.h1 onClick={() => setOpen(!open)} variants={textAnimate}>
+            <CreateCourseButton session={session?.data}></CreateCourseButton>
+          </motion.h1>
+          {session?.data.user && (
             <motion.h1 variants={textAnimate}>
-              <Link href={"/profile"}>My profile</Link>
+              <Link onClick={() => setOpen(!open)} href={"/profile"}>
+                My profile
+              </Link>
             </motion.h1>
           )}
         </motion.div>
@@ -220,27 +190,29 @@ function Header({ open, setOpen }: openStates) {
       >
         <motion.div
           variants={delayChildren}
-          className="font-bold max-w-[15rem] gap-1 flex flex-col"
+          className="font-bold w-full gap-1 flex flex-col"
         >
-          {user ? (
+          {session?.data.user ? (
             <div className="flex gap-2 flex-col max-w-fit">
-              <motion.span
-                onClick={() => router.push("/profile")}
-                className="text-center justify-self-center w-full text-xl"
-              >
-                my profile
+              <motion.span className="text-center justify-self-center w-full text-xl">
+                <Link onClick={() => setOpen(!open)} href={"/profile"}>
+                  My profile
+                </Link>
               </motion.span>
               <motion.button
-                onClick={handleLogout}
-                className="px-8 py-4 text-xl border rounded-full bg-black max-w-fit text-white p-8"
+                onClick={() => {
+                  supabase.auth.signOut();
+                  setOpen(!open);
+                }}
+                className="px-8 py-4 text-xl border bg-black max-w-fit text-white p-8"
               >
-                log out
+                Log out
               </motion.button>
             </div>
           ) : (
             <>
-              <motion.span variants={up} className="text-xl">
-                Sign up for a course today
+              <motion.span variants={up} className="text-xl mb-4">
+                Ready to get started?
               </motion.span>
               <motion.button
                 variants={up}
@@ -248,13 +220,17 @@ function Header({ open, setOpen }: openStates) {
                   setOpen(!open);
                   //authModal.onOpen();
                 }}
-                className="px-8 py-4 text-xl border rounded-sm bg-black max-w-fit text-white p-8"
+                className="px-8 py-4 text-xl border rounded-sm bg-black w-full text-white p-8"
               >
                 <Link href="/login">Log in</Link>
               </motion.button>
               <motion.button
                 variants={up}
-                className="px-8 py-4 text-xl border rounded-sm bg-black max-w-fit text-white p-8"
+                className="px-8 py-4 text-xl border rounded-sm bg-black w-full text-white p-8"
+                onClick={() => {
+                  setOpen(!open);
+                  //authModal.onOpen();
+                }}
               >
                 <Link href="/login">Sign up</Link>
               </motion.button>

@@ -1,8 +1,8 @@
-import React, { useState } from "react";
-import { AiOutlinePlus } from "react-icons/ai";
 import { Modal, Upload } from "antd";
 import type { RcFile, UploadProps } from "antd/es/upload";
 import type { UploadFile } from "antd/es/upload/interface";
+import React from "react";
+import { AiOutlinePlus } from "react-icons/ai";
 
 export interface InputProps {
   value?: any;
@@ -57,7 +57,7 @@ const ImageWall: React.FC<InputProps> = ({
   };
 
   const uploadButton = (
-    <div>
+    <div className="flex flex-col items-center">
       <AiOutlinePlus />
       <div style={{ marginTop: 8 }}>Upload</div>
     </div>

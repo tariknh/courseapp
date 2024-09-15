@@ -38,7 +38,7 @@ const Steps = () => {
       ></motion.section>
       <div className="text-white w-full font-bold p-8 justify-center content-center h-screen grid bg-accent gap-6 [text-wrap:balance]">
         <h1 className="text-center text-white max-w-4xl lg:text-8xl text-5xl">
-          Creating a course is <span className="text-[#F0E04D]">easy:</span>
+          Creating a course is easy
         </h1>
       </div>
 

@@ -1,8 +1,8 @@
 "use client";
-import React, { useEffect, useState } from "react";
-import styles from "./hamburger.module.css";
 import { AnimatePresence } from "framer-motion";
+import { useState } from "react";
 import Header from "./Header";
+import styles from "./hamburger.module.css";
 
 function Hamburger() {
   const [color, setColor] = useState("white");
@@ -25,7 +25,7 @@ function Hamburger() {
       </AnimatePresence>
       <div
         onClick={() => setOpen(!open)}
-        className={`${styles.container} right-0 absolute z-[1001] ${
+        className={`${styles.container} absolute right-0 z-[50001] ${
           open && styles.active
         }`}
       >

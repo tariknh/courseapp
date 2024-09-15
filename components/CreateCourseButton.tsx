@@ -10,7 +10,7 @@ const CreateCourseButton = (sessionProps: any) => {
   const router = useRouter();
 
   const openCourseModal = () => {
-    if (session.session === null) {
+    if (session.session === null || session.user === null) {
       return router.push("/login");
     }
     if (pathname !== "/courses") {
