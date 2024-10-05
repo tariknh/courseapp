@@ -68,19 +68,20 @@ const Steps = () => {
           <h1>Publish your course!</h1>
         </div>
         <div className="bg-black col-start-2 rounded-[3rem] w-full max-h-full  md:h-full md:w-full aspect-[3/4] overflow-hidden grid items-center">
-          <video
-            className="object-cover h-full"
-            autoPlay
-            muted
-            loop
-            src="/first.mp4"
-          ></video>
+        <Image
+            className="object-cover"
+            fill={true}
+            src={"/Appimages/1.png"}
+            alt={""}
+            data-scroll
+            data-scroll-speed="0.01"
+          />
         </div>
         <div className="bg-black col-start-2 rounded-[3rem] w-full max-h-full overflow-hidden relative md:w-full md:h-full aspect-[3/4]">
           <Image
             className="object-cover"
             fill={true}
-            src={"/second.png"}
+            src={"/Appimages/2.png"}
             alt={""}
             data-scroll
             data-scroll-speed="0.01"
@@ -90,7 +91,7 @@ const Steps = () => {
           <Image
             className="object-cover"
             fill={true}
-            src={"/third.png"}
+            src={"/Appimages/3.png"}
             alt={""}
           />
         </div>

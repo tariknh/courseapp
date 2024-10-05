@@ -47,13 +47,13 @@ export default function RootLayout({
         <div className="h-[10vh] z-[200] fixed w-full bg-offblack"></div>
         <ToasterProvider />
         <SupabaseProvider>
-          <UserProvider>
+          {/* <UserProvider> */}
             <ModalProvider />
             <Navbar />
             {children}
             <Toaster />
             {/* <Footer /> */}
-          </UserProvider>
+          {/* </UserProvider> */}
         </SupabaseProvider>
       </body>
     </html>

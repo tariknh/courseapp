@@ -42,20 +42,26 @@ const CourseModal = () => {
   //const { user } = useUser();
 
   useEffect(() => {
-    supabase2.auth.getUser().then((response) => {
-      const user = response.data.user;
-      if (user) {
+    supabase2.auth.getSession().then(({ data, error }) => {
+      if (data?.session) {
+        const user = data.session.user;
         console.log(user, "USERUSER");
         setMySession(user);
         console.log("mysession", mysession);
         console.log("mysession?.id", mysession?.id);
       } else {
-        console.error("No user found:", response.error);
+        if (error) {
+          console.error("Error fetching session:", error);
+        } else {
+          
+        }
       }
+    }).catch((error) => {
+      console.error("Failed to fetch session:", error);
     });
-
-    return () => {};
   }, []);
+  
+  
 
   // const {
   //   data: { user },
