@@ -63,4 +63,4 @@ For any questions, suggestions, or feedback, please feel free to reach out. We'd
 
 ---
 
-Made with ❤️ by the CourseApp Team
+Made with ❤️ by Tarik
