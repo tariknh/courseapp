@@ -67,8 +67,8 @@ const Steps = () => {
           <h1 className="text-6xl md:text-9xl">3.</h1>
           <h1>Publish your course!</h1>
         </div>
-        <div className="bg-black col-start-2 rounded-[3rem] w-full max-h-full  md:h-full md:w-full aspect-[3/4] overflow-hidden grid items-center">
-        <Image
+        <div className="bg-black col-start-2 rounded-[3rem] w-full max-h-full overflow-hidden relative md:w-full md:h-full aspect-[3/4]">
+          <Image
             className="object-cover"
             fill={true}
             src={"/Appimages/1.png"}

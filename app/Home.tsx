@@ -39,8 +39,8 @@ export default function Hero() {
         src="/conf.jpg"
         alt={"Hero image"}
       />
-      <section className="z-[260] p-8 justify-start h-screen grid overflow-hidden">
-        <div className="text-5xl lg:text-7xl font-bold text-white self-center text-balance z-[260]  grid gap-10 max-w-2xl ">
+      <section className=" p-8 justify-start h-screen grid overflow-hidden">
+        <div className="text-5xl lg:text-7xl font-bold text-white self-center text-balance z-[200]  grid gap-10 max-w-2xl ">
           <h1>The number one place for learning and teaching skills</h1>
           <SearchBar />
         </div>

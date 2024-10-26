@@ -3,7 +3,6 @@ import { Toaster } from "@/components/ui/sonner";
 import ModalProvider from "@/providers/ModalProvider";
 import SupabaseProvider from "@/providers/SupabaseProvider";
 import ToasterProvider from "@/providers/ToasterProvider";
-import UserProvider from "@/providers/UserProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -44,15 +43,15 @@ export default function RootLayout({
   return (
     <html className="scroll-smooth" lang="en">
       <body className={`${hellix.variable} font-clean`}>
-        <div className="h-[10vh] z-[200] fixed w-full bg-offblack"></div>
+        <div className="h-[10vh] z-[201] fixed w-full bg-offblack"></div>
         <ToasterProvider />
         <SupabaseProvider>
           {/* <UserProvider> */}
-            <ModalProvider />
-            <Navbar />
-            {children}
-            <Toaster />
-            {/* <Footer /> */}
+          <ModalProvider />
+          <Navbar />
+          {children}
+          <Toaster />
+          {/* <Footer /> */}
           {/* </UserProvider> */}
         </SupabaseProvider>
       </body>
