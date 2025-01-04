@@ -7,7 +7,7 @@ import Hamburger from "./hamburgermenu";
 async function Navbar() {
   //const [open, setOpen] = useState(false);
   //const pathname = usePathname();
-  const supabase = createClient();
+  const supabase = await createClient();
 
   /*
 

@@ -31,7 +31,7 @@ const AllCourses: React.FC<CourseProps> = async ({
   hasBuyButton,
   hidePrice,
 }) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   let images = await JSON.parse(course.imageSrc);
   let isCreator = false;
@@ -106,7 +106,7 @@ const AllCourses: React.FC<CourseProps> = async ({
       {isCourseCreator && (
         <Link
           className="justify-self-end"
-          href={`/orders?eventId=${course.id}`}
+          href={`/manage/${course.id}`}
         >
           <div className="w-full justify-self-end flex gap-2 items-center">
             <p className="">Order Details</p>

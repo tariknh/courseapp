@@ -8,7 +8,7 @@ import Collection from "@/components/Collection";
 import { getOrganizedCourses, getTickets } from "@/lib/actions/course.actions";
 
 const ProfilePage = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data: sessionData, error: sessionError } =
     await supabase.auth.getUser();

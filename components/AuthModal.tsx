@@ -8,7 +8,7 @@ import { toast } from "sonner";
 import { createClient } from "@/app/utils/supabase/server";
 
 const AuthModal = async () => {
-  const supabase = createClient();
+  const supabase = await createClient();
   const { onClose, isOpen } = useAuthModal();
 
   const { data, error } = await supabase.auth.getUser();

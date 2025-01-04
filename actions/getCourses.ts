@@ -8,7 +8,7 @@ type GetAllCoursesParams = {
 };
 
 // export const getCourses = async (): Promise<Course[]> => {
-//   const supabase = createClient();
+//   const supabase = await createClient();
 
 //   const { data, error } = await supabase
 //     .from("courses")
@@ -26,7 +26,7 @@ export const getAllCourses = async () => {
   //   cookies: cookies,
   // });
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const conditions = {};
 
   const { data, error } = await supabase
@@ -50,7 +50,7 @@ export const getFilteredCourses = async (city: string, category: string) => {
 
   //const { formatted_address } = city;
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const conditions = {};
 
   const { data, error } = await supabase

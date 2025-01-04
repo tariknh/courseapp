@@ -1,5 +1,6 @@
 "use server";
 import { createClient } from "@/app/utils/supabase/server";
+import { CourseTypes } from "@/types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import Stripe from "stripe";
@@ -41,8 +42,46 @@ type DeleteCourseParams = {
   path: string;
 };
 
+export async function updateListing(state: any | undefined, formData: FormData) {
+  //const res = await fetch('https://...')
+  //const json = await res.json()
+  try {
+    const supabase = await createClient();
+
+    const rawFormData = {
+      title: formData.get('title'),
+      description: formData.get('description'),
+      category: formData.get('category'),
+      date: formData.get('date'),
+      location: formData.get('location'),
+      capacity: formData.get('capacity'),
+      price: formData.get('price'),
+      amount: formData.get('amount'),
+      status: formData.get('status'),
+    };
+
+    const { data, error }  = await supabase
+      .from('courses')
+      .update({ title: rawFormData.title && rawFormData.title })
+      .eq('id', formData.get("id"))
+      .select()
+
+    console.log(data, "data", error, "error")
+      
+
+    if (data) {
+      revalidatePath("/");
+      return true;
+    }
+  } catch (error) {
+    console.log(error, "Error updating course");
+    
+  }
+
+}
+
 export const getNameById = async (id: any) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase.from("users").select("*").eq("id", id);
   if (data) {
@@ -64,7 +103,7 @@ export const getNameById = async (id: any) => {
 
 export const deleteCourse = async ({ courseId, path }: DeleteCourseParams) => {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const deleteCourse = await supabase
       .from("courses")
@@ -82,7 +121,7 @@ export const deleteCourse = async ({ courseId, path }: DeleteCourseParams) => {
 
 export const createOrder = async (order: any) => {
   try {
-    const supabase = createClient();
+    const supabase = await createClient();
 
     const newOrder = await supabase.from("orders").insert({
       stripeId: order.stripeId,
@@ -134,7 +173,7 @@ export const getRelatedEvents = async ({
   category,
   currentEvent,
 }: GetRelatedCoursesParams) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const { data, error } = await supabase
@@ -165,8 +204,8 @@ export const getRelatedEvents = async ({
   }
 };
 
-export const getCourseById = async (course: Number) => {
-  const supabase = createClient();
+export const getCourseById = async (course: number) => {
+  const supabase = await createClient();
   await console.log(course, "course id");
 
   try {
@@ -195,7 +234,7 @@ export const getCourseById = async (course: Number) => {
 };
 
 export const getOrdersByCourseId = async (courseId: string) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const { data, error } = await supabase
@@ -229,7 +268,7 @@ export const getOrganizedCourses = async ({
   category,
   user,
 }: GetOrganizedCoursesParams) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const { data, error } = await supabase
@@ -266,7 +305,7 @@ export const getTickets = async ({
   category,
   user,
 }: GetTicketsParams) => {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   try {
     const { data, error } = await supabase

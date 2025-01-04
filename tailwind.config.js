@@ -9,6 +9,7 @@ module.exports = {
   ],
   prefix: "",
   theme: {
+   
     container: {
       center: true,
       padding: "2rem",
@@ -19,6 +20,17 @@ module.exports = {
     extend: {
       fontFamily: {
         clean: ["var(--font-clean)"],
+      },
+      fontSize: {
+        'xxxs': '0.625rem', // 3xs
+        'xxs': '0.75rem',    // 2xs
+        'xs': '0.8125rem',   // xs
+        'sm': '0.875rem',    // sm
+        'md': '1rem',        // md
+        'lg': '1.125rem',    // lg
+        'xl': '1.25rem',     // xl
+        'xxl': '1.375rem',   // 2xl
+        'xxxl': '1.5rem',    // 3xl
       },
       colors: {
         border: "hsl(var(--border))",

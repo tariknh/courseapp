@@ -10,7 +10,7 @@ type openStates = {
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-function Header({ open, setOpen }: openStates) {
+async function Header({ open, setOpen }: openStates) {
   const links = [
     {
       name: "about us",
@@ -135,7 +135,7 @@ function Header({ open, setOpen }: openStates) {
     },
   };
 
-  const supabase = createClient();
+  const supabase = await createClient();
   const [session, setSession] = useState<UserResponse | null>(null);
 
   useEffect(() => {

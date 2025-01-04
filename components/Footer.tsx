@@ -5,7 +5,7 @@ import CreateCourseButton from "./CreateCourseButton";
 
 const Footer = () => {
   return (
-    <footer className="pb-4 md:grid-cols-3 h-[50vh] px-4 pt-12  grid text-white bg-[#0e0e0e]">
+    <footer className="pb-4 self-end md:grid-cols-3 h-[50vh] px-4 pt-12  grid text-white bg-[#0e0e0e]">
       <div className="flex row-span-1 font-bold">
         <span>CAPP</span> <span className="-mt-.5 ml-[.2rem] text-xs">®</span>
       </div>
