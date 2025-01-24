@@ -9,10 +9,10 @@ import {
   FormState,
   SigninFormSchema,
   SignupFormSchema,
-} from "@/app/lib/definitions";
+} from "@/app/zod/definitions";
 
 export async function login(state: FormState, formData: any) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // Validate form fields
   const validatedFields = SigninFormSchema.safeParse({
@@ -45,7 +45,7 @@ export async function login(state: FormState, formData: any) {
 }
 
 export async function resetPassword(state: void | undefined, formData: any) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase.auth.resetPasswordForEmail(
     formData.get("email"),
@@ -56,7 +56,7 @@ export async function resetPassword(state: void | undefined, formData: any) {
 }
 
 export async function signup(state: FormState, formData: any) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // Validate form fields
   const validatedFields = SignupFormSchema.safeParse({
@@ -92,7 +92,7 @@ export async function signup(state: FormState, formData: any) {
 }
 
 export async function oldLogin(state: any, formData: FormData) {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   // type-casting here for convenience
   // in practice, you should validate your inputs
@@ -126,7 +126,7 @@ export async function oldLogin(state: any, formData: FormData) {
 }
 
 export async function signInWithGithub() {
-  const supabase = createClient();
+  const supabase = await createClient();
   const redirectUrl = "http://localhost:3000/auth/callback";
   const { data, error } = await supabase.auth.signInWithOAuth({
     provider: "github",
@@ -142,7 +142,7 @@ export async function signInWithGithub() {
 }
 
 export async function logout() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { error } = await supabase.auth.signOut();
 
@@ -155,7 +155,7 @@ export async function logout() {
 }
 
 export async function getSession() {
-  const supabase = createClient();
+  const supabase = await createClient();
 
   const { data, error } = await supabase.auth.getUser();
 
@@ -166,7 +166,7 @@ export async function getSession() {
 }
 
 // export async function signup(formData: FormData) {
-//   const supabase = createClient();
+//   const supabase = await createClient();
 
 //   // type-casting here for convenience
 //   // in practice, you should validate your inputs

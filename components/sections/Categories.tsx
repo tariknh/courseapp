@@ -16,9 +16,7 @@ export const Categories = () => {
       <div className="row-start-4  relative  flex flex-col gap-6 col-span-full">
         <CategoriesCarousel />
       </div>
-      <div className="row-start-6 lg:row-start-8 md:row-start-7 relative  flex flex-col gap-6 col-span-full">
-        <CategoriesCarousel xOffset={1} />
-      </div>
+     
     </section>
   );
 };

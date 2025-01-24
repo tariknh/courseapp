@@ -114,8 +114,8 @@ const EmblaCarousel: React.FC<PropType> = (props) => {
     <div className="embla">
       <div className="embla__viewport" ref={emblaRef}>
         <div className="embla__container">
-          {slides.map((index) => (
-            <div className="embla__slide">
+          {slides.map((index, key) => (
+            <div key={key} className="embla__slide">
               <div className="embla__parallax">
                 <div className="embla__parallax__layer">
                   <img

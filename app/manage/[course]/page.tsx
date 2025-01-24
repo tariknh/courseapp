@@ -1,22 +1,36 @@
 import { TableDemo } from "@/components/Table";
 import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   getCourseById,
   getOrdersByCourseId,
 } from "@/lib/actions/course.actions";
-import Tab from "@mui/joy/Tab";
-import TabList from "@mui/joy/TabList";
-import TabPanel from "@mui/joy/TabPanel";
-import Tabs from "@mui/joy/Tabs";
+
+
 import { MapPin, Plus } from "lucide-react";
+import Link from "next/link";
+import { URLSearchParams } from "url";
 
 type Props = {};
 
+const tabs = [
+  "Overview",
+  "Guests",
+  "Registration",
+  "Invites",
+  "Innsikt",
+  "Mer",
+]
+
+
+
 const OrdersPage = async (params: any) => {
+  console.log(params, "params!")
   const { searchParams } = params;
   //console.log(searchParams.eventId, "searchParams");
   const orders = await getOrdersByCourseId(searchParams.eventId);
   const course = await getCourseById(searchParams.eventId);
+  const currentTab = searchParams.currentTab || "overview"
 
   //console.log(orders, "orders");
   return (
@@ -26,22 +40,24 @@ const OrdersPage = async (params: any) => {
           Orders for <span className="text-offblack">{course.data.title}</span>
         </h2>
       </div>
-      <Tabs className="h-fit" aria-label="Basic tabs" defaultValue={0}>
-        <TabList>
-          <Tab className="p-4">Overview</Tab>
-          <Tab className="p-4">Guests</Tab>
-          <Tab className="p-4">Registration</Tab>
-        </TabList>
-        <TabPanel value={0}>
-          <CourseOverview course={course} />
-        </TabPanel>
-        <TabPanel value={1}>
-          <TableDemo orders={orders} />
-        </TabPanel>
-        <TabPanel value={2}>
-          <b>Third</b> tab panel
-        </TabPanel>
-      </Tabs>
+            {/* Tabs */}
+            <div className="px-6 border-b border-slate-400">
+        <Tabs defaultValue="guests" className="w-full">
+          <TabsList className="bg-transparent  w-full justify-start h-auto p-0">
+            {tabs.map((tab) => (
+              <TabsTrigger
+                key={tab}
+                value={tab.toLowerCase()}
+                
+                className="px-4 py-2 rounded-none data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none text-slate-400 "
+              >
+                <Link href={"/overview"}>{tab}</Link>
+                
+              </TabsTrigger>
+            ))}
+          </TabsList>
+        </Tabs>
+      </div>
     </div>
   );
 };

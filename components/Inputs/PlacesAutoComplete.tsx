@@ -13,7 +13,7 @@ import { Input } from "../ui/input";
 
 interface PlaceAutocompleteProps {
   onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
-  value?: google.maps.places.PlaceResult;
+  value?: google.maps.places.PlaceResult | string;
   className?: string;
   defaultValue?: string;
 }
@@ -97,7 +97,7 @@ export const GMap = ({ setCustomValue, value, onChange, ...props }: any) => {
   }, [selectedPlace]);
 
   return (
-    <APIProvider apiKey={`AIzaSyBuMu7Z7uz7-75yeLUHEkBgIXDyIOHxDhE`}>
+    <APIProvider apiKey={`${process.env.NEXT_PUBLIC_MAPS}`}>
       <div className="h-[30vh] gap-6 flex flex-col">
         <PlaceAutocomplete value={value} onPlaceSelect={setSelectedPlace} />
         <Map

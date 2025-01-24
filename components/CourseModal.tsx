@@ -1,9 +1,7 @@
 "use client";
-import { CourseInfo } from "@/app/lib/definitions";
+import { CourseInfo } from "@/app/zod/definitions";
 import { createClient } from "@/app/utils/supabase/client";
 import useCourseModal from "@/hooks/useCourseModal";
-import { createClientComponentClient } from "@supabase/auth-helpers-nextjs";
-import { useSupabaseClient } from "@supabase/auth-helpers-react";
 import type { UploadFile } from "antd/es/upload/interface";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
@@ -16,10 +14,11 @@ import Heading from "./Heading";
 import ImageWall from "./Inputs/Imagewall";
 import { GMap } from "./Inputs/PlacesAutoComplete";
 import Modal from "./Modal";
-import { DatePicker } from "./ui/DatePicker";
+import { DatePicker, DatePickerDemo } from "./ui/DatePicker";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
+import { UserResponse } from "@supabase/supabase-js";
 
 enum STEPS {
   CATEGORY = 0,
@@ -29,37 +28,54 @@ enum STEPS {
   PRICE = 4,
 }
 
-type StepConfig = {
-  content: JSX.Element;
-};
 
-const CourseModal = () => {
-  const [mysession, setMySession] = useState<any>(null);
-  const supabaseClient = useSupabaseClient();
-  const supabase = createClientComponentClient();
-  const supabase2 = createClient();
+
+export default function CourseModal(){
+  const [user, setUser] = useState<any>()
+ 
+  //const supabaseClient = useSupabaseClient();
+  //const supabase = await createClientComponentClient();
+  const supabase = createClient();
   //console.log(supabase2, "SUPABASE2");
   //const { user } = useUser();
+  const response = supabase.auth.getUser()
+  //console.log(response, "response")
 
   useEffect(() => {
-    supabase2.auth.getSession().then(({ data, error }) => {
-      if (data?.session) {
-        const user = data.session.user;
-        console.log(user, "USERUSER");
-        setMySession(user);
-        console.log("mysession", mysession);
-        console.log("mysession?.id", mysession?.id);
-      } else {
-        if (error) {
-          console.error("Error fetching session:", error);
-        } else {
+    if(response){
+
+      setUser(response)
+      console.log(response, "response")
+    }
+  
+    return () => {
+      
+    }
+  }, [])
+
+  
+
+    //const user = sessionData.user
+    
+  // useEffect(() => {
+  //   supabase2.auth.getSession().then(({ data, error }) => {
+  //     if (data?.session) {
+  //       const user = data.session.user;
+  //       console.log(user, "USERUSER");
+  //       setMySession(user);
+  //       console.log("mysession", mysession);
+  //       console.log("mysession?.id", mysession?.id);
+  //     } else {
+  //       if (error) {
+  //         console.error("Error fetching session:", error);
+  //       } else {
           
-        }
-      }
-    }).catch((error) => {
-      console.error("Failed to fetch session:", error);
-    });
-  }, []);
+  //       }
+  //     }
+  //   }).catch((error) => {
+  //     console.error("Failed to fetch session:", error);
+  //   });
+  // }, []);
   
   
 
@@ -86,7 +102,7 @@ const CourseModal = () => {
       price: 0,
       title: "",
       description: "",
-      user: mysession?.id,
+      user: user?.id,
     },
   });
 
@@ -249,7 +265,7 @@ const CourseModal = () => {
       }
     });
 
-    const { error } = await supabase.from("courses").insert({
+    const { error } =  await supabase.from("courses").insert({
       title: data?.title,
       description: data.description,
       price: data.price,
@@ -258,7 +274,7 @@ const CourseModal = () => {
       category: data.category,
       location: data.location,
       imageSrc: data.imageSrc,
-      user: mysession?.id,
+      user: user?.id,
     });
     if (error) {
       console.log(error);
@@ -328,7 +344,7 @@ const CourseModal = () => {
   const [selectedPlace, setSelectedPlace] =
     useState<google.maps.places.PlaceResult | null>(null);
 
-  const stepConfigs: Record<STEPS, StepConfig> = {
+  const stepConfigs: Record<STEPS, any> = {
     [STEPS.CATEGORY]: {
       content: (
         <div className="flex flex-col gap-8">
@@ -424,12 +440,14 @@ const CourseModal = () => {
             </div>
             <div>
               <Label htmlFor="date">Choose the length of your course</Label>
-              <DatePicker
+              {/* <DatePicker
                 id="date"
                 value={date}
                 onChange={(value) => setCustomValue("date", value)}
                 disabled={(date) => date < new Date()}
-              />
+              /> */}
+              <DatePickerDemo/>
+              
               <span className="text-destructive">{inputErrors?.date}</span>
             </div>
             <div>
@@ -529,4 +547,3 @@ const CourseModal = () => {
   );
 };
 
-export default CourseModal;

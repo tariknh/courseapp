@@ -1,7 +1,6 @@
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import ModalProvider from "@/providers/ModalProvider";
-import SupabaseProvider from "@/providers/SupabaseProvider";
 import ToasterProvider from "@/providers/ToasterProvider";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -11,23 +10,58 @@ const inter = Inter({ subsets: ["latin"] });
 
 import localFont from "next/font/local";
 
-const hellix = localFont({
+// const hellix = localFont({
+//   src: [
+//     {
+//       path: "./fonts/HellixTRIAL-Light.woff2",
+//       weight: "300",
+//     },
+//     {
+//       path: "./fonts/HellixTRIAL-Regular.woff2",
+//       weight: "400",
+//     },
+//     {
+//       path: "./fonts/HellixTRIAL-Bold.woff2",
+//       weight: "700",
+//     },
+//   ],
+//   variable: "--font-clean",
+// });
+
+const manrope = localFont({
   src: [
     {
-      path: "./fonts/HellixTRIAL-Light.woff2",
+      path: "./fonts/Manrope-ExtraLight.woff2",
+      weight: "200",
+    },
+    {
+      path: "./fonts/Manrope-Light.woff2",
       weight: "300",
     },
     {
-      path: "./fonts/HellixTRIAL-Regular.woff2",
+      path: "./fonts/Manrope-Regular.woff2",
       weight: "400",
     },
     {
-      path: "./fonts/HellixTRIAL-Bold.woff2",
+      path: "./fonts/Manrope-Medium.woff2",
+      weight: "500",
+    },
+    {
+      path: "./fonts/Manrope-SemiBold.woff2",
+      weight: "600",
+    },
+    {
+      path: "./fonts/Manrope-Bold.woff2",
       weight: "700",
+    },
+    {
+      path: "./fonts/Manrope-ExtraBold.woff2",
+      weight: "800",
     },
   ],
   variable: "--font-clean",
 });
+
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -42,10 +76,9 @@ export default function RootLayout({
 }) {
   return (
     <html className="scroll-smooth" lang="en">
-      <body className={`${hellix.variable} font-clean`}>
+      <body className={`${manrope.variable} font-clean`}>
         <div className="h-[10vh] z-[201] fixed w-full bg-offblack"></div>
         <ToasterProvider />
-        <SupabaseProvider>
           {/* <UserProvider> */}
           <ModalProvider />
           <Navbar />
@@ -53,7 +86,6 @@ export default function RootLayout({
           <Toaster />
           {/* <Footer /> */}
           {/* </UserProvider> */}
-        </SupabaseProvider>
       </body>
     </html>
   );

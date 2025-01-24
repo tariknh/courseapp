@@ -1,7 +1,7 @@
 import { getAllCourses, getFilteredCourses } from "@/actions/getCourses";
 import Collection from "@/components/Collection";
 import Footer from "@/components/Footer";
-import Filterbar from "@/components/Inputs/Filterbar";
+import UpdatedFilterBar from "@/components/ui/Filter/UpdatedFilterBar";
 
 export const revalidate = 0;
 
@@ -32,14 +32,13 @@ const courseJSON = [
   },
 ];
 
-export default async function Courses({
-  searchParams,
-}: {
-  searchParams?: {
+export default async function Courses(props: {
+  searchParams?: Promise<{
     city?: string;
     category?: string;
-  };
+  }>;
 }) {
+  const searchParams = await props.searchParams;
   const courses = await getAllCourses();
   //console.log(courses, "courses");
   const currentCategory = undefined;
@@ -57,11 +56,8 @@ export default async function Courses({
       <div className="h-[10vh] z-[100] fixed w-full bg-black"></div>
       <section className="bg-white w-full flex flex-col mb-48  h-fit pt-[12vh]">
         {/* <Filterbar /> */}
-        <div className="flex gap-2 px-2">
-          <div className="bg-blue-500 aspect-[3/4] h-36"></div>
-          <div className="bg-blue-500 aspect-[3/4] h-36"></div>
-        </div>
-        <section className=" px-2">
+        <UpdatedFilterBar />
+        <section className="pt-16 px-2">
           <Collection
             data={
               city === "" && category === ""
