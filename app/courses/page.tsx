@@ -56,8 +56,12 @@ export default async function Courses({
     <section>
       <div className="h-[10vh] z-[100] fixed w-full bg-black"></div>
       <section className="bg-white w-full flex flex-col mb-48  h-fit pt-[12vh]">
-        <Filterbar />
-        <section className="pt-16 px-2">
+        {/* <Filterbar /> */}
+        <div className="flex gap-2 px-2">
+          <div className="bg-blue-500 aspect-[3/4] h-36"></div>
+          <div className="bg-blue-500 aspect-[3/4] h-36"></div>
+        </div>
+        <section className=" px-2">
           <Collection
             data={
               city === "" && category === ""
