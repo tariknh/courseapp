@@ -1,5 +1,3 @@
-import Footer from "@/components/Footer";
-
 // export default function RootLayout({
 //   children,
 // }: {
@@ -9,20 +7,17 @@ import Footer from "@/components/Footer";
 //     <>
 //       <main className="overflow-hidden h-screen flex justify-between flex-col">
 //         <div className="pt-[10vh]">
-          
 
 //         {children}
 //         </div>
 //         <Footer />
-        
-        
+
 //         </main>
-      
+
 //     </>
 //   );
 // }
 
-import { TableDemo } from "@/components/Table";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -30,10 +25,8 @@ import {
   getOrdersByCourseId,
 } from "@/lib/actions/course.actions";
 
-
 import { MapPin, Plus } from "lucide-react";
 import Link from "next/link";
-import { URLSearchParams } from "url";
 
 type Props = {};
 
@@ -44,27 +37,23 @@ const tabs = [
   "Invites",
   "Innsikt",
   "Mer",
-]
-
-
+];
 
 export default async function RootLayout({
   children,
-  params
+  params,
 }: {
   children: React.ReactNode;
-  params: Promise<{ course: any }>
-})
-{
-  console.log(params, "params!")
-  const courseId = (await params).course
-  console.log(params, "searchparams")
+  params: Promise<{ course: any }>;
+}) {
+  console.log(params, "params!");
+  const courseId = (await params).course;
+  console.log(params, "searchparams");
   //const { searchParams } = params;
   //console.log(searchParams.eventId, "searchParams");
   const orders = await getOrdersByCourseId(courseId);
   const course = await getCourseById(courseId);
-  const currentTab = courseId.currentTab || "overview"
-
+  const currentTab = courseId.currentTab || "overview";
 
   //console.log(orders, "orders");
   return (
@@ -74,32 +63,28 @@ export default async function RootLayout({
           Orders for <span className="text-offblack">{course.data.title}</span>
         </h2>
       </div>
-            {/* Tabs */}
-            <div className="px-6 border-b border-slate-400">
+      {/* Tabs */}
+      <div className="px-6 border-b border-slate-400">
         <Tabs defaultValue="guests" className="w-full overflow-scroll">
           <TabsList className="bg-transparent  w-full justify-start h-auto p-0">
             {tabs.map((tab) => (
               <TabsTrigger
                 key={tab}
                 value={tab.toLowerCase()}
-                
                 className="px-4 py-2 rounded-none data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none text-slate-400 "
               >
                 <Link href={`/manage/${courseId}/${tab.toLowerCase()}`}>
-  {tab}
-</Link>
-                
+                  {tab}
+                </Link>
               </TabsTrigger>
             ))}
           </TabsList>
         </Tabs>
       </div>
-      <div>
-        {children}
-      </div>
+      <div className="bg-zinc-100">{children}</div>
     </div>
   );
-};
+}
 
 const CourseOverview = ({ course }: { course: any }) => {
   return (
@@ -146,4 +131,3 @@ const CourseOverview = ({ course }: { course: any }) => {
     </div>
   );
 };
-
