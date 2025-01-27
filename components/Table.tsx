@@ -69,7 +69,7 @@ interface OrderProps {
 export function TableDemo({ orders }: { orders: OrderProps }) {
   //console.log(orders, "orders from table");
   const { data } = orders;
-  console.log(data, "data from table");
+
   return (
     <Table>
       <TableCaption>A list of orders for your course</TableCaption>

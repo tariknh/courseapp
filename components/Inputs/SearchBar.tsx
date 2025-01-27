@@ -35,7 +35,6 @@ const SearchInput = ({
         setCategory={""}
         category={""}
         onChange={(e: any) => {
-          console.log(e, "VALUEVALUE");
           setSearchParams({ ...searchParams, category: e });
         }}
         value={searchParams.category}

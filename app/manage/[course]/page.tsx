@@ -1,12 +1,10 @@
 import { Button } from "@/components/ui/button";
-import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
   getCourseById,
   getOrdersByCourseId,
 } from "@/lib/actions/course.actions";
 
 import { MapPin, Plus } from "lucide-react";
-import Link from "next/link";
 
 type Props = {};
 
@@ -20,39 +18,13 @@ const tabs = [
 ];
 
 const OrdersPage = async (params: any) => {
-  console.log(params, "params!");
   const { searchParams } = params;
-  //console.log(searchParams.eventId, "searchParams");
+
   const orders = await getOrdersByCourseId(searchParams.eventId);
   const course = await getCourseById(searchParams.eventId);
   const currentTab = searchParams.currentTab || "overview";
 
-  //console.log(orders, "orders");
-  return (
-    <div className="pt-[10vh]">
-      <div className="p-4 font-bold bg-accent text-white text-xl">
-        <h2>
-          Orders for <span className="text-offblack">{course.data.title}</span>
-        </h2>
-      </div>
-      {/* Tabs */}
-      <div className="px-6 border-b border-slate-400">
-        <Tabs defaultValue="guests" className="w-full">
-          <TabsList className="bg-transparent w-full justify-start h-auto p-0">
-            {tabs.map((tab) => (
-              <TabsTrigger
-                key={tab}
-                value={tab.toLowerCase()}
-                className="px-4 py-2 rounded-none data-[state=active]:bg-transparent data-[state=active]:border-b-2 data-[state=active]:border-black data-[state=active]:shadow-none text-slate-400 "
-              >
-                <Link href={"/overview"}>{tab}</Link>
-              </TabsTrigger>
-            ))}
-          </TabsList>
-        </Tabs>
-      </div>
-    </div>
-  );
+  return <></>;
 };
 
 const CourseOverview = ({ course }: { course: any }) => {

@@ -1,5 +1,5 @@
 import InviteButtonModal from "@/components/InviteButtonModal";
-import { Button } from "@/components/ui/button";
+import ScrollAbleActions from "@/components/ScrollableActions";
 import {
   Card,
   CardContent,
@@ -7,66 +7,127 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { getCourseById } from "@/lib/actions/course.actions";
+import { CourseTypes } from "@/types";
 import { MapPin } from "lucide-react";
 import Image from "next/image";
-import { FaShare } from "react-icons/fa";
 import { IoMdMailOpen } from "react-icons/io";
 
 export default async function Page({
   params,
 }: {
-  params: Promise<{ course: string }>;
+  params: Promise<{ course: number }>;
 }) {
-  const slug = (await params).course;
+  const courseId = (await params).course;
+
+  const { data } = await getCourseById(courseId); // Extract 'data'
+
+  const course = data as CourseTypes; // Explicitly assert the type
+
   return (
     <div className="bg-zinc-100 min-h-screen max-w-4xl mx-auto">
       <ScrollAbleActions />
-      <CourseDetails parameters={params} />
+      <CourseDetails data={course} />
     </div>
   );
 }
 
-const CourseDetails = ({ parameters }: any) => {
+const extractCityAndCountry = (formattedAddress: string) => {
+  // Ensure we only work with the string portion of the address
+  const cleanAddress = formattedAddress.split('","')[0]; // Remove everything after the country
+  const parts = cleanAddress.split(", "); // Split the clean address by ", "
+
+  const country = parts[parts.length - 1]; // The last part is the country
+  const city = parts.length > 1 ? parts[parts.length - 2] : ""; // Second-to-last is the city
+
+  return { city, country };
+};
+
+const formatDateRange = (from: string, to: string) => {
+  const fromDate = new Date(from);
+  const toDate = new Date(to);
+
+  // Detect user's preferred language from the browser
+  const userLocale =
+    typeof navigator !== "undefined" ? navigator.language : "en-US";
+
+  // Format date for full day and abbreviated month
+  const optionsDay = {
+    weekday: "long",
+    day: "2-digit",
+    month: "short",
+  } as const;
+  const optionsTime = {
+    hour: "2-digit",
+    minute: "2-digit",
+    timeZoneName: "short",
+  } as const;
+
+  // Format day and month separately
+  const dayFormatter = new Intl.DateTimeFormat(userLocale, { day: "2-digit" });
+  const monthFormatter = new Intl.DateTimeFormat(userLocale, {
+    month: "short",
+  });
+
+  // Use the detected locale for formatting full date and time
+  const fullDayFormatter = new Intl.DateTimeFormat(userLocale, optionsDay);
+  const timeFormatter = new Intl.DateTimeFormat(userLocale, optionsTime);
+
+  // Get full formatted strings (without period after day)
+  const fromDayFull = fullDayFormatter.format(fromDate); // e.g., "Tuesday 29 Oct"
+  const fromTime = timeFormatter.format(fromDate); // e.g., "18:00 GMT"
+  const toDayFull = fullDayFormatter.format(toDate); // e.g., "Saturday 30 Nov"
+  const toTime = timeFormatter.format(toDate); // e.g., "19:00 GMT"
+
+  // Get just day and month for day number and month abbreviation
+  const fromDay = dayFormatter.format(fromDate); // e.g., "29"
+  const fromMonth = monthFormatter.format(fromDate).toUpperCase(); // e.g., "OCT"
+  const toDay = dayFormatter.format(toDate); // e.g., "30"
+  const toMonth = monthFormatter.format(toDate).toUpperCase(); // e.g., "NOV"
+
+  return {
+    fromDayFull,
+    fromTime,
+    toDayFull,
+    toTime,
+    fromDay,
+    fromMonth,
+    toDay,
+    toMonth,
+  };
+
+  /*
+{
+  fromDayFull: "Tuesday 29 Oct.",
+  fromTime: "18:00 GMT",
+  toDayFull: "Saturday 30 Nov.",
+  toTime: "19:00 GMT",
+  fromDay: "29",
+  fromMonth: "OCT",
+  toDay: "30",
+  toMonth: "NOV"
+}
+*/
+};
+
+const CourseDetails = ({ data }: { data: CourseTypes }) => {
+  const { city, country } = extractCityAndCountry(data.location);
+  const {
+    fromDay,
+    fromTime,
+    toDay,
+    toTime,
+    fromMonth,
+    fromDayFull,
+    toDayFull,
+  } = formatDateRange(data.date.from, data.date.to);
+
   return (
     <div className="p-4 w-full gap-4 grid place-items-center min-h-52 rounded-[2px]">
       <div className="aspect-square w-full bg-background rounded-[2px]">
         <div className="dark w-full grid ">
           <Card className=" rounded-[2px] w-full  bg-primary shadow-sm border-none  text-white">
             <CardContent className="p-3 md:flex gap-4">
-              {/* <div className="aspect-square shadow-md p-2 grid-cols-5 grid-rows-9 gap-2 grid w-full bg-primary rounded-[2px]">
-            <div className="relative col-start-1 col-span-2 row-span-4 overflow-hidden rounded-[2px]">
-              <Image className="object-cover" fill src="/courseimg/art.jpg" alt={"Course Image"}/>
-            </div>
-            <h2 className="text-xl row-start-1 col-start-3 text-offblack font-semibold col-span-full ">Course Title</h2>
-
-            <div className="col-span-2 space-y-2">
-
-            
-            <div className="flex gap-2">
-              <div className="border-[1px] scale-75 border-opacity-50 border-zinc-400 rounded-lg p-2 w-8 h-8 flex flex-col items-center justify-center">
-                <span className="text-[0.5rem] text-primary text-center bg-opacity-50 bg-zinc-400 w-8 rounded-t-lg  uppercase">DES</span>
-                <span className="text-sm text-zinc-400">26</span>
-              </div>
-              <div className=" flex flex-col">
-                <span className="text-offblack space-y-[1px] text-xs font-semibold">Torsdag 26. des.</span>
-                <span className="text-zinc-400 text-[0.5rem]">18:00 - 29. des., 19:00 GMT</span>
-              </div>
-            </div>
-            <div className="flex gap-2">
-            <div className="border-[1px] scale-75 border-opacity-50 border-zinc-400 rounded-lg p-2 w-8 h-8 flex items-center justify-center">
-                <MapPin className="w-6 h-6 text-zinc-400" />
-              </div>
-              <div className="flex space-y-[1px] flex-col">
-                <span className="text-offblack text-xs font-semibold">London</span>
-                <span className="text-zinc-400 text-[0.5rem]">London, England</span>
-                <p className="text-[0.5rem] text-zinc-400">
-                  Address shown on course page
-                </p>
-              </div>
-            </div>
-            </div>
-           
-          </div>  */}
               <div className="relative md:aspect-square h-60">
                 <Image
                   className="object-cover"
@@ -85,15 +146,17 @@ const CourseDetails = ({ parameters }: any) => {
                 <div className="flex gap-3 mb-4 items-start">
                   <div className="bg-zinc-800 rounded-lg p-2 w-8 h-8 flex flex-col items-center justify-center">
                     <span className="text-[0.4rem] text-primary text-center bg-opacity-50 bg-zinc-400 w-8 rounded-t-lg  uppercase">
-                      DES
+                      {fromMonth}
                     </span>
 
-                    <span className="text-md">26</span>
+                    <span className="text-md">{fromDay}</span>
                   </div>
                   <div className="space-y-1 text-offblack flex flex-col">
-                    <span>torsdag 26. des.</span>
+                    <span>{fromDayFull}</span>
                     <span className="text-zinc-400 text-sm">
-                      18:00 - 29. des., 19:00 GMT
+                      {fromDayFull == toDayFull
+                        ? `${fromTime} - ${toTime}`
+                        : `${fromTime} - ${toDayFull} ${toTime}`}
                     </span>
                   </div>
                 </div>
@@ -103,8 +166,8 @@ const CourseDetails = ({ parameters }: any) => {
                     <MapPin className="w-8 h-8" />
                   </div>
                   <div className="flex text-offblack flex-col">
-                    <span>London</span>
-                    <span className="text-zinc-400">UK</span>
+                    <span>{city}</span>
+                    <span className="text-zinc-400">{country}</span>
                     <p className="text-sm text-zinc-400 mt-2">
                       Adressen vises offentlig på arrangementsiden.
                     </p>
@@ -161,49 +224,4 @@ const Invitations = () => {
       </CardContent>
     </Card>
   );
-};
-
-const ScrollAbleActions = () => {
-  return (
-    <div className="overflow-scroll flex justify-evenly gap-2 pt-4 px-4 w-full">
-      <ActionComponent type="invite" />
-      <ActionComponent type="announcement" />
-      <ActionComponent type="share" />
-    </div>
-  );
-};
-
-type ActionVariants = "invite" | "announcement" | "share";
-
-const ActionComponent = ({ type }: { type: ActionVariants }) => {
-  if (type == "invite") {
-    return (
-      <Button className=" border-[#ef233c]" size={"wide"} variant={"action"}>
-        <div className="bg-[#ef233c] rounded-[2px] p-2 bg-opacity-15">
-          <FaShare className=" opacity-80" color="#ef233c" />
-        </div>
-        Send an invite
-      </Button>
-    );
-  }
-  if (type == "announcement") {
-    return (
-      <Button className=" border-[#23dbef]" size={"wide"} variant={"action"}>
-        <div className="bg-[#23dbef] rounded-[2px] p-2 bg-opacity-15">
-          <FaShare className=" opacity-80" color="#23dbef" />
-        </div>
-        Create an announcement
-      </Button>
-    );
-  }
-  if (type == "share") {
-    return (
-      <Button className=" border-[#4D5DEF]" size={"wide"} variant={"action"}>
-        <div className="bg-[#4D5DEF] rounded-[2px] p-2 bg-opacity-15">
-          <FaShare className=" opacity-80" color="#4D5DEF" />
-        </div>
-        Share the course
-      </Button>
-    );
-  }
 };

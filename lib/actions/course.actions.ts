@@ -1,6 +1,5 @@
 "use server";
 import { createClient } from "@/app/utils/supabase/server";
-import { CourseTypes } from "@/types";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 import Stripe from "stripe";
@@ -42,32 +41,32 @@ type DeleteCourseParams = {
   path: string;
 };
 
-export async function updateListing(state: any | undefined, formData: FormData) {
+export async function updateListing(
+  state: any | undefined,
+  formData: FormData
+) {
   //const res = await fetch('https://...')
   //const json = await res.json()
   try {
     const supabase = await createClient();
 
     const rawFormData = {
-      title: formData.get('title'),
-      description: formData.get('description'),
-      category: formData.get('category'),
-      date: formData.get('date'),
-      location: formData.get('location'),
-      capacity: formData.get('capacity'),
-      price: formData.get('price'),
-      amount: formData.get('amount'),
-      status: formData.get('status'),
+      title: formData.get("title"),
+      description: formData.get("description"),
+      category: formData.get("category"),
+      date: formData.get("date"),
+      location: formData.get("location"),
+      capacity: formData.get("capacity"),
+      price: formData.get("price"),
+      amount: formData.get("amount"),
+      status: formData.get("status"),
     };
 
-    const { data, error }  = await supabase
-      .from('courses')
+    const { data, error } = await supabase
+      .from("courses")
       .update({ title: rawFormData.title && rawFormData.title })
-      .eq('id', formData.get("id"))
-      .select()
-
-    console.log(data, "data", error, "error")
-      
+      .eq("id", formData.get("id"))
+      .select();
 
     if (data) {
       revalidatePath("/");
@@ -75,9 +74,7 @@ export async function updateListing(state: any | undefined, formData: FormData) 
     }
   } catch (error) {
     console.log(error, "Error updating course");
-    
   }
-
 }
 
 export const getNameById = async (id: any) => {
@@ -206,7 +203,6 @@ export const getRelatedEvents = async ({
 
 export const getCourseById = async (course: number) => {
   const supabase = await createClient();
-  await console.log(course, "course id");
 
   try {
     const { data, error } = await supabase
@@ -276,7 +272,6 @@ export const getOrganizedCourses = async ({
       .select("*")
       .eq("user", user)
       .limit(limit);
-    console.log(data, "organized courses");
 
     if (data !== null) {
       return {

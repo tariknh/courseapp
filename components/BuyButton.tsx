@@ -1,9 +1,8 @@
 "use client";
-import React, { useEffect } from "react";
-import { Button } from "./ui/button";
+import { checkoutOrder } from "@/lib/actions/course.actions";
 import { CourseTypes } from "@/types";
 import { loadStripe } from "@stripe/stripe-js";
-import { checkoutOrder } from "@/lib/actions/course.actions";
+import { useEffect } from "react";
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -28,7 +27,7 @@ const BuyButton = ({ listing, session }: BuyButtonProps) => {
       );
     }
   }, []);
-  console.log(listing, session, "listing, session");
+
   const userId = session?.user?.id;
   const eventFinished = new Date(listing.date.from) < new Date();
   const onCheckout = async (e: any) => {
@@ -38,7 +37,7 @@ const BuyButton = ({ listing, session }: BuyButtonProps) => {
       price: listing.price,
       buyer: userId,
     };
-    console.log(order, "order");
+
     await checkoutOrder(order);
   };
   return (

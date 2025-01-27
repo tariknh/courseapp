@@ -33,9 +33,6 @@ export const getAllCourses = async () => {
     .from("courses")
     .select("*")
     .order("created_at", { ascending: false });
-  if (error) {
-    console.log(error);
-  }
 
   return {
     data: JSON.parse(JSON.stringify(data)),
@@ -46,7 +43,6 @@ export const getFilteredCourses = async (city: string, category: string) => {
   // const supabase = createServerComponentClient({
   //   cookies: cookies,
   // });
-  console.log(city, category, "CITY AND CATEGORY");
 
   //const { formatted_address } = city;
 

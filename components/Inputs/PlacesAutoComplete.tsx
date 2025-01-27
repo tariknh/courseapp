@@ -40,10 +40,6 @@ export const PlaceAutocomplete = ({
     const options = {
       fields: ["geometry", "name", "formatted_address"],
     };
-    if (value) {
-      console.log("previous value", value);
-    }
-    console.log("render", value);
 
     setPlaceAutocomplete(new places.Autocomplete(inputRef.current, options));
   }, [places, value]);
@@ -87,10 +83,6 @@ export const GMap = ({ setCustomValue, value, onChange, ...props }: any) => {
   useEffect(() => {
     if (selectedPlace) {
       onChange(selectedPlace);
-    }
-    if (value) {
-      console.log(value);
-      //   setSelectedPlace(value);
     }
 
     return;

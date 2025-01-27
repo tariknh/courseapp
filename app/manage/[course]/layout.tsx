@@ -30,14 +30,7 @@ import Link from "next/link";
 
 type Props = {};
 
-const tabs = [
-  "Overview",
-  "Guests",
-  "Registration",
-  "Invites",
-  "Innsikt",
-  "Mer",
-];
+const tabs = ["Overview", "Guests", "Registration", "Invites"];
 
 export default async function RootLayout({
   children,
@@ -46,16 +39,12 @@ export default async function RootLayout({
   children: React.ReactNode;
   params: Promise<{ course: any }>;
 }) {
-  console.log(params, "params!");
   const courseId = (await params).course;
-  console.log(params, "searchparams");
-  //const { searchParams } = params;
-  //console.log(searchParams.eventId, "searchParams");
+
   const orders = await getOrdersByCourseId(courseId);
   const course = await getCourseById(courseId);
   const currentTab = courseId.currentTab || "overview";
 
-  //console.log(orders, "orders");
   return (
     <div className="pt-[10vh]">
       <div className="p-4 font-bold bg-accent text-white text-xl">
@@ -65,7 +54,7 @@ export default async function RootLayout({
       </div>
       {/* Tabs */}
       <div className="px-6 border-b border-slate-400">
-        <Tabs defaultValue="guests" className="w-full overflow-scroll">
+        <Tabs defaultValue="guests" className="w-full overflow-auto">
           <TabsList className="bg-transparent  w-full justify-start h-auto p-0">
             {tabs.map((tab) => (
               <TabsTrigger

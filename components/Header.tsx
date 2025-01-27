@@ -145,8 +145,6 @@ async function Header({ open, setOpen }: openStates) {
     });
   }, []);
 
-  console.log(session, "session");
-
   return (
     <div className="z-[1000] fixed grid grid-rows-8 h-screen max-h-screen w-screen overflow-hidden">
       <motion.div
