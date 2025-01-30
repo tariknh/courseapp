@@ -53,7 +53,7 @@ const SearchInput = ({
         className="text-xs border-none"
         placeholder="Enter a City"
       /> */}
-      <APIProvider apiKey={`${process.env.NEXT_PUBLIC_MAPS}`}>
+      <APIProvider apiKey={`${process.env.mapsKey}`}>
         <PlaceAutocomplete
           className="text-offblack"
           onPlaceSelect={(e) =>

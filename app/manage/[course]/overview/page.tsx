@@ -1,4 +1,5 @@
-import InviteButtonModal from "@/components/InviteButtonModal";
+import CheckInGuestModal from "@/components/ActionModals/CheckInModal";
+import InviteButtonModal from "@/components/ActionModals/InviteButtonModal";
 import ScrollAbleActions from "@/components/ScrollableActions";
 import {
   Card,
@@ -125,8 +126,8 @@ const CourseDetails = ({ data }: { data: CourseTypes }) => {
   return (
     <div className="p-4 w-full gap-4 grid place-items-center min-h-52 rounded-[2px]">
       <div className="aspect-square w-full bg-background rounded-[2px]">
-        <div className="dark w-full grid ">
-          <Card className=" rounded-[2px] w-full  bg-primary shadow-sm border-none  text-white">
+        <div className="w-full grid ">
+          <Card className=" rounded-[2px] w-full  bg-background shadow-sm border-none  text-white">
             <CardContent className="p-3 md:flex gap-4">
               <div className="relative md:aspect-square h-60">
                 <Image
@@ -174,17 +175,13 @@ const CourseDetails = ({ data }: { data: CourseTypes }) => {
                   </div>
                 </div>
                 <div className="my-6 flex gap-6">
-                  <button className="bg-zinc-800 flex-auto text-xs text-nowrap col-start-3 h-9 rounded-[2px] px-3 text-zinc-600 border-input bg-background bg-opacity-20 hover:text-accent-foreground border-zinc-700 hover:bg-zinc-700  place-self-end">
-                    Check in guests
-                  </button>
-                  <button className="bg-zinc-800 text-xs flex-auto text-nowrap col-start-3 h-9 rounded-[2px] px-3 text-zinc-600 border-input bg-background bg-opacity-20 hover:text-accent-foreground border-zinc-700 hover:bg-zinc-700  place-self-end">
-                    Edit course
-                  </button>
+                  <CheckInGuestModal>Check in guests</CheckInGuestModal>
+                  <CheckInGuestModal>Edit Course</CheckInGuestModal>
                 </div>
               </div>
             </CardContent>
           </Card>
-          <Card className="bg-primary text-offblack border-none">
+          <Card className="bg-background text-offblack border-none">
             <CardContent>
               <CardHeader>
                 <div className="flex justify-between items-center">

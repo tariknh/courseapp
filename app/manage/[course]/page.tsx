@@ -24,7 +24,7 @@ const OrdersPage = async (params: any) => {
   const course = await getCourseById(searchParams.eventId);
   const currentTab = searchParams.currentTab || "overview";
 
-  return <></>;
+  return "/overview";
 };
 
 const CourseOverview = ({ course }: { course: any }) => {

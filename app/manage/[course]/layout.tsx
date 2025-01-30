@@ -18,6 +18,7 @@
 //   );
 // }
 
+import CheckInGuestModal from "@/components/ActionModals/CheckInModal";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import {
@@ -43,7 +44,7 @@ export default async function RootLayout({
 
   const orders = await getOrdersByCourseId(courseId);
   const course = await getCourseById(courseId);
-  const currentTab = courseId.currentTab || "overview";
+  const currentTab = (await courseId.currentTab) || "overview";
 
   return (
     <div className="pt-[10vh]">
@@ -54,7 +55,7 @@ export default async function RootLayout({
       </div>
       {/* Tabs */}
       <div className="px-6 border-b border-slate-400">
-        <Tabs defaultValue="guests" className="w-full overflow-auto">
+        <Tabs defaultValue="overview" className="w-full overflow-auto">
           <TabsList className="bg-transparent  w-full justify-start h-auto p-0">
             {tabs.map((tab) => (
               <TabsTrigger
@@ -105,9 +106,8 @@ const CourseOverview = ({ course }: { course: any }) => {
         <Button size={"sm"} className="w-full">
           Edit course
         </Button>
-        <Button size={"sm"} className="w-full">
-          Check in guests
-        </Button>
+
+        <CheckInGuestModal>Check in guests</CheckInGuestModal>
       </div>
       <div className="flex justify-between align-middle items-baseline">
         <h3 className="text-xl font-bold">Invitations</h3>
