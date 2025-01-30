@@ -1,6 +1,6 @@
 "use client";
-import { CourseInfo } from "@/app/zod/definitions";
 import { createClient } from "@/app/utils/supabase/client";
+import { CourseInfo } from "@/app/zod/definitions";
 import useCourseModal from "@/hooks/useCourseModal";
 import type { UploadFile } from "antd/es/upload/interface";
 import dynamic from "next/dynamic";
@@ -14,11 +14,10 @@ import Heading from "./Heading";
 import ImageWall from "./Inputs/Imagewall";
 import { GMap } from "./Inputs/PlacesAutoComplete";
 import Modal from "./Modal";
-import { DatePicker, DatePickerDemo } from "./ui/DatePicker";
+import { DatePickerWithRange } from "./ui/DateRange";
 import { Input } from "./ui/input";
 import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
-import { UserResponse } from "@supabase/supabase-js";
 
 enum STEPS {
   CATEGORY = 0,
@@ -28,35 +27,28 @@ enum STEPS {
   PRICE = 4,
 }
 
+export default function CourseModal() {
+  const [user, setUser] = useState<any>();
 
-
-export default function CourseModal(){
-  const [user, setUser] = useState<any>()
- 
   //const supabaseClient = useSupabaseClient();
   //const supabase = await createClientComponentClient();
   const supabase = createClient();
   //console.log(supabase2, "SUPABASE2");
   //const { user } = useUser();
-  const response = supabase.auth.getUser()
+  const response = supabase.auth.getUser();
   //console.log(response, "response")
 
   useEffect(() => {
-    if(response){
-
-      setUser(response)
-      console.log(response, "response")
+    if (response) {
+      setUser(response);
+      console.log(response, "response");
     }
-  
-    return () => {
-      
-    }
-  }, [])
 
-  
+    return () => {};
+  }, []);
 
-    //const user = sessionData.user
-    
+  //const user = sessionData.user
+
   // useEffect(() => {
   //   supabase2.auth.getSession().then(({ data, error }) => {
   //     if (data?.session) {
@@ -69,15 +61,13 @@ export default function CourseModal(){
   //       if (error) {
   //         console.error("Error fetching session:", error);
   //       } else {
-          
+
   //       }
   //     }
   //   }).catch((error) => {
   //     console.error("Failed to fetch session:", error);
   //   });
   // }, []);
-  
-  
 
   // const {
   //   data: { user },
@@ -265,7 +255,7 @@ export default function CourseModal(){
       }
     });
 
-    const { error } =  await supabase.from("courses").insert({
+    const { error } = await supabase.from("courses").insert({
       title: data?.title,
       description: data.description,
       price: data.price,
@@ -446,8 +436,13 @@ export default function CourseModal(){
                 onChange={(value) => setCustomValue("date", value)}
                 disabled={(date) => date < new Date()}
               /> */}
-              <DatePickerDemo/>
-              
+              <DatePickerWithRange
+                id="date"
+                value={date}
+                onChange={(value) => setCustomValue("date", value)}
+                disabled={(date) => date < new Date()}
+              />
+
               <span className="text-destructive">{inputErrors?.date}</span>
             </div>
             <div>
@@ -545,5 +540,4 @@ export default function CourseModal(){
       {bodyContent.content}
     </Modal>
   );
-};
-
+}

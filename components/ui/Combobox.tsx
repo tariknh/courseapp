@@ -18,9 +18,8 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import { useEffect } from "react";
-import { CategoriesTypes, categories } from "../Categories";
 import { useMediaQuery } from "@/hooks/useMediaQuery";
+import { CategoriesTypes, categories } from "../Categories";
 
 export function ComboBoxResponsive({
   setCategory,
@@ -44,7 +43,7 @@ export function ComboBoxResponsive({
         <PopoverTrigger asChild>
           <Button
             variant={"category"}
-            className="px-3 py-2 w-full justify-start"
+            className="px-3 py-2 w-full min-w-52 justify-start"
           >
             {value ? <>{value}</> : <>+ Choose a category</>}
           </Button>
@@ -100,6 +99,7 @@ function CategoryList({
               disabled={false}
               key={category.name}
               value={category.name}
+              className="hover:cursor-pointer hover:text-white"
               onSelect={(value) => {
                 onChange(value);
                 setSelectedCategory(
@@ -108,7 +108,7 @@ function CategoryList({
                 setOpen(false);
               }}
             >
-              <div className="flex items-center gap-2">
+              <div className="flex hover:text-white items-center gap-2">
                 {category.name}
                 {category.icon}
               </div>

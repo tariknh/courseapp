@@ -4,7 +4,6 @@ import { CourseTypes } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
 import { AiFillEdit } from "react-icons/ai";
-import { HiArrowRight } from "react-icons/hi2";
 import { DeleteConfirmation } from "./DeleteConfirmation";
 interface CourseProps {
   title: string;
@@ -54,15 +53,18 @@ const AllCourses: React.FC<CourseProps> = async ({
 
   return (
     // <Link className="w-full" href={`/courses/${course.id}`}>
-    <div className="grid-rows-1 w-full grid grid-cols-1 justify-center mt-2 ">
+    <div className="grid-rows-1 items-stretch w-full grid grid-cols-1 justify-center mt-2 h-fit">
       {/* IS COURSE CREATOR*/}
 
       <div
         className="
             bg-slate-200
             aspect-video
-            row-span-3
+            w-full
             relative
+           
+            overflow-hidden
+            grid
           "
       >
         <Link href={`/courses/${course.id}`}>
@@ -89,7 +91,7 @@ const AllCourses: React.FC<CourseProps> = async ({
         </div>
       </div>
 
-      <div className="flex flex-col mt-2">
+      <div className="flex flex-col mt-2 gap-2 h-2/6">
         <div className="flex text-nowrap  text-sm justify-between text-zinc-500">
           <h2>{formatDateTime(course.date.from)}</h2>
           {/* Created by firstname lastname */}
@@ -100,20 +102,19 @@ const AllCourses: React.FC<CourseProps> = async ({
             </p>
           </h2>
         </div>
-
-        <h2 className="font-semibold text-xl">{title}</h2>
+        <div className="flex items-center justify-between">
+          <h2 className="font-semibold text-xl">{title}</h2>
+          {isCourseCreator && (
+            <Link className="justify-self-end" href={`/manage/${course.id}`}>
+              <div className="w-full justify-self-end flex gap-2 items-center">
+                <p className="bg-zinc-800 transition-all text-xs h-9 rounded-[2px] px-3 text-zinc-600 items-center flex border-input bg-background bg-opacity-20 hover:text-background border-zinc-700 hover:bg-zinc-700 place-self-end">
+                  Manage Event
+                </p>
+              </div>
+            </Link>
+          )}
+        </div>
       </div>
-      {isCourseCreator && (
-        <Link
-          className="justify-self-end"
-          href={`/manage/${course.id}`}
-        >
-          <div className="w-full justify-self-end flex gap-2 items-center">
-            <p className="">Order Details</p>
-            <HiArrowRight />
-          </div>
-        </Link>
-      )}
     </div>
   );
 };

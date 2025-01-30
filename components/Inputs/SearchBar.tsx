@@ -1,10 +1,10 @@
 "use client";
 import { APIProvider } from "@vis.gl/react-google-maps";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useState } from "react";
 import { CategoriesTypes } from "../Categories";
 import { ComboBoxResponsive } from "../ui/Combobox";
-import { Button } from "../ui/button";
 import { PlaceAutocomplete } from "./PlacesAutoComplete";
 
 type Props = {};
@@ -72,7 +72,7 @@ const SearchBar = (props: Props) => {
     category: "",
   });
   return (
-    <div className="bg-white max-w-2xl text-black flex gap-6 flex-col sm:flex-row sm:items-center p-5">
+    <div className="bg-white max-w-2xl rounded-md text-black flex gap-6 flex-col sm:flex-row sm:items-center p-5">
       <SearchInput
         searchParams={searchParams}
         setSearchParams={setSearchParams}
@@ -83,13 +83,20 @@ const SearchBar = (props: Props) => {
         setSearchParams={setSearchParams}
         variant="City"
       />
-      <Button className="sm:w-1/4 sm:mx-auto justify-self-center">
+      <motion.button
+        whileHover={{
+          backgroundColor: "Background",
+          color: "#121212",
+          border: "1px solid #121212",
+        }}
+        className="px-8 py-4 text-xl border bg-black max-w-fit text-white p-8 rounded-md"
+      >
         <Link
           href={`/courses?category=${searchParams.category}&city=${searchParams.city}`}
         >
           Search
         </Link>
-      </Button>
+      </motion.button>
     </div>
   );
 };

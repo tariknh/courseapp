@@ -19,7 +19,7 @@ export const Explore = async () => {
           <Link href="/courses">View all courses</Link>
         </Button>
       </div>
-      <div className="col-span-full sm:row-start-3 row-start-4">
+      <div className="col-span-full sm:row-start-3 row-start-3">
         <Collection
           data={courses?.data}
           emptyTitle="No courses found"

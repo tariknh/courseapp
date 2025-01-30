@@ -19,7 +19,7 @@ function About() {
       className="text-white w-full font-bold p-8 justify-center content-center h-screen grid bg-white gap-6 [text-wrap:balance]"
     >
       <h1 className="text-center  text-offblack max-w-4xl lg:text-8xl text-5xl">
-        learn <span className="opacity-50">a new talent</span> and teach
+        Learn <span className="opacity-50">a new talent</span> and teach
         <span className="opacity-50"> away </span>your talent.
       </h1>
       <span className="text-center font-light place-self-center text-md">

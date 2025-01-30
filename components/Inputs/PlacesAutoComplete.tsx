@@ -89,7 +89,7 @@ export const GMap = ({ setCustomValue, value, onChange, ...props }: any) => {
   }, [selectedPlace]);
 
   return (
-    <APIProvider apiKey={`${process.env.NEXT_PUBLIC_MAPS}`}>
+    <APIProvider apiKey={`${process.env.mapsKey}`}>
       <div className="h-[30vh] gap-6 flex flex-col">
         <PlaceAutocomplete value={value} onPlaceSelect={setSelectedPlace} />
         <Map

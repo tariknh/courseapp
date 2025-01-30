@@ -1,11 +1,10 @@
 "use client";
 
-import * as React from "react";
-import { CalendarIcon } from "@radix-ui/react-icons";
 import { addDays, format } from "date-fns";
+import { Calendar as CalendarIcon } from "lucide-react";
+import * as React from "react";
 import { DateRange } from "react-day-picker";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Calendar } from "@/components/ui/calendar";
 import {
@@ -13,17 +12,31 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import { Matcher } from "react-day-picker";
 
-export function DatePickerWithRange({
+interface InputProps {
+  value?: any;
+  onChange: (value: any) => void;
+  className?: any;
+  id?: string;
+  disabled?: Matcher | Matcher[] | undefined;
+}
+
+export const DatePickerWithRange: React.FC<InputProps> = ({
+  value,
+  onChange,
   className,
-}: React.HTMLAttributes<HTMLDivElement>) {
+  id,
+  disabled,
+}: InputProps) => {
   const [date, setDate] = React.useState<DateRange | undefined>({
     from: new Date(2022, 0, 20),
     to: addDays(new Date(2022, 0, 20), 20),
   });
 
   return (
-    <div className={cn("grid gap-2", className)}>
+    <div className={cn("grid gap-2 z-[5000]", className)}>
       <Popover>
         <PopoverTrigger asChild>
           <Button
@@ -34,7 +47,7 @@ export function DatePickerWithRange({
               !date && "text-muted-foreground"
             )}
           >
-            <CalendarIcon className="mr-2 h-4 w-4" />
+            <CalendarIcon />
             {date?.from ? (
               date.to ? (
                 <>
@@ -49,17 +62,22 @@ export function DatePickerWithRange({
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start">
+        <PopoverContent
+          className="w-auto z-[50000] pointer-events-auto p-0"
+          align="start"
+        >
           <Calendar
             initialFocus
             mode="range"
-            defaultMonth={date?.from}
-            selected={date}
-            onSelect={setDate}
+            disabled={disabled}
             numberOfMonths={2}
+            className="z-[50000]"
+            defaultMonth={value?.from}
+            selected={value}
+            onSelect={(value) => onChange(value)}
           />
         </PopoverContent>
       </Popover>
     </div>
   );
-}
+};

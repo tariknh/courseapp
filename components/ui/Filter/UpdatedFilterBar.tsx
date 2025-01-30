@@ -90,7 +90,7 @@ export default function FilterModal() {
               value={citySearch}
               onChange={(e) => setCitySearch(e.target.value)}
             /> */}
-            <APIProvider apiKey={`${process.env.NEXT_PUBLIC_MAPS}`}>
+            <APIProvider apiKey={`${process.env.mapsKey}`}>
               <PlaceAutocomplete
                 className="text-offblack z-20"
                 value={citySearch}
