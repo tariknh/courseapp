@@ -113,6 +113,7 @@ const formatDateRange = (from: string, to: string) => {
 
 const CourseDetails = ({ data }: { data: CourseTypes }) => {
   const { city, country } = extractCityAndCountry(data.location);
+  const { id } = data;
   const {
     fromDay,
     fromTime,
@@ -175,8 +176,12 @@ const CourseDetails = ({ data }: { data: CourseTypes }) => {
                   </div>
                 </div>
                 <div className="my-6 flex gap-6">
-                  <CheckInGuestModal>Check in guests</CheckInGuestModal>
-                  <CheckInGuestModal>Edit Course</CheckInGuestModal>
+                  <CheckInGuestModal id={String(id)}>
+                    Check in guests
+                  </CheckInGuestModal>
+                  <CheckInGuestModal id={String(id)}>
+                    Edit Course
+                  </CheckInGuestModal>
                 </div>
               </div>
             </CardContent>

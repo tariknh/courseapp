@@ -107,7 +107,7 @@ const CourseOverview = ({ course }: { course: any }) => {
           Edit course
         </Button>
 
-        <CheckInGuestModal>Check in guests</CheckInGuestModal>
+        <CheckInGuestModal id={String(2)}>Check in guests</CheckInGuestModal>
       </div>
       <div className="flex justify-between align-middle items-baseline">
         <h3 className="text-xl font-bold">Invitations</h3>

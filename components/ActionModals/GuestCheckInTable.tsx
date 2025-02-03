@@ -1,14 +1,5 @@
 "use client";
 
-import { Button } from "@/components/ui/button";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-} from "@/components/ui/dialog";
 import {
   Table,
   TableBody,
@@ -18,8 +9,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Undo2 } from "lucide-react";
-import { useState } from "react";
+import { getNameById, getOrdersByCourseId } from "@/lib/actions/course.actions";
+import { Skeleton } from "antd";
+import { useEffect, useState } from "react";
 
 interface Guest {
   name: string;
@@ -67,50 +59,89 @@ const initialGuests: Guest[] = [
   },
 ];
 
-export function GuestCheckInTable() {
-  const [selectedGuest, setSelectedGuest] = useState<Guest | null>(null);
-  const [guestList, setGuestList] = useState<Guest[]>(initialGuests);
-
-  const handleGuestClick = (guest: Guest) => {
-    setSelectedGuest(guest);
+type TicketTypes = {
+  buyer: string; // UUID format
+  createdAt: string; // Date in "YYYY-MM-DD" format
+  created_at: string; // ISO timestamp
+  has_checked_in: boolean;
+  id: number;
+  listingId: {
+    id: number;
+    date: string | Record<string, any>; // Adjust if date is an object
+    user: string; // UUID
+    image: string | null;
+    price: number;
+    [key: string]: any; // Allow additional properties
   };
+  stripeId: string;
+  totalAmount: string; // Consider changing to `number` if always numeric
+};
 
-  const handleCloseModal = () => {
-    setSelectedGuest(null);
-  };
+export function GuestCheckInTable({ id }: { id: string }) {
+  const [tickets, setTickets] = useState<TicketTypes[]>();
 
-  const updateGuestList = (updatedGuest: Guest) => {
-    const updatedGuestList = guestList.map((guest) =>
-      guest.email === updatedGuest.email ? updatedGuest : guest
-    );
-    setGuestList(updatedGuestList);
-    setSelectedGuest(updatedGuest);
-  };
+  const [loading, setIsLoading] = useState(false);
 
-  const handleCheckIn = () => {
-    if (selectedGuest) {
-      const updatedGuest: Guest = {
-        ...selectedGuest,
-        checkedIn: true,
-        status: "Confirmed",
-      };
-      updateGuestList(updatedGuest);
-    }
-  };
+  useEffect(() => {
+    const getTickets = async () => {
+      try {
+        setIsLoading(true);
+        const { ticketData } = await getOrdersByCourseId(id);
+        setTickets(ticketData);
+      } catch (error) {
+        console.log(error, "ERROR GETTING TICKETS");
+      } finally {
+        setIsLoading(false);
+      }
+    };
+    getTickets();
+  }, [id]);
 
-  const handleUndo = () => {
-    if (selectedGuest) {
-      const updatedGuest: Guest = {
-        ...selectedGuest,
-        checkedIn: false,
-        status:
-          selectedGuest.status === "Confirmed"
-            ? "Confirmed"
-            : "Awaiting Confirmation",
-      };
-      updateGuestList(updatedGuest);
-    }
-  };
+  console.log(tickets, "ticket!");
+  // const [selectedGuest, setSelectedGuest] = useState<TicketTypes | null>(null);
+  // const [guestList, setGuestList] = useState<TicketTypes[]>(tickets);
+
+  // const handleGuestClick = (guest: TicketTypes) => {
+  //   setSelectedGuest(guest);
+  // };
+
+  // const handleCloseModal = () => {
+  //   setSelectedGuest(null);
+  // };
+
+  // const updateGuestList = (guest: TicketTypes) => {
+  //   const updatedGuestList = tickets?.map((ticket) =>
+  //     ticket.id === guest.id ? guest : ticket
+  //   );
+  //   setGuestList(updatedGuestList);
+  //   setSelectedGuest(updatedGuest);
+  // };
+
+  // const handleCheckIn = () => {
+  //   if (selectedGuest) {
+  //     const updatedGuest: Guest = {
+  //       ...selectedGuest,
+  //       checkedIn: true,
+  //       status: "Confirmed",
+  //     };
+  //     updateGuestList(updatedGuest);
+  //   }
+  // };
+
+  // const handleUndo = () => {
+  //   if (selectedGuest) {
+  //     const updatedGuest: Guest = {
+  //       ...selectedGuest,
+  //       checkedIn: false,
+  //       status:
+  //         selectedGuest.status === "Confirmed"
+  //           ? "Confirmed"
+  //           : "Awaiting Confirmation",
+  //     };
+  //     updateGuestList(updatedGuest);
+  //   }
+  // };
+  if (loading) return <Skeleton />;
 
   return (
     <>
@@ -122,7 +153,16 @@ export function GuestCheckInTable() {
           </TableRow>
         </TableHeader>
         <TableBody>
-          {guestList.map((guest) => (
+          {tickets?.map((ticket) => (
+            <TableRow
+              key={ticket.id}
+              // onClick={() => handleGuestClick(ticket)}
+              className="cursor-pointer hover:bg-muted/50"
+            >
+              <TicketBuyer ticket={ticket} />
+            </TableRow>
+          ))}
+          {/* {guestList.map((guest) => (
             <TableRow
               key={guest.email}
               onClick={() => handleGuestClick(guest)}
@@ -144,17 +184,17 @@ export function GuestCheckInTable() {
                 )}
               </TableCell>
             </TableRow>
-          ))}
+          ))} */}
         </TableBody>
         <TableFooter>
           <TableRow>
             <TableCell>Total Guests</TableCell>
-            <TableCell className="text-right">{guestList.length}</TableCell>
+            <TableCell className="text-right">{tickets?.length}</TableCell>
           </TableRow>
         </TableFooter>
       </Table>
 
-      <Dialog open={selectedGuest !== null} onOpenChange={handleCloseModal}>
+      {/* <Dialog open={selectedGuest !== null} onOpenChange={handleCloseModal}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>{selectedGuest?.name}</DialogTitle>
@@ -188,7 +228,60 @@ export function GuestCheckInTable() {
             </Button>
           </DialogFooter>
         </DialogContent>
-      </Dialog>
+      </Dialog> */}
     </>
   );
 }
+type TicketItemProps = {
+  ticket: TicketTypes;
+};
+type BuyerData = {
+  name: string;
+  email: string;
+  id: string; // or number, depending on your data
+};
+
+const TicketBuyer = ({ ticket }: TicketItemProps) => {
+  const [buyerData, setBuyerData] = useState<BuyerData>();
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  useEffect(() => {
+    const fetchBuyerName = async () => {
+      try {
+        const buyer = await getNameById(ticket.buyer);
+        setBuyerData({
+          name: buyer?.name || "Anonymous",
+          email: buyer?.email || "Anonymous@anon.com",
+          id: buyer?.id || "Anonymous ID",
+        });
+      } catch (error) {
+        console.error("Error fetching buyer name:", error);
+      }
+    };
+
+    fetchBuyerName();
+  }, [ticket.buyer]);
+  return (
+    <>
+      <TableCell>
+        {isLoading ? <Skeleton /> : <div>{buyerData?.name}</div>}
+        {isLoading ? (
+          <Skeleton />
+        ) : (
+          <div className="text-sm text-muted-foreground">
+            {buyerData?.email}
+          </div>
+        )}
+      </TableCell>
+      <TableCell className="text-right">
+        {ticket.has_checked_in === true ? (
+          <span className="text-green-600 font-medium">Confirmed</span>
+        ) : (
+          <span className="text-yellow-600 font-medium">
+            Awaiting Confirmation
+          </span>
+        )}
+      </TableCell>
+    </>
+  );
+};

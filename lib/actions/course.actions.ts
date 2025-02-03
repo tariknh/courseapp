@@ -82,11 +82,13 @@ export const getNameById = async (id: any) => {
 
   const { data, error } = await supabase.from("users").select("*").eq("id", id);
   if (data) {
-    const { full_name } = data[0];
+    const { full_name, useremail } = data[0];
+    console.log(data[0], "datanull");
 
     return {
       name: full_name,
       id: id,
+      email: useremail,
     };
   }
 
@@ -241,7 +243,7 @@ export const getOrdersByCourseId = async (courseId: string) => {
     if (data !== null) {
       //console.log(data, "orders by course id");
       return {
-        data: data,
+        ticketData: data,
       };
     } else {
       // Handle the case when data is null

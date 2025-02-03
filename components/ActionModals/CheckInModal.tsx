@@ -1,8 +1,7 @@
 "use client";
 import { AvatarIcon } from "@radix-ui/react-icons";
 import { TrashIcon } from "lucide-react";
-import React, { useEffect, useState } from "react";
-import { v4 as uuidv4 } from "uuid";
+import React from "react";
 import { Button, buttonVariants } from "../ui/button";
 import {
   Dialog,
@@ -19,34 +18,13 @@ type InviteeProps = {
   email: string | undefined;
 };
 
-const CheckInGuestModal = ({ children }: { children: React.ReactNode }) => {
-  const [invitees, setInvitees] = useState<InviteeProps[]>([]);
-  const [currentUser, setCurrentUser] = useState<string>("");
-  const [currentStep, setCurrentStep] = useState<number>(0);
-  useEffect(() => {
-    if (invitees.length < 1) {
-      setCurrentStep(0);
-    }
-    return () => {};
-  }, [invitees]);
-
-  const titleSwitch = () => {
-    switch (currentStep) {
-      case 0:
-        return "Check in guests";
-      case 1:
-        return "Customize your invite";
-    }
-  };
-  const addUser = (currentUser: string | undefined) => {
-    setInvitees([
-      ...invitees,
-      {
-        id: uuidv4(),
-        email: currentUser,
-      },
-    ]);
-  };
+const CheckInGuestModal = ({
+  children,
+  id,
+}: {
+  children: React.ReactNode;
+  id: string;
+}) => {
   return (
     <Dialog>
       <DialogTrigger className={buttonVariants({ variant: "grayDefault" })}>
@@ -54,10 +32,10 @@ const CheckInGuestModal = ({ children }: { children: React.ReactNode }) => {
       </DialogTrigger>
       <DialogContent className="max-w-4xl">
         <DialogHeader>
-          <DialogTitle>{titleSwitch()}</DialogTitle>
+          <DialogTitle>Check in guests!</DialogTitle>
           <DialogDescription>Choose the guests to check in!</DialogDescription>
         </DialogHeader>
-        <GuestCheckInTable />
+        <GuestCheckInTable id={id} />
       </DialogContent>
     </Dialog>
   );
