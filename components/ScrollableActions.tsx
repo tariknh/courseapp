@@ -1,32 +1,51 @@
+"use client";
 import { Button } from "@/components/ui/button";
+import { CourseTypes } from "@/types";
 import { FaShare } from "react-icons/fa";
+import InviteButtonModal from "./ActionModals/InviteButtonModal";
+import ShareCourseModal from "./ActionModals/ShareCourse";
 
-const ScrollAbleActions = async () => {
+const ScrollAbleActions = ({ data }: { data: CourseTypes }) => {
+  const slug = "71";
   return (
     <div className="overflow-auto flex justify-evenly gap-2 pt-4 px-4 w-full">
       <ActionComponent type="invite" />
       <ActionComponent type="announcement" />
-      <ActionComponent type="share" />
+      <ActionComponent slug={slug} type="share" />
     </div>
   );
 };
 
 type ActionVariants = "invite" | "announcement" | "share";
 
-const ActionComponent = ({ type }: { type: ActionVariants }) => {
+const ActionComponent = ({
+  type,
+  onClick,
+  slug,
+}: {
+  type: ActionVariants;
+  onClick?: (e: any) => void;
+  slug?: string;
+}) => {
   if (type == "invite") {
     return (
-      <Button className=" border-[#ef233c]" size={"wide"} variant={"action"}>
+      <InviteButtonModal>
         <div className="bg-[#ef233c] rounded-[2px] p-2 bg-opacity-15">
           <FaShare className=" opacity-80" color="#ef233c" />
         </div>
         Send an invite
-      </Button>
+      </InviteButtonModal>
     );
   }
   if (type == "announcement") {
     return (
-      <Button className=" border-[#23dbef]" size={"wide"} variant={"action"}>
+      <Button
+        onClick={onClick}
+        name="announcement"
+        className=" border-[#23dbef]"
+        size={"wide"}
+        variant={"action"}
+      >
         <div className="bg-[#23dbef] rounded-[2px] p-2 bg-opacity-15">
           <FaShare className=" opacity-80" color="#23dbef" />
         </div>
@@ -36,12 +55,12 @@ const ActionComponent = ({ type }: { type: ActionVariants }) => {
   }
   if (type == "share") {
     return (
-      <Button className=" border-[#4D5DEF]" size={"wide"} variant={"action"}>
+      <ShareCourseModal courseSlug={`${slug}`} variant="action">
         <div className="bg-[#4D5DEF] rounded-[2px] p-2 bg-opacity-15">
           <FaShare className=" opacity-80" color="#4D5DEF" />
         </div>
         Share the course
-      </Button>
+      </ShareCourseModal>
     );
   }
 };

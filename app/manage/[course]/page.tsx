@@ -54,10 +54,10 @@ const CourseOverview = ({ course }: { course: any }) => {
         </div>
       </div>
       <div className="w-full gap-2 flex justify-evenly">
-        <Button size={"sm"} className="w-full">
+        <Button variant={"grayDefault"} className="w-full">
           Edit course
         </Button>
-        <Button size={"sm"} className="w-full">
+        <Button variant={"grayDefault"} className="w-full">
           Check in guests
         </Button>
       </div>

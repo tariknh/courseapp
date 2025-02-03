@@ -3,7 +3,7 @@ import { AvatarIcon } from "@radix-ui/react-icons";
 import { TrashIcon } from "lucide-react";
 import React, { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
-import { Button } from "../ui/button";
+import { Button, buttonVariants } from "../ui/button";
 import {
   Dialog,
   DialogContent,
@@ -49,7 +49,7 @@ const CheckInGuestModal = ({ children }: { children: React.ReactNode }) => {
   };
   return (
     <Dialog>
-      <DialogTrigger className="bg-zinc-800 text-xs col-start-3 h-9 rounded-[2px] px-3 text-zinc-600 border-input bg-background bg-opacity-20 hover:text-accent-foreground border-zinc-700 hover:bg-zinc-700  place-self-end">
+      <DialogTrigger className={buttonVariants({ variant: "grayDefault" })}>
         {children}
       </DialogTrigger>
       <DialogContent className="max-w-4xl">

@@ -1,4 +1,5 @@
 "use client";
+import { buttonVariants } from "@/components/ui/button";
 import { AvatarIcon } from "@radix-ui/react-icons";
 import { Divider } from "antd";
 import { ChevronLeftIcon, ChevronRightIcon, TrashIcon } from "lucide-react";
@@ -51,7 +52,7 @@ const InviteButtonModal = ({ children }: { children: React.ReactNode }) => {
   };
   return (
     <Dialog>
-      <DialogTrigger className="bg-zinc-800 text-xs col-start-3 h-9 rounded-[2px] px-3 text-zinc-600 border-input bg-background bg-opacity-20 hover:text-accent-foreground border-zinc-700 hover:bg-zinc-700  place-self-end">
+      <DialogTrigger className={buttonVariants({ variant: "action" })}>
         {children}
       </DialogTrigger>
       <DialogContent>

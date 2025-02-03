@@ -27,7 +27,7 @@ export default async function Page({
 
   return (
     <div className="bg-zinc-100 min-h-screen max-w-4xl mx-auto">
-      <ScrollAbleActions />
+      <ScrollAbleActions data={course} />
       <CourseDetails data={course} />
     </div>
   );
@@ -129,7 +129,7 @@ const CourseDetails = ({ data }: { data: CourseTypes }) => {
         <div className="w-full grid ">
           <Card className=" rounded-[2px] w-full  bg-background shadow-sm border-none  text-white">
             <CardContent className="p-3 md:flex gap-4">
-              <div className="relative md:aspect-square h-60">
+              <div className="relative md:aspect-square h-96 max-h-full">
                 <Image
                   className="object-cover"
                   fill

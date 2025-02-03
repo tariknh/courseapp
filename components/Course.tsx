@@ -103,11 +103,13 @@ const AllCourses: React.FC<CourseProps> = async ({
           </h2>
         </div>
         <div className="flex items-center justify-between">
-          <h2 className="font-semibold text-xl">{title}</h2>
+          <h2 className="font-semibold text-xl max-w-56 md:max-w-none">
+            {title}
+          </h2>
           {isCourseCreator && (
             <Link className="justify-self-end" href={`/manage/${course.id}`}>
               <div className="w-full justify-self-end flex gap-2 items-center">
-                <p className="bg-zinc-800 transition-all text-xs h-9 rounded-[2px] px-3 text-zinc-600 items-center flex border-input bg-background bg-opacity-20 hover:text-background border-zinc-700 hover:bg-zinc-700 place-self-end">
+                <p className="bg-zinc-800 transition-all text-xs h-9 text-nowrap rounded-[2px] px-3 text-zinc-600 items-center flex border-input bg-background bg-opacity-20 hover:text-background border-zinc-700 hover:bg-zinc-700 place-self-end">
                   Manage Event
                 </p>
               </div>

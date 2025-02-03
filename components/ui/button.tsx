@@ -23,6 +23,8 @@ const buttonVariants = cva(
         link: "text-primary underline-offset-4 hover:underline",
         action:
           "justify-start gap-2 bg-background text-offblak hover:border-[1px] border-opacity-60",
+        grayDefault:
+          "bg-zinc-800 text-xs col-start-3 h-9 rounded-[2px] px-3 text-zinc-600 border-input bg-opacity-20 hover:text-background border-zinc-700 hover:bg-zinc-700  place-self-end",
       },
       size: {
         default: "rounded-[2px] h-10 px-4 py-2",
