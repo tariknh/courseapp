@@ -10,6 +10,7 @@ import {
   SigninFormSchema,
   SignupFormSchema,
 } from "@/app/zod/definitions";
+import { sendSignUpEmail } from "@/lib/actions/course.actions";
 
 export async function login(state: FormState, formData: any) {
   const supabase = await createClient();

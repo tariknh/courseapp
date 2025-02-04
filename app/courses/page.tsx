@@ -2,6 +2,8 @@ import { getAllCourses, getFilteredCourses } from "@/actions/getCourses";
 import Collection from "@/components/Collection";
 import Footer from "@/components/Footer";
 import UpdatedFilterBar from "@/components/ui/Filter/UpdatedFilterBar";
+import { Suspense } from "react";
+import Loading from "./loading";
 
 export const revalidate = 0;
 
@@ -58,20 +60,22 @@ export default async function Courses(props: {
         {/* <Filterbar /> */}
         <UpdatedFilterBar />
         <section className="pt-16 px-2">
-          <Collection
-            data={
-              city === "" && category === ""
-                ? courses?.data
-                : coursesFiltered?.data
-            }
-            emptyTitle="No courses found"
-            emptyStateSubText="Change filters, or click below to reset filters!"
-            collectionType="Courses_Organized"
-            limit={20}
-            page={1}
-            totalPages={2}
-            urlParamName={undefined}
-          />
+          <Suspense fallback={<Loading />}>
+            <Collection
+              data={
+                city === "" && category === ""
+                  ? courses?.data
+                  : coursesFiltered?.data
+              }
+              emptyTitle="No courses found"
+              emptyStateSubText="Change filters, or click below to reset filters!"
+              collectionType="Courses_Organized"
+              limit={20}
+              page={1}
+              totalPages={2}
+              urlParamName={undefined}
+            />
+          </Suspense>
         </section>
       </section>
       <Footer />

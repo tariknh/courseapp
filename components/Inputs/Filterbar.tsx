@@ -83,6 +83,7 @@ export const SearchInputs = (props: SProps) => {
   const [value, setValue] = React.useState<CategoriesTypes | null>(null);
   const pathname = usePathname();
   const { replace } = useRouter();
+  const mapsKey = process.env.mapsKey as string;
 
   function handleSearch(term: string | undefined) {
     const params = new URLSearchParams(searchParams);
@@ -168,7 +169,7 @@ export const SearchInputs = (props: SProps) => {
           className="text-offblack "
           placeholder="Stavanger, Norway"
         /> */}
-        <APIProvider apiKey={`AIzaSyBuMu7Z7uz7-75yeLUHEkBgIXDyIOHxDhE`}>
+        <APIProvider apiKey={mapsKey}>
           <PlaceAutocomplete
             className="text-offblack"
             defaultValue={searchParams.get("city")?.toString()}

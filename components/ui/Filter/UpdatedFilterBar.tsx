@@ -32,6 +32,7 @@ export default function FilterModal() {
   const searchParams = useSearchParams();
   const pathname = usePathname();
   const { replace } = useRouter();
+  const mapsKey = process.env.mapsKey as string;
 
   const currentCategory = searchParams.get("category")?.toString();
   const currentCity = searchParams.get("city")?.toString();
@@ -90,9 +91,9 @@ export default function FilterModal() {
               value={citySearch}
               onChange={(e) => setCitySearch(e.target.value)}
             /> */}
-            <APIProvider apiKey={`${process.env.mapsKey}`}>
+            <APIProvider apiKey={mapsKey}>
               <PlaceAutocomplete
-                className="text-offblack z-20"
+                className="text-offblack z-[500] "
                 value={citySearch}
                 onPlaceSelect={(e) => {
                   e?.formatted_address && setCitySearch(e.formatted_address);

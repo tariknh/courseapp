@@ -75,6 +75,7 @@ const MapHandler = ({ place, marker }: MapHandlerProps) => {
 
 export const GMap = ({ setCustomValue, value, onChange, ...props }: any) => {
   const position = { lat: 53.54992, lng: 10.00678 };
+  const mapsKey = process.env.mapsKey as string;
 
   const [selectedPlace, setSelectedPlace] =
     useState<google.maps.places.PlaceResult | null>(null);
@@ -89,7 +90,7 @@ export const GMap = ({ setCustomValue, value, onChange, ...props }: any) => {
   }, [selectedPlace]);
 
   return (
-    <APIProvider apiKey={`${process.env.mapsKey}`}>
+    <APIProvider apiKey={mapsKey}>
       <div className="h-[30vh] gap-6 flex flex-col">
         <PlaceAutocomplete value={value} onPlaceSelect={setSelectedPlace} />
         <Map

@@ -1,7 +1,9 @@
 "use server";
 import { createClient } from "@/app/utils/supabase/server";
+import { EmailTemplate } from "@/components/Resend/email-template";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
+import { Resend } from "resend";
 import Stripe from "stripe";
 
 type GetOrganizedCoursesParams = {
@@ -165,6 +167,22 @@ export const checkoutOrder = async (order: OrderParams) => {
     throw error;
   }
 };
+
+export const sendSignUpEmail = async ({
+  userId
+}: {userId: string}) => {
+  const resend = new Resend(process.env.RESEND_API_KEY);
+   const { data, error } = await resend.emails.send({
+        from: "Tarik <onboarding@resend.dev>",
+        to: ["hajibtarik@gmail.com"],
+        subject: "Thank you for signing up!",
+        react: EmailTemplate({ firstName: "John" }) as React.ReactElement,
+      });
+      if (error) {
+        return Response.json({ error }, { status: 500 });
+      }
+      return Response.json({ data });
+}
 
 export const getRelatedEvents = async ({
   limit = 6,

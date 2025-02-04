@@ -1,7 +1,6 @@
 "use client";
 
 import { addDays, format } from "date-fns";
-import { Calendar as CalendarIcon } from "lucide-react";
 import * as React from "react";
 import { DateRange } from "react-day-picker";
 
@@ -14,6 +13,7 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import { Matcher } from "react-day-picker";
+import { MdOutlineCalendarToday } from "react-icons/md";
 
 interface InputProps {
   value?: any;
@@ -43,19 +43,19 @@ export const DatePickerWithRange: React.FC<InputProps> = ({
             id="date"
             variant={"outline"}
             className={cn(
-              "w-[300px] justify-start text-left font-normal",
+              "w-[300px] flex gap-1 justify-start text-left font-normal",
               !date && "text-muted-foreground"
             )}
           >
-            <CalendarIcon />
-            {date?.from ? (
-              date.to ? (
+            <MdOutlineCalendarToday size={20} />
+            {value?.from ? (
+              value.to ? (
                 <>
-                  {format(date.from, "LLL dd, y")} -{" "}
-                  {format(date.to, "LLL dd, y")}
+                  {format(value.from, "LLL dd, y")} -{" "}
+                  {format(value.to, "LLL dd, y")}
                 </>
               ) : (
-                format(date.from, "LLL dd, y")
+                format(value.from, "LLL dd, y")
               )
             ) : (
               <span>Pick a date</span>

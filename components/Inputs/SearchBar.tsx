@@ -21,6 +21,7 @@ const SearchInput = ({
   searchParams,
   setSearchParams,
 }: SearchVariants) => {
+  const mapsKey = process.env.mapsKey as string;
   return variant === "Category" ? (
     <div className="flex flex-col">
       <h2 className="text-sm mb-2 text-offblack">I wanna learn:</h2>
@@ -53,7 +54,7 @@ const SearchInput = ({
         className="text-xs border-none"
         placeholder="Enter a City"
       /> */}
-      <APIProvider apiKey={`${process.env.mapsKey}`}>
+      <APIProvider apiKey={mapsKey}>
         <PlaceAutocomplete
           className="text-offblack"
           onPlaceSelect={(e) =>

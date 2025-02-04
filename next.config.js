@@ -4,7 +4,7 @@ const nextConfig = {
     domains: ["dliobleuxirzpstdyzcn.supabase.co"],
   },
   env: {
-    mapsKey: "",
+    mapsKey: process.env.MAPS_KEY,
   },
   async redirects() {
     return [

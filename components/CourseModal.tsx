@@ -30,13 +30,10 @@ enum STEPS {
 export default function CourseModal() {
   const [user, setUser] = useState<any>();
 
-  //const supabaseClient = useSupabaseClient();
-  //const supabase = await createClientComponentClient();
   const supabase = createClient();
-  //console.log(supabase2, "SUPABASE2");
-  //const { user } = useUser();
+
   const response = supabase.auth.getUser();
-  //console.log(response, "response")
+
 
   useEffect(() => {
     if (response) {
@@ -47,32 +44,7 @@ export default function CourseModal() {
     return () => {};
   }, []);
 
-  //const user = sessionData.user
 
-  // useEffect(() => {
-  //   supabase2.auth.getSession().then(({ data, error }) => {
-  //     if (data?.session) {
-  //       const user = data.session.user;
-  //       console.log(user, "USERUSER");
-  //       setMySession(user);
-  //       console.log("mysession", mysession);
-  //       console.log("mysession?.id", mysession?.id);
-  //     } else {
-  //       if (error) {
-  //         console.error("Error fetching session:", error);
-  //       } else {
-
-  //       }
-  //     }
-  //   }).catch((error) => {
-  //     console.error("Failed to fetch session:", error);
-  //   });
-  // }, []);
-
-  // const {
-  //   data: { user },
-  // } = supabase2.auth.getUser();
-  //await console.log(user, "USER");
   const [inputErrors, setinputErrors] = useState<any>({});
 
   const {
@@ -132,15 +104,7 @@ export default function CourseModal() {
   };
 
   const verifyFields = (data: FieldValues) => {
-    console.log(data);
-    // Validate form fields
-    // const validatedFields = CourseInfo.safeParse({
-    //   title: data.title,
-    //   description: data.description,
-    //   date: data.date,
-    //   capacity: data.capacity,
-    //   category: data.category,
-    // });
+
 
     let validatedFields;
     let pickedValidations;
@@ -205,20 +169,19 @@ export default function CourseModal() {
 
   const onNext = async (data: FieldValues) => {
     const validFields = await verifyFields(data);
-    //let errors: any[] = [];
+   
 
     if (!validFields?.errors) {
       setStep((value) => value + 1);
     } else {
       Object.entries(validFields.errors).forEach(([category, messages]) => {
-        //console.log(`Errors for ${category}:`);
-        //errors.push({ category, messages });
+    
 
         messages.forEach((message) => {
           toast.error(message);
         });
       });
-      console.log(inputErrors, "ERRRRRORS");
+
 
       return errors;
     }
@@ -226,11 +189,9 @@ export default function CourseModal() {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (step !== STEPS.PRICE) {
-      //returns input errors if any
-      const errors = await onNext(data);
-      //console.log(errors, "ERRRRRORS");
 
-      //console.log(inputErrors, "ERRRRRORS");
+      const errors = await onNext(data);
+
       return errors;
     }
     const verify = await verifyFields(data);

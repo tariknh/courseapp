@@ -5,8 +5,8 @@ import Steps from "@/components/Steps";
 import { Categories } from "@/components/sections/Categories";
 import { Explore } from "@/components/sections/Explore";
 // import { useEffect } from "react";
-import Hero from "./Home";
 import Footer from "@/components/Footer";
+import Hero from "./Home";
 
 export default function Home() {
   // useEffect(() => {
