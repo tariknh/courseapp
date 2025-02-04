@@ -1,18 +1,18 @@
-import { UserDetails } from "@/types";
-import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
-import { cookies } from "next/headers";
+// import { UserDetails } from "@/types";
+// import { createServerComponentClient } from "@supabase/auth-helpers-nextjs";
+// import { cookies } from "next/headers";
 
-const getProfile = async (): Promise<UserDetails[]> => {
-  const supabase = createServerComponentClient({
-    cookies: cookies,
-  });
+// const getProfile = async (): Promise<UserDetails[]> => {
+//   const supabase = createServerComponentClient({
+//     cookies: cookies,
+//   });
 
-  const { data, error } = await supabase.from("users").select("*");
-  if (error) {
-    console.log(error);
-  }
+//   const { data, error } = await supabase.from("users").select("*");
+//   if (error) {
+//     console.log(error);
+//   }
 
-  return (data as any) || [];
-};
+//   return (data as any) || [];
+// };
 
-export default getProfile;
+// export default getProfile;
