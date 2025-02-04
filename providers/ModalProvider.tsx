@@ -1,4 +1,3 @@
-import AuthModal from "@/components/AuthModal";
 import CourseModal from "@/components/CourseModal";
 
 function ModalProvider() {

@@ -14,7 +14,7 @@ const Steps = () => {
     },
   };
 
-  const sectionRef: any = useRef();
+  const sectionRef: any = useRef(null);
 
   const { scrollYProgress } = useScroll({
     target: sectionRef,

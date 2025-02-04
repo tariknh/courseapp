@@ -32,7 +32,7 @@ export default async function Page({
             2 / {Number(course.capacity)} guests
           </div>
           <ProgressBar guests={2} capacity={Number(course.capacity)} />
-          <ScrollAbleActions />
+          <ScrollAbleActions data={data} />
         </CardContent>
       </Card>
     </div>
