@@ -22,30 +22,23 @@ type GetAllCoursesParams = {
 // };
 
 export const getAllCourses = async () => {
-  // const supabase = createServerComponentClient({
-  //   cookies: cookies,
-  // });
-
+  const start = performance.now(); // Start timing
   const supabase = await createClient();
-  const conditions = {};
 
   const { data, error } = await supabase
     .from("courses")
     .select("*")
     .order("created_at", { ascending: false });
 
+  const duration = performance.now() - start; // Calculate query duration
+
   return {
     data: JSON.parse(JSON.stringify(data)),
+    duration,
   };
 };
 
 export const getFilteredCourses = async (city: string, category: string) => {
-  // const supabase = createServerComponentClient({
-  //   cookies: cookies,
-  // });
-
-  //const { formatted_address } = city;
-
   const supabase = await createClient();
   const conditions = {};
 

@@ -42,9 +42,17 @@ export default async function Courses(props: {
 }) {
   const searchParams = await props.searchParams;
   const courses = await getAllCourses();
-  //console.log(courses, "courses");
-  const currentCategory = undefined;
-  const currentCity = undefined;
+  const { duration } = await getAllCourses();
+  console.log(duration, "duration!");
+
+  const observer = new PerformanceObserver((list) => {
+    for (const entry of list.getEntries()) {
+      const navEntry = entry as PerformanceNavigationTiming; // type assertion
+      console.log("Server Timing:", navEntry.serverTiming);
+    }
+  });
+
+  observer.observe({ type: "navigation", buffered: true });
 
   const city = searchParams?.city || "";
   const category = searchParams?.category || "";
