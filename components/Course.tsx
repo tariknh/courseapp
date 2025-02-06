@@ -55,7 +55,6 @@ const AllCourses: React.FC<CourseProps> = async ({
     // <Link className="w-full" href={`/courses/${course.id}`}>
     <div className="grid-rows-1 items-stretch w-full grid grid-cols-1 justify-center mt-2 h-fit">
       {/* IS COURSE CREATOR*/}
-
       <div
         className="
             bg-slate-200
@@ -71,8 +70,8 @@ const AllCourses: React.FC<CourseProps> = async ({
           <Image
             src={imageData.publicUrl || "/courseimg/tavle.jpg"}
             alt={title}
-            layout="fill"
-            objectFit="cover"
+            fill
+            className="object-cover"
           />
         </Link>
         {isCourseCreator && (
@@ -90,7 +89,6 @@ const AllCourses: React.FC<CourseProps> = async ({
           </h3>
         </div>
       </div>
-
       <div className="flex flex-col mt-2 gap-2 h-2/6">
         <div className="flex text-nowrap  text-sm justify-between text-zinc-500">
           <h2>{formatDateTime(course.date.from)}</h2>

@@ -1,7 +1,4 @@
-import Image from "next/image";
-import React, { useState } from "react";
-import { IconBase, IconType } from "react-icons";
-import Heading from "./Heading";
+import React from "react";
 
 interface CategoryProps {
   label: string;

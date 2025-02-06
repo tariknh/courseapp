@@ -11,7 +11,18 @@ import {
 } from "@/components/ui/table";
 import { getNameById, getOrdersByCourseId } from "@/lib/actions/course.actions";
 import { Skeleton } from "antd";
+import { formatDate } from "date-fns/format";
+import { Undo2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { Button } from "../ui/button";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "../ui/dialog";
 
 interface Guest {
   name: string;
@@ -98,16 +109,8 @@ export function GuestCheckInTable({ id }: { id: string }) {
   }, [id]);
 
   console.log(tickets, "ticket!");
-  // const [selectedGuest, setSelectedGuest] = useState<TicketTypes | null>(null);
-  // const [guestList, setGuestList] = useState<TicketTypes[]>(tickets);
-
-  // const handleGuestClick = (guest: TicketTypes) => {
-  //   setSelectedGuest(guest);
-  // };
-
-  // const handleCloseModal = () => {
-  //   setSelectedGuest(null);
-  // };
+  const [selectedGuest, setSelectedGuest] = useState<TicketTypes | null>(null);
+  //const [guestList, setGuestList] = useState<TicketTypes[]>(tickets);
 
   // const updateGuestList = (guest: TicketTypes) => {
   //   const updatedGuestList = tickets?.map((ticket) =>
@@ -156,10 +159,10 @@ export function GuestCheckInTable({ id }: { id: string }) {
           {tickets?.map((ticket) => (
             <TableRow
               key={ticket.id}
-              // onClick={() => handleGuestClick(ticket)}
+              onClick={() => setSelectedGuest(ticket)}
               className="cursor-pointer hover:bg-muted/50"
             >
-              <TicketBuyer ticket={ticket} />
+              <TicketBuyer selected={selectedGuest} ticket={ticket} />
             </TableRow>
           ))}
           {/* {guestList.map((guest) => (
@@ -193,47 +196,12 @@ export function GuestCheckInTable({ id }: { id: string }) {
           </TableRow>
         </TableFooter>
       </Table>
-
-      {/* <Dialog open={selectedGuest !== null} onOpenChange={handleCloseModal}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>{selectedGuest?.name}</DialogTitle>
-            <DialogDescription>{selectedGuest?.email}</DialogDescription>
-          </DialogHeader>
-          <div className="py-4">
-            <p>
-              <strong>Status:</strong> {selectedGuest?.status}
-            </p>
-            <p>
-              <strong>Registration Date:</strong>{" "}
-              {selectedGuest?.registrationDate}
-            </p>
-            <p>
-              <strong>Checked In:</strong>{" "}
-              {selectedGuest?.checkedIn ? "Yes" : "No"}
-            </p>
-          </div>
-          <DialogFooter>
-            {selectedGuest &&
-              (!selectedGuest.checkedIn ? (
-                <Button onClick={handleCheckIn}>Check In</Button>
-              ) : (
-                <Button onClick={handleUndo} variant="outline">
-                  <Undo2 className="mr-2 h-4 w-4" />
-                  Undo Check-In
-                </Button>
-              ))}
-            <Button variant="outline" onClick={handleCloseModal}>
-              Close
-            </Button>
-          </DialogFooter>
-        </DialogContent>
-      </Dialog> */}
     </>
   );
 }
 type TicketItemProps = {
   ticket: TicketTypes;
+  selected: any;
 };
 type BuyerData = {
   name: string;
@@ -241,9 +209,23 @@ type BuyerData = {
   id: string; // or number, depending on your data
 };
 
-const TicketBuyer = ({ ticket }: TicketItemProps) => {
+const TicketBuyer = ({ ticket, selected }: TicketItemProps) => {
   const [buyerData, setBuyerData] = useState<BuyerData>();
+  const [isSelected, setIsSelected] = useState<TicketTypes>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const handleGuestClick = (selected: TicketTypes) => {
+    if (ticket == selected) {
+      console.log(ticket, selected, "THIS IS THE ONE SELECTED");
+      setIsSelected(ticket);
+    }
+  };
+
+  const handleCloseModal = () => {
+    setIsSelected(undefined);
+  };
+
+  console.log(selected, "selected");
 
   useEffect(() => {
     const fetchBuyerName = async () => {
@@ -261,9 +243,13 @@ const TicketBuyer = ({ ticket }: TicketItemProps) => {
 
     fetchBuyerName();
   }, [ticket.buyer]);
+
+  const registrationDate = selected?.created_at
+    ? formatDate(new Date(selected.created_at), "yyyy-MM-dd HH:mm:ss")
+    : "";
   return (
     <>
-      <TableCell>
+      <TableCell onClick={() => handleGuestClick(selected)}>
         {isLoading ? <Skeleton /> : <div>{buyerData?.name}</div>}
         {isLoading ? (
           <Skeleton />
@@ -282,6 +268,41 @@ const TicketBuyer = ({ ticket }: TicketItemProps) => {
           </span>
         )}
       </TableCell>
+      <Dialog open={isSelected == ticket} onOpenChange={handleCloseModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>{buyerData?.name}</DialogTitle>
+            <DialogDescription>{buyerData?.email}</DialogDescription>
+          </DialogHeader>
+          <div className="py-4">
+            <p>
+              <strong>Status:</strong>{" "}
+              {ticket.has_checked_in ? "Checked in" : "Not Checked in"}
+            </p>
+            <p>
+              <strong>Registration Date:</strong> {registrationDate}
+            </p>
+            <p>
+              <strong>Checked In:</strong>{" "}
+              {selected?.has_checked_in ? "Yes" : "No"}
+            </p>
+          </div>
+          <DialogFooter>
+            {selected &&
+              (!selected.has_checked_in ? (
+                <Button>Check In</Button>
+              ) : (
+                <Button variant="outline">
+                  <Undo2 className="mr-2 h-4 w-4" />
+                  Undo Check-In
+                </Button>
+              ))}
+            <Button variant="outline" onClick={handleCloseModal}>
+              Close
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </>
   );
 };

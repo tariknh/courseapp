@@ -1,9 +1,7 @@
-import React, { useCallback } from "react";
-import { Label } from "../ui/label";
-import { Input } from "../ui/input";
-import { BiImageAdd } from "react-icons/bi";
 import Image from "next/image";
+import React from "react";
 import { toast } from "sonner";
+import { Input } from "../ui/input";
 
 interface ImageUploadProps {
   onChange?: (value: string) => void;

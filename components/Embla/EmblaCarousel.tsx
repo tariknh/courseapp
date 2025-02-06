@@ -1,18 +1,17 @@
 "use client";
-import React, { useCallback, useEffect, useRef } from "react";
 import {
   EmblaCarouselType,
   EmblaEventType,
   EmblaOptionsType,
 } from "embla-carousel";
 import useEmblaCarousel from "embla-carousel-react";
+import React, { useCallback, useEffect, useRef } from "react";
 import {
   NextButton,
   PrevButton,
   usePrevNextButtons,
 } from "./EmblaCarouselArrowButtons";
 import { DotButton, useDotButton } from "./EmblaCarouselDotButton";
-import Image from "next/image";
 
 const TWEEN_FACTOR_BASE = 0.2;
 

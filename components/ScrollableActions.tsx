@@ -32,7 +32,7 @@ const ActionComponent = ({
 }) => {
   if (type == "invite") {
     return (
-      <InviteButtonModal>
+      <InviteButtonModal variant="action">
         <div className="bg-[#ef233c] rounded-[2px] p-1 bg-opacity-15">
           <IoIosMail size={30} className=" opacity-80" color="#ef233c" />
         </div>

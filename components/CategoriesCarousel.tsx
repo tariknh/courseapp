@@ -1,10 +1,9 @@
 "use client";
-import React, { useEffect, useRef } from "react";
 import categories from "@/public/categories.json";
-import Image from "next/image";
-import { motion, useScroll, useTransform } from "framer-motion";
 import { useMeasure } from "@uidotdev/usehooks";
-import { X } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import Image from "next/image";
+import { useRef } from "react";
 
 interface CategoryBoxProps {
   category: string;

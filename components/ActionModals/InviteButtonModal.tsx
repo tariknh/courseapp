@@ -22,7 +22,15 @@ type InviteeProps = {
   email: string | undefined;
 };
 
-const InviteButtonModal = ({ children }: { children: React.ReactNode }) => {
+type InviteButtonModalVariants = "action" | "grayDefault";
+
+const InviteButtonModal = ({
+  children,
+  variant,
+}: {
+  children: React.ReactNode;
+  variant: InviteButtonModalVariants;
+}) => {
   const [invitees, setInvitees] = useState<InviteeProps[]>([]);
   const [currentUser, setCurrentUser] = useState<string>("");
   const [currentStep, setCurrentStep] = useState<number>(0);
@@ -52,7 +60,7 @@ const InviteButtonModal = ({ children }: { children: React.ReactNode }) => {
   };
   return (
     <Dialog>
-      <DialogTrigger className={buttonVariants({ variant: "action" })}>
+      <DialogTrigger className={buttonVariants({ variant: variant })}>
         {children}
       </DialogTrigger>
       <DialogContent>

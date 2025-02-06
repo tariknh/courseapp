@@ -1,69 +1,50 @@
-// import { UserDetails } from "@/types";
-// import { User } from "@supabase/auth-helpers-nextjs";
-// import {
-//   useSessionContext,
-//   useUser as useSupaUser,
-// } from "@supabase/auth-helpers-react";
-// import { createContext, useContext, useEffect, useState } from "react";
+"use client";
+import { AuthError, Session, User } from "@supabase/supabase-js";
+import type { JwtPayload } from "jwt-decode";
+import { jwtDecode } from "jwt-decode";
+import { useEffect, useState } from "react";
 
-// type UserContextType = {
-//   accessToken: string | null;
-//   user: User | null;
-//   userDetails: UserDetails | null;
-//   isLoading: boolean;
-// };
+import { createClient } from "@/app/utils/supabase/client";
 
-// export const UserContext = createContext<UserContextType | undefined>(
-//   undefined
-// );
+type SupabaseJwtPayload = JwtPayload & {
+  app_metadata: {
+    role: string;
+  };
+};
 
-// export interface Props {
-//   [propName: string]: any;
-// }
+export function useUser() {
+  const [user, setUser] = useState<User | null>(null);
+  const [session, setSession] = useState<Session | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<AuthError | null>(null);
+  const [role, setRole] = useState<string | null>(null);
+  const supabase = createClient();
 
-// export const MyUserContextProvider = (props: Props) => {
-//   const {
-//     session,
-//     isLoading: isLoadingUser,
-//     supabaseClient: supabase,
-//   } = useSessionContext();
-//   const user = useSupaUser();
-//   const accessToken = session?.access_token ?? null;
-//   const [isLoadingData, setIsLoadingData] = useState(false);
-//   const [userDetails, setUserDetails] = useState<UserDetails | null>(null);
+  useEffect(() => {
+    async function fetchUser() {
+      try {
+        const {
+          data: { session },
+          error,
+        } = await supabase.auth.getSession();
+        if (error) throw error;
 
-//   const getUserDetails = () => supabase.from("users").select("*").single();
+        if (session) {
+          setSession(session);
+          setUser(session.user);
+          const decodedJwt = jwtDecode<SupabaseJwtPayload>(
+            session.access_token
+          );
+          setRole(decodedJwt.app_metadata.role);
+        }
+      } catch (error) {
+        setError(error as AuthError);
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchUser();
+  }, []);
 
-//   useEffect(() => {
-//     if (user && !isLoadingData && !userDetails) {
-//       setIsLoadingData(true);
-//       Promise.allSettled([getUserDetails()]).then((results) => {
-//         const userDetailsPromise = results[0];
-
-//         if (userDetailsPromise.status == "fulfilled") {
-//           setUserDetails(userDetailsPromise.value.data as UserDetails);
-//         }
-
-//         setIsLoadingData(false);
-//       });
-//     } else if (!user && !isLoadingUser && !isLoadingData) {
-//       setUserDetails(null);
-//     }
-//   }, [user, isLoadingUser]);
-
-//   const value = {
-//     accessToken,
-//     user,
-//     userDetails,
-//     isLoading: isLoadingUser || isLoadingData,
-//   };
-//   return <UserContext.Provider value={value} {...props} />;
-// };
-
-// export const useUser = () => {
-//   const context = useContext(UserContext);
-//   if (context === undefined) {
-//     throw new Error("useUser must be used within a MyUserContextProvider ");
-//   }
-//   return context;
-// };
+  return { loading, error, session, user, role };
+}

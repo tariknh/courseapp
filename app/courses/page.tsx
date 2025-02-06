@@ -42,8 +42,8 @@ export default async function Courses(props: {
 }) {
   const searchParams = await props.searchParams;
   const courses = await getAllCourses();
-  const { duration } = await getAllCourses();
-  console.log(duration, "duration!");
+  // const { duration } = await getAllCourses();
+  // console.log(duration, "duration!");
 
   const observer = new PerformanceObserver((list) => {
     for (const entry of list.getEntries()) {

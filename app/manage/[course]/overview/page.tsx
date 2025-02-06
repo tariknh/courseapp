@@ -113,7 +113,7 @@ const formatDateRange = (from: string, to: string) => {
 
 const CourseDetails = ({ data }: { data: CourseTypes }) => {
   const { city, country } = extractCityAndCountry(data.location);
-  const { id } = data;
+  const { id, title } = data;
   const {
     fromDay,
     fromTime,
@@ -140,9 +140,7 @@ const CourseDetails = ({ data }: { data: CourseTypes }) => {
               </div>
 
               <div>
-                <CardTitle className="text-offblack my-4">
-                  When and where
-                </CardTitle>
+                <CardTitle className="text-offblack my-4">{title}</CardTitle>
 
                 {/* Info Div */}
                 <div className="flex gap-3 mb-4 items-start">
@@ -194,7 +192,9 @@ const CourseDetails = ({ data }: { data: CourseTypes }) => {
                   {/* <Button size={"sm"} variant="outline" className="bg-zinc-800 col-start-3 border-zinc-700 hover:bg-zinc-700  place-self-end">
               Invite more people
             </Button> */}
-                  <InviteButtonModal>Invite more people</InviteButtonModal>
+                  <InviteButtonModal variant="grayDefault">
+                    Invite more people
+                  </InviteButtonModal>
                 </div>
                 <CardDescription>
                   These are the current invites that has been sent!

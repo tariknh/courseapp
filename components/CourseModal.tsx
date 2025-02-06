@@ -27,23 +27,13 @@ enum STEPS {
   PRICE = 4,
 }
 
-export default function CourseModal() {
-  const [user, setUser] = useState<any>();
+export default function CourseModal({ props }: { props: any }) {
+  //console.log(user, "USER");
+
+  console.log(props.user, "USER");
+  const { user } = props;
 
   const supabase = createClient();
-
-  const response = supabase.auth.getUser();
-
-
-  useEffect(() => {
-    if (response) {
-      setUser(response);
-      console.log(response, "response");
-    }
-
-    return () => {};
-  }, []);
-
 
   const [inputErrors, setinputErrors] = useState<any>({});
 
@@ -64,9 +54,19 @@ export default function CourseModal() {
       price: 0,
       title: "",
       description: "",
-      user: user?.id,
+      user: user.id,
     },
   });
+
+  useEffect(() => {
+    if (user?.id) {
+      // Option 1: Use setValue to update just the "user" field
+      setValue("user", user.id);
+
+      // Option 2 (alternative): Reset the form with new values
+      // reset({ ...getValues(), user: user.id });
+    }
+  }, [user, setValue]);
 
   const category = watch("category");
   const location = watch("location");
@@ -104,8 +104,6 @@ export default function CourseModal() {
   };
 
   const verifyFields = (data: FieldValues) => {
-
-
     let validatedFields;
     let pickedValidations;
     switch (step) {
@@ -169,19 +167,16 @@ export default function CourseModal() {
 
   const onNext = async (data: FieldValues) => {
     const validFields = await verifyFields(data);
-   
+    console.log(data, "DATA");
 
     if (!validFields?.errors) {
       setStep((value) => value + 1);
     } else {
       Object.entries(validFields.errors).forEach(([category, messages]) => {
-    
-
         messages.forEach((message) => {
           toast.error(message);
         });
       });
-
 
       return errors;
     }
@@ -189,7 +184,6 @@ export default function CourseModal() {
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     if (step !== STEPS.PRICE) {
-
       const errors = await onNext(data);
 
       return errors;
@@ -225,7 +219,7 @@ export default function CourseModal() {
       category: data.category,
       location: data.location,
       imageSrc: data.imageSrc,
-      user: user?.id,
+      user: user.id,
     });
     if (error) {
       console.log(error);
