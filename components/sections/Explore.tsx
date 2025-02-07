@@ -1,6 +1,5 @@
 import { getAllCourses } from "@/actions/getCourses";
 import Link from "next/link";
-import Collection from "../Collection";
 import { Button } from "../ui/button";
 
 export const Explore = async () => {
@@ -20,7 +19,7 @@ export const Explore = async () => {
         </Button>
       </div>
       <div className="col-span-full sm:row-start-3 row-start-3">
-        <Collection
+        {/* <Collection
           data={courses?.data}
           emptyTitle="No courses found"
           emptyStateSubText="Change the filters to find more courses!"
@@ -29,7 +28,7 @@ export const Explore = async () => {
           page={1}
           totalPages={2}
           urlParamName={undefined}
-        />
+        /> */}
       </div>
       {/* 
       CLICKABLE CITIES AND REDIRECT TO /COURSES?CITY AND THE CITY CLICKED
