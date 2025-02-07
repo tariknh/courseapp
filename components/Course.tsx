@@ -3,6 +3,7 @@ import { getNameById } from "@/lib/actions/course.actions";
 import { CourseTypes } from "@/types";
 import Image from "next/image";
 import Link from "next/link";
+import { Suspense } from "react";
 import { AiFillEdit } from "react-icons/ai";
 import { DeleteConfirmation } from "./DeleteConfirmation";
 interface CourseProps {
@@ -66,16 +67,18 @@ const AllCourses: React.FC<CourseProps> = async ({
             grid
           "
       >
-        <Link href={`/courses/${course.id}`}>
-          <Image
-            src={imageData.publicUrl || "/courseimg/tavle.jpg"}
-            alt={title}
-            fill
-            className="object-cover"
-          />
-        </Link>
+        <Suspense fallback={"loading image.."}>
+          <Link href={`/courses/${course.id}`}>
+            <Image
+              src={imageData.publicUrl || "/courseimg/tavle.jpg"}
+              alt={title}
+              fill
+              className="object-cover"
+            />
+          </Link>
+        </Suspense>
         {isCourseCreator && (
-          <div className="absolute right-2 top-2 flex flex-col gap-4 bg-white p-3 shadow-sm z-20   transition-all">
+          <div className="absolute right-2 top-2 flex flex-col gap-4 bg-white p-3 shadow-sm transition-all">
             <Link href={`/courses/${course.id}/update`}>
               <AiFillEdit className="hover:scale-125" />
             </Link>

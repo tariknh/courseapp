@@ -7,22 +7,7 @@ type GetAllCoursesParams = {
   category?: string;
 };
 
-// export const getCourses = async (): Promise<Course[]> => {
-//   const supabase = await createClient();
-
-//   const { data, error } = await supabase
-//     .from("courses")
-//     .select("*")
-//     .order("created_at", { ascending: false });
-//   if (error) {
-//     console.log(error);
-//   }
-
-//   return (data as any) || [];
-// };
-
 export const getAllCourses = async () => {
-  const start = performance.now(); // Start timing
   const supabase = await createClient();
 
   const { data, error } = await supabase
@@ -30,11 +15,8 @@ export const getAllCourses = async () => {
     .select("*")
     .order("created_at", { ascending: false });
 
-  const duration = performance.now() - start; // Calculate query duration
-
   return {
     data: JSON.parse(JSON.stringify(data)),
-    duration,
   };
 };
 

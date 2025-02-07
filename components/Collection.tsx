@@ -1,6 +1,8 @@
 import Course from "@/components/Course";
 import { CourseTypes } from "@/types";
+import SkeletonImage from "antd/es/skeleton/Image";
 import Link from "next/link";
+import { Suspense } from "react";
 import { Button } from "./ui/button";
 
 type CollectionProps = {
@@ -36,14 +38,16 @@ const Collection = ({
               const hidePrice = collectionType === "My_Tickets";
               return (
                 <li key={course.id} className="flex justify-center">
-                  <Course
-                    course={course}
-                    capacity={course.capacity}
-                    rating={course.capacity}
-                    title={course.title}
-                    hasBuyButton={hasBuyButton}
-                    hidePrice={hidePrice}
-                  />
+                  <Suspense fallback={<SkeletonImage />}>
+                    <Course
+                      course={course}
+                      capacity={course.capacity}
+                      rating={course.capacity}
+                      title={course.title}
+                      hasBuyButton={hasBuyButton}
+                      hidePrice={hidePrice}
+                    />
+                  </Suspense>
                 </li>
               );
             })}

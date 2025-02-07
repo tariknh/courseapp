@@ -80,9 +80,11 @@ const ImageWall: React.FC<InputProps> = ({
         title={previewTitle}
         footer={null}
         onCancel={handleCancel}
+        className="z-[9999999]"
       >
         <img alt="example" style={{ width: "100%" }} src={previewImage} />
       </Modal>
+      <span className="text-zinc-400 text-xs">Max 3MB image size</span>
     </>
   );
 };

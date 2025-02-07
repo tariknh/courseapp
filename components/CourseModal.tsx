@@ -210,7 +210,7 @@ export default function CourseModal({ props }: { props: any }) {
       }
     });
 
-    const { error } = await supabase.from("courses").insert({
+    const { data: insertData, error } = await supabase.from("courses").insert({
       title: data?.title,
       description: data.description,
       price: data.price,
@@ -222,7 +222,9 @@ export default function CourseModal({ props }: { props: any }) {
       user: user.id,
     });
     if (error) {
-      console.log(error);
+      console.log(error, "ERROR ON INSERT");
+    } else {
+      console.log(insertData, "INSERTDATA");
     }
     router.refresh();
     toast("Course has been created.");
@@ -486,7 +488,7 @@ export default function CourseModal({ props }: { props: any }) {
       title="List your course"
       description=""
       onChange={() => {}}
-      actionLabel={actionLabel}
+      actionLabel={isLoading ? "Creating..." : actionLabel}
       secondaryAction={step === STEPS.CATEGORY ? undefined : onBack}
       secondaryActionLabel={secondaryActionLabel}
       onSubmit={handleSubmit(onSubmit)}

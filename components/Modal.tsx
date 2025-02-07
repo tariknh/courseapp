@@ -1,5 +1,5 @@
-import React, { useCallback } from "react";
 import * as Dialog from "@radix-ui/react-dialog";
+import React, { useCallback } from "react";
 import { IoMdClose } from "react-icons/io";
 import Button from "./Button";
 
@@ -54,13 +54,14 @@ const Modal: React.FC<ModalProps> = ({
             backdrop-blur-sm
             fixed
             inset-0
-            z-[20000]
+            
 
             "
         />
         <Dialog.Content
           className="
           z-[20000]
+          rounded-md
         fixed
         drop-shadow-md
         border

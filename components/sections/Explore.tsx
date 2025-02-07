@@ -1,5 +1,7 @@
 import { getAllCourses } from "@/actions/getCourses";
 import Link from "next/link";
+import { Suspense } from "react";
+import Collection from "../Collection";
 import { Button } from "../ui/button";
 
 export const Explore = async () => {
@@ -19,16 +21,18 @@ export const Explore = async () => {
         </Button>
       </div>
       <div className="col-span-full sm:row-start-3 row-start-3">
-        {/* <Collection
-          data={courses?.data}
-          emptyTitle="No courses found"
-          emptyStateSubText="Change the filters to find more courses!"
-          collectionType="Courses_Organized"
-          limit={3}
-          page={1}
-          totalPages={2}
-          urlParamName={undefined}
-        /> */}
+        <Suspense fallback={"Loading.."}>
+          <Collection
+            data={courses?.data}
+            emptyTitle="No courses found"
+            emptyStateSubText="Change the filters to find more courses!"
+            collectionType="Courses_Organized"
+            limit={3}
+            page={1}
+            totalPages={2}
+            urlParamName={undefined}
+          />
+        </Suspense>
       </div>
       {/* 
       CLICKABLE CITIES AND REDIRECT TO /COURSES?CITY AND THE CITY CLICKED
