@@ -1,3 +1,4 @@
+import { createClient } from "@/app/utils/supabase/server";
 import CheckInGuestModal from "@/components/ActionModals/CheckInModal";
 import InviteButtonModal from "@/components/ActionModals/InviteButtonModal";
 import ScrollAbleActions from "@/components/ScrollableActions";
@@ -111,7 +112,8 @@ const formatDateRange = (from: string, to: string) => {
 */
 };
 
-const CourseDetails = ({ data }: { data: CourseTypes }) => {
+const CourseDetails = async ({ data }: { data: CourseTypes }) => {
+  const supabase = await createClient();
   const { city, country } = extractCityAndCountry(data.location);
   const { id, title } = data;
   const {
@@ -123,6 +125,11 @@ const CourseDetails = ({ data }: { data: CourseTypes }) => {
     fromDayFull,
     toDayFull,
   } = formatDateRange(data.date.from, data.date.to);
+  let images = JSON.parse(data.imageSrc);
+  let isCreator = false;
+  const { data: imageData } = supabase.storage
+    .from("images")
+    .getPublicUrl(images[0].uid);
 
   return (
     <div className="p-4 w-full gap-4 grid place-items-center min-h-52 rounded-[2px]">
@@ -134,8 +141,8 @@ const CourseDetails = ({ data }: { data: CourseTypes }) => {
                 <Image
                   className="object-cover"
                   fill
-                  src="/courseimg/art.jpg"
-                  alt={"Course Image"}
+                  src={imageData.publicUrl || "/courseimg/tavle.jpg"}
+                  alt={"Course image"}
                 />
               </div>
 

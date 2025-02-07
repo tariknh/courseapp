@@ -27,9 +27,9 @@ export const getFilteredCourses = async (city: string, category: string) => {
   const { data, error } = await supabase
     .from("courses")
     .select("*")
-
     .ilike("location", `%${city}%`)
-    .ilike("category", `%${category}%`);
+    .ilike("category", `%${category}%`)
+    .order("created_at", { ascending: false });
 
   if (error) {
     console.log(error);

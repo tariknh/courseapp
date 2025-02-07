@@ -9,11 +9,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { getNameById, getOrdersByCourseId } from "@/lib/actions/course.actions";
+import {
+  getNameById,
+  getOrdersByCourseId,
+  undoCheckin,
+} from "@/lib/actions/course.actions";
 import { Skeleton } from "antd";
 import { formatDate } from "date-fns/format";
 import { Undo2 } from "lucide-react";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 import { Button } from "../ui/button";
 import {
   Dialog,
@@ -162,7 +167,11 @@ export function GuestCheckInTable({ id }: { id: string }) {
               onClick={() => setSelectedGuest(ticket)}
               className="cursor-pointer hover:bg-muted/50"
             >
-              <TicketBuyer selected={selectedGuest} ticket={ticket} />
+              <TicketBuyer
+                courseId={id}
+                selected={selectedGuest}
+                ticket={ticket}
+              />
             </TableRow>
           ))}
           {/* {guestList.map((guest) => (
@@ -202,6 +211,7 @@ export function GuestCheckInTable({ id }: { id: string }) {
 type TicketItemProps = {
   ticket: TicketTypes;
   selected: any;
+  courseId: string;
 };
 type BuyerData = {
   name: string;
@@ -209,7 +219,7 @@ type BuyerData = {
   id: string; // or number, depending on your data
 };
 
-const TicketBuyer = ({ ticket, selected }: TicketItemProps) => {
+const TicketBuyer = ({ ticket, selected, courseId }: TicketItemProps) => {
   const [buyerData, setBuyerData] = useState<BuyerData>();
   const [isSelected, setIsSelected] = useState<TicketTypes>();
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -243,6 +253,19 @@ const TicketBuyer = ({ ticket, selected }: TicketItemProps) => {
 
     fetchBuyerName();
   }, [ticket.buyer]);
+
+  const handleUndoCheckIn = async () => {
+    const result = await undoCheckin(
+      selected,
+      courseId,
+      selected?.has_checked_in
+    );
+    if (result.error) {
+      toast.error(result.error.message);
+    } else {
+      toast.success("Successfully updated check-in status");
+    }
+  };
 
   const registrationDate = selected?.created_at
     ? formatDate(new Date(selected.created_at), "yyyy-MM-dd HH:mm:ss")
@@ -290,9 +313,9 @@ const TicketBuyer = ({ ticket, selected }: TicketItemProps) => {
           <DialogFooter>
             {selected &&
               (!selected.has_checked_in ? (
-                <Button>Check In</Button>
+                <Button onClick={handleUndoCheckIn}>Check In</Button>
               ) : (
-                <Button variant="outline">
+                <Button onClick={handleUndoCheckIn} variant="outline">
                   <Undo2 className="mr-2 h-4 w-4" />
                   Undo Check-In
                 </Button>

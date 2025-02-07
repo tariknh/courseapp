@@ -11,9 +11,10 @@ loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 interface BuyButtonProps {
   listing: CourseTypes;
   session: any;
+  disabled: any;
 }
 
-const BuyButton = ({ listing, session }: BuyButtonProps) => {
+const BuyButton = ({ listing, session, disabled }: BuyButtonProps) => {
   useEffect(() => {
     // Check to see if this is a redirect back from Checkout
     const query = new URLSearchParams(window.location.search);
@@ -30,6 +31,7 @@ const BuyButton = ({ listing, session }: BuyButtonProps) => {
 
   const userId = session?.user?.id;
   const eventFinished = new Date(listing.date.from) < new Date();
+  console.log(disabled, "iscoursecreator");
   const onCheckout = async (e: any) => {
     const order = {
       title: listing.title,
@@ -43,7 +45,7 @@ const BuyButton = ({ listing, session }: BuyButtonProps) => {
   return (
     <form action={onCheckout}>
       <button
-        disabled={eventFinished}
+        disabled={eventFinished || disabled !== undefined}
         className={` ${
           eventFinished && "cursor-not-allowed bg-zinc-300"
         } border-[1px] mt-2 font-bold w-fit py-2 px-6 rounded-[2px] border-black solid`}

@@ -24,6 +24,7 @@ type OrderParams = {
   title: string;
   price: number;
   listingId: number;
+  id?: number;
 };
 
 type GetTicketsParams = {
@@ -101,6 +102,21 @@ export const getNameById = async (id: any) => {
     };
   }
 };
+export const undoCheckin = async (
+  order: OrderParams,
+  courseId: string,
+  hasCheckedIn: any
+) => {
+  const supabase = await createClient();
+  console.log(order, "USERID CHECKIN", courseId, "courseId CHECKIN");
+
+  const { data, error } = await supabase
+    .from("orders")
+    .update({ has_checked_in: !hasCheckedIn })
+    .eq("id", order.id)
+    .select();
+  return { data, error };
+};
 
 export const deleteCourse = async ({ courseId, path }: DeleteCourseParams) => {
   try {
@@ -168,21 +184,19 @@ export const checkoutOrder = async (order: OrderParams) => {
   }
 };
 
-export const sendSignUpEmail = async ({
-  userId
-}: {userId: string}) => {
+export const sendSignUpEmail = async ({ userId }: { userId: string }) => {
   const resend = new Resend(process.env.RESEND_API_KEY);
-   const { data, error } = await resend.emails.send({
-        from: "Tarik <onboarding@resend.dev>",
-        to: ["hajibtarik@gmail.com"],
-        subject: "Thank you for signing up!",
-        react: EmailTemplate({ firstName: "John" }) as React.ReactElement,
-      });
-      if (error) {
-        return Response.json({ error }, { status: 500 });
-      }
-      return Response.json({ data });
-}
+  const { data, error } = await resend.emails.send({
+    from: "Tarik <onboarding@resend.dev>",
+    to: ["hajibtarik@gmail.com"],
+    subject: "Thank you for signing up!",
+    react: EmailTemplate({ firstName: "John" }) as React.ReactElement,
+  });
+  if (error) {
+    return Response.json({ error }, { status: 500 });
+  }
+  return Response.json({ data });
+};
 
 export const getRelatedEvents = async ({
   limit = 6,
