@@ -68,8 +68,10 @@ const ImageWall: React.FC<InputProps> = ({
         listType="picture-card"
         fileList={fileList}
         onPreview={handlePreview}
-        onChange={(e) => {
+        onChange={async (e) => {
           handleChange(e);
+          //const imagedata = await getBase64(e.file.originFileObj as RcFile);
+          //console.log(imagedata, "IMAGEDATA");
           onChange(e);
         }}
       >

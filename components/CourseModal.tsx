@@ -2,7 +2,8 @@
 import { createClient } from "@/app/utils/supabase/client";
 import { CourseInfo } from "@/app/zod/definitions";
 import useCourseModal from "@/hooks/useCourseModal";
-import type { UploadFile } from "antd/es/upload/interface";
+import { getImageUrls } from "@/lib/actions/course.actions";
+import type { UploadFile, UploadProps } from "antd/es/upload/interface";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
@@ -195,20 +196,20 @@ export default function CourseModal({ props }: { props: any }) {
 
     setIsLoading(true);
 
-    const imageFile = image.map(async (item: UploadFile) => {
-      if (item.originFileObj) {
-        const { data: imageData, error: imageError } = await supabase.storage
-          .from("images")
-          .upload(`${item.uid}`, item.originFileObj, {
-            cacheControl: "3600",
-            upsert: false,
-          });
-        if (imageError) {
-          setIsLoading(false);
-          return toast("Failed to upload images");
-        }
-      }
-    });
+    // const imageFile = image.map(async (item: UploadFile) => {
+    //   if (item.originFileObj) {
+    //     const { data: imageData, error: imageError } = await supabase.storage
+    //       .from("images")
+    //       .upload(`${item.uid}`, item.originFileObj, {
+    //         cacheControl: "3600",
+    //         upsert: false,
+    //       });
+    //     if (imageError) {
+    //       setIsLoading(false);
+    //       return toast("Failed to upload images");
+    //     }
+    //   }
+    // });
 
     const { data: insertData, error } = await supabase.from("courses").insert({
       title: data?.title,
@@ -283,10 +284,38 @@ export default function CourseModal({ props }: { props: any }) {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [previewTitle, setPreviewTitle] = useState("");
   const [fileList, setFileList] = useState<UploadFile[]>([]);
+  const [imageURLS, setImageURLS] = useState<string[]>([]);
 
-  useEffect(() => {
-    setCustomValue("imageSrc", fileList);
-  }, [fileList]);
+  // useEffect(() => {
+  //   setCustomValue("imageSrc", fileList);
+  // }, [fileList]);
+
+  const handleImageChange: UploadProps["onChange"] = async ({
+    fileList: newFileList,
+  }) => {
+    console.log(fileList, "FILELIST");
+
+    const filesArray = newFileList;
+
+    const newImageUrls = await Promise.all(
+      filesArray.map(async (file) => {
+        // If file already has a URL, use it
+        if (file.url) {
+          return file.url;
+        }
+        // Otherwise, assume file.originFileObj exists and get the URL via getImageUrls
+        if (file.originFileObj) {
+          const url = await getImageUrls(file.originFileObj);
+          return url;
+        }
+        // Fallback in case neither exists
+        return "";
+      })
+    );
+    setImageURLS(newImageUrls);
+    setCustomValue("imageSrc", newImageUrls);
+    console.log(newImageUrls, "imageURLS");
+  };
 
   const [selectedPlace, setSelectedPlace] =
     useState<google.maps.places.PlaceResult | null>(null);
@@ -444,7 +473,8 @@ export default function CourseModal({ props }: { props: any }) {
                 setPreviewTitle={setPreviewTitle}
                 fileList={fileList}
                 setFileList={setFileList}
-                onChange={(value) => setCustomValue("imageSrc", value)}
+                // onChange={(value) => setCustomValue("imageSrc", value)}
+                onChange={handleImageChange}
               />
             </div>
           </div>

@@ -118,6 +118,22 @@ export const undoCheckin = async (
   return { data, error };
 };
 
+export const getImageUrls = async (file: any) => {
+  const supabase = await createClient();
+  const { data, error } = await supabase.storage
+    .from("images")
+    .upload(`public/${file.name}`, file, {
+      cacheControl: "3600",
+      upsert: false,
+    });
+
+  const { data: publicURLData } = supabase.storage
+    .from("images")
+    .getPublicUrl(`public/${file.name}`);
+
+  return publicURLData.publicUrl;
+};
+
 export const deleteCourse = async ({ courseId, path }: DeleteCourseParams) => {
   try {
     const supabase = await createClient();

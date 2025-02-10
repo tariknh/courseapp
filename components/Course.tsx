@@ -13,6 +13,7 @@ interface CourseProps {
   course: CourseTypes;
   hasBuyButton?: boolean;
   hidePrice?: boolean;
+  imageSrc: any;
 }
 
 export function formatDateTime(date: string) {
@@ -30,17 +31,20 @@ const AllCourses: React.FC<CourseProps> = async ({
   course,
   hasBuyButton,
   hidePrice,
+  imageSrc,
 }) => {
   const supabase = await createClient();
 
-  let images = await JSON.parse(course.imageSrc);
+  //let images = await JSON.parse(course.imageSrc);
   let isCreator = false;
-  const { data: imageData } = supabase.storage
-    .from("images")
-    .getPublicUrl(images[0].uid);
+  // const { data: imageData } = supabase.storage
+  //   .from("images")
+  //   .getPublicUrl(images[0].uid);
   const arrangerID = course.user;
 
   const arranger = await getNameById(arrangerID);
+  //console.log(JSON.parse(imageSrc), "IMAGE SOURCE");
+  const images = JSON.parse(imageSrc);
 
   const { data: sessionData, error: sessionError } =
     await supabase.auth.getUser();
@@ -69,12 +73,7 @@ const AllCourses: React.FC<CourseProps> = async ({
       >
         <Suspense fallback={"loading image.."}>
           <Link href={`/courses/${course.id}`}>
-            <Image
-              src={imageData.publicUrl || "/courseimg/tavle.jpg"}
-              alt={title}
-              fill
-              className="object-cover"
-            />
+            <Image src={images[0]} alt={title} fill className="object-cover" />
           </Link>
         </Suspense>
         {isCourseCreator && (

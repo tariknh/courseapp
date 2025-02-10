@@ -50,8 +50,7 @@ export const CourseInfo = z.object({
   }),
   price: z.number().int().positive().max(10000),
   imageSrc: z
-    .object({})
-    .array()
+    .array(z.string())
     .nonempty({ message: "Please upload an image." }),
 
   capacity: z

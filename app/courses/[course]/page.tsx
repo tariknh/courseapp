@@ -42,24 +42,15 @@ const Course = async (props: { params: Promise<IParams> }) => {
 
   const images = JSON.parse(listing.imageSrc);
   const SLIDES: { id: Number; imageSrc: string }[] = [];
-  //console.log(images.length, "imagesLENGTH");
 
   images.map((image: any) => {
-    const { data: imageData } = supabase.storage
-      .from("images")
-      .getPublicUrl(image.uid);
     SLIDES.push({
       id: image.id,
-      imageSrc: imageData.publicUrl,
+      imageSrc: image,
     });
   });
 
-  const { data: imageData } = supabase.storage
-    .from("images")
-    .getPublicUrl(images[0].uid);
   const OPTIONS: EmblaOptionsType = { dragFree: true, loop: true };
-
-  //const SLIDE_COUNT = 5;
 
   const location = JSON.parse(listing.location);
 

@@ -40,6 +40,7 @@ const Collection = ({
                 <li key={course.id} className="flex justify-center">
                   <Suspense fallback={<SkeletonImage />}>
                     <Course
+                      imageSrc={course.imageSrc}
                       course={course}
                       capacity={course.capacity}
                       rating={course.capacity}

@@ -127,9 +127,6 @@ const CourseDetails = async ({ data }: { data: CourseTypes }) => {
   } = formatDateRange(data.date.from, data.date.to);
   let images = JSON.parse(data.imageSrc);
   let isCreator = false;
-  const { data: imageData } = supabase.storage
-    .from("images")
-    .getPublicUrl(images[0].uid);
 
   return (
     <div className="p-4 w-full gap-4 grid place-items-center min-h-52 rounded-[2px]">
@@ -141,7 +138,7 @@ const CourseDetails = async ({ data }: { data: CourseTypes }) => {
                 <Image
                   className="object-cover"
                   fill
-                  src={imageData.publicUrl || "/courseimg/tavle.jpg"}
+                  src={images[0] || "/courseimg/tavle.jpg"}
                   alt={"Course image"}
                 />
               </div>
