@@ -15,7 +15,10 @@ export interface CourseTypes {
   id: number;
   category: string;
   location: string;
-  date: any;
+  date: {
+    from: any;
+    to: any;
+  };
   capacity: string;
   imageSrc: string;
   price: number;

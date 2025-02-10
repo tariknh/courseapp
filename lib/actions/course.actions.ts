@@ -17,7 +17,7 @@ type GetRelatedCoursesParams = {
   limit?: number;
   category: string;
   page?: number;
-  currentEvent: string;
+  currentEvent: number;
 };
 type OrderParams = {
   buyer: string;

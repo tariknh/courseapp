@@ -6,6 +6,7 @@ import EditListing from "@/components/EditListing";
 import EmblaCarousel from "@/components/Embla/EmblaCarousel";
 import { Button } from "@/components/ui/button";
 import { getCourseById, getRelatedEvents } from "@/lib/actions/course.actions";
+import { CourseTypes } from "@/types";
 import { EmblaOptionsType } from "embla-carousel";
 import { AiFillEdit } from "react-icons/ai";
 import { MdDateRange, MdLocationOn } from "react-icons/md";
@@ -18,9 +19,11 @@ const CoursePreview = async ({ parameters }: CoursePreviewProps) => {
   const params = await parameters;
   const supabase = await createClient();
   const getData = await getCourseById(parseInt(params.course));
-  const { data: listing } = getData;
+  const { data: listingData } = getData;
+  const listing: CourseTypes = listingData;
   const { category } = listing;
-  const { data: sessionData, error: sessionError } = await supabase.auth.getUser();
+  const { data: sessionData, error: sessionError } =
+    await supabase.auth.getUser();
 
   const isCourseCreator = sessionData.user?.id === listing.user;
 
@@ -72,16 +75,20 @@ const CoursePreview = async ({ parameters }: CoursePreviewProps) => {
           <EmblaCarousel images={images} slides={SLIDES} options={OPTIONS} />
           <div className="flex gap-4 items-center">
             <h1 className="text-3xl font-bold">{listing.title}</h1>
-            {isCourseCreator && <AiFillEdit className="cursor-pointer scale-150 hover:scale-125" />}
+            {isCourseCreator && (
+              <AiFillEdit className="cursor-pointer scale-150 hover:scale-125" />
+            )}
           </div>
 
           <h2>Hosted by {data && data[0].full_name}</h2>
           <div className="flex gap-2">
-            <BuyButton session={sessionData} listing={listing} />
+            <BuyButton
+              disabled={new Date(listing.date.to) < new Date()}
+              session={sessionData}
+              listing={listing}
+            />
 
-            {isCourseCreator && (
-              <EditListing listingData={listing} />
-            )}
+            {isCourseCreator && <EditListing listingData={listing} />}
           </div>
 
           <div className="mt-2 flex flex-col gap-2">
@@ -132,4 +139,3 @@ const CoursePreview = async ({ parameters }: CoursePreviewProps) => {
 };
 
 export default CoursePreview;
-
