@@ -55,7 +55,7 @@ export default function CourseModal({ props }: { props: any }) {
       price: 0,
       title: "",
       description: "",
-      user: user.id,
+      user: user?.id,
     },
   });
 
@@ -220,7 +220,7 @@ export default function CourseModal({ props }: { props: any }) {
       category: data.category,
       location: data.location,
       imageSrc: data.imageSrc,
-      user: user.id,
+      user: user?.id,
     });
     if (error) {
       console.log(error, "ERROR ON INSERT");
