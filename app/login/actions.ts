@@ -11,6 +11,7 @@ import {
   SignupFormSchema,
 } from "@/app/zod/definitions";
 import { sendSignUpEmail } from "@/lib/actions/course.actions";
+import { toast } from "sonner";
 
 export async function login(state: FormState, formData: any) {
   const supabase = await createClient();
@@ -86,9 +87,10 @@ export async function signup(state: FormState, formData: any) {
   });
 
   if (error) {
+    console.log(error, "Signuperror")
     redirect("/error");
   }
-
+  toast.success("Signup success, please check your email!")
   redirect("/profile");
 }
 

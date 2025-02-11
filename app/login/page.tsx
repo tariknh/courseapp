@@ -181,6 +181,7 @@ const SignupSection = ({
   handleLoginChange: () => void;
 }) => {
   const [state, action, pending] = useActionState(signup, undefined);
+  console.log(state, pending)
 
   return (
     <form

@@ -4,13 +4,14 @@ import { motion } from "framer-motion";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import CreateCourseButton from "./CreateCourseButton";
+import { useUser } from "@/hooks/useUser";
 
 type openStates = {
   open: boolean;
   setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
-async function Header({ open, setOpen }: openStates) {
+function Header({ open, setOpen }: openStates) {
   const links = [
     {
       name: "about us",
@@ -135,15 +136,18 @@ async function Header({ open, setOpen }: openStates) {
     },
   };
 
-  const supabase = await createClient();
-  const [session, setSession] = useState<UserResponse | null>(null);
+  const session = useUser()
 
-  useEffect(() => {
-    supabase.auth.getUser().then((session) => {
-      // do something here with the session like  ex: setState(session)
-      return setSession(session);
-    });
-  }, []);
+  // const supabase =  createClient();
+  // const { data: session, error: sessionError } =
+  //    supabase.auth.getUser();
+
+  // useEffect(() => {
+  //   supabase.auth.getUser().then((session) => {
+  //     // do something here with the session like  ex: setState(session)
+  //     return setSession(session);
+  //   });
+  // }, []);
 
   return (
     <div className="z-[1000] fixed grid grid-rows-8 h-screen max-h-screen w-screen overflow-hidden">
@@ -161,9 +165,9 @@ async function Header({ open, setOpen }: openStates) {
             </Link>
           </motion.h1>
           <motion.h1 onClick={() => setOpen(!open)} variants={textAnimate}>
-            <CreateCourseButton session={session?.data}></CreateCourseButton>
+            <CreateCourseButton session={session}></CreateCourseButton>
           </motion.h1>
-          {session?.data.user && (
+          {session?.user && (
             <motion.h1 variants={textAnimate}>
               <Link onClick={() => setOpen(!open)} href={"/profile"}>
                 My profile
@@ -190,7 +194,7 @@ async function Header({ open, setOpen }: openStates) {
           variants={delayChildren}
           className="font-bold w-full gap-1 flex flex-col"
         >
-          {session?.data.user ? (
+          {session?.user ? (
             <div className="flex gap-2 flex-col max-w-fit">
               <motion.span className="text-center justify-self-center w-full text-xl">
                 <Link onClick={() => setOpen(!open)} href={"/profile"}>
@@ -199,7 +203,7 @@ async function Header({ open, setOpen }: openStates) {
               </motion.span>
               <motion.button
                 onClick={() => {
-                  supabase.auth.signOut();
+                  
                   setOpen(!open);
                 }}
                 className="px-8 py-4 text-xl border bg-black max-w-fit text-white p-8"
